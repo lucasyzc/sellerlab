@@ -12,6 +12,7 @@ import {
   formatCurrency,
 } from "./amazon-config";
 import { AMAZON_MARKET_LIST, AMAZON_MARKETS } from "./markets";
+import { FlagIcon } from "../components/country-flags";
 
 export default function AmazonFeeCalculator({ marketId }: { marketId: AmazonMarketId }) {
   const config = AMAZON_MARKETS[marketId];
@@ -109,6 +110,9 @@ function MarketSwitcher({ current }: { current: AmazonMarketId }) {
           key={m.id}
           href={`/amazon-fee-calculator/${m.id}`}
           style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 5,
             padding: "5px 12px",
             borderRadius: "var(--radius-full)",
             fontSize: 13,
@@ -120,7 +124,8 @@ function MarketSwitcher({ current }: { current: AmazonMarketId }) {
             transition: "all 0.15s ease",
           }}
         >
-          {m.flag} {m.name}
+          <FlagIcon code={m.id} />
+          {m.name}
         </Link>
       ))}
     </div>

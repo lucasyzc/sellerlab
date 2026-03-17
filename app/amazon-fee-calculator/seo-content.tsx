@@ -3,6 +3,7 @@ import {
   type AmazonMarketConfig,
   describeReferralRule,
 } from "./amazon-config";
+import { FlagIcon } from "../components/country-flags";
 
 // ═══════════════════════════════════════════════════════════════
 // Types
@@ -238,7 +239,9 @@ export function MarketBreadcrumb({ config }: { config: AmazonMarketConfig }) {
         Amazon Fee Calculator
       </Link>
       <span style={{ margin: "0 8px" }}>/</span>
-      <span style={{ color: "var(--color-text-secondary)" }}>{config.flag} Amazon {config.fullName}</span>
+      <span style={{ color: "var(--color-text-secondary)", display: "inline-flex", alignItems: "center", gap: 4 }}>
+        <FlagIcon code={config.id} size={16} /> Amazon {config.fullName}
+      </span>
     </nav>
   );
 }
@@ -260,7 +263,9 @@ export function MarketFeeTable({ config }: { config: AmazonMarketConfig }) {
   return (
     <section className="card" style={{ padding: 24, overflowX: "auto" }}>
       <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 4 }}>
-        {config.flag} Amazon {config.fullName} Referral Fee Rates by Category
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <FlagIcon code={config.id} size={22} /> Amazon {config.fullName} Referral Fee Rates by Category
+        </span>
       </h2>
       <p className="muted" style={{ fontSize: 14, marginTop: 0, marginBottom: 20 }}>
         Referral fee rates for selling on {config.domain}. Rates apply to the total sales price (item price + shipping + gift wrap).

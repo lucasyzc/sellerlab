@@ -14,6 +14,7 @@ import {
   describeRule,
   formatCurrency,
 } from "./market-config";
+import { FlagIcon } from "../components/country-flags";
 
 export default function EbayFeeCalculator({ marketId }: { marketId: MarketId }) {
   const config = MARKETS[marketId];
@@ -130,7 +131,8 @@ function MarketSwitcher({ current }: { current: MarketId }) {
             transition: "all 0.15s ease",
           }}
         >
-          {m.flag} {m.name}
+          <FlagIcon code={m.id} />
+          {m.name}
         </Link>
       ))}
     </div>

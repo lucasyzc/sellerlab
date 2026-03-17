@@ -3,15 +3,15 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SellerLab - 跨境电商卖家工具站",
-  description: "覆盖 eBay、Amazon、TikTok Shop、Shopify 等主流平台，支持 US、UK、DE 等 17+ 站点市场的一站式费率测算与运营工具。"
+  title: "SellerLab - Tools Hub for Cross-border Sellers",
+  description: "All-in-one fee calculators and seller tools for eBay, Amazon, TikTok Shop, Shopify, and more. Supporting 17+ marketplaces across the US, UK, DE, and beyond."
 };
 
 export default function RootLayout({
   children
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body>
         <header style={{ borderBottom: "1px solid #e2e8f0", background: "#ffffff" }}>
           <div
@@ -27,10 +27,10 @@ export default function RootLayout({
               SellerLab
             </Link>
             <nav style={{ display: "flex", gap: 20, fontSize: 14, fontWeight: 500 }}>
-              <Link href="/">首页</Link>
-              <Link href="/#tools">工具</Link>
-              <Link href="/ebay-fee-calculator">eBay 费率计算</Link>
-              <Link href="/amazon-fee-calculator">Amazon 费率计算</Link>
+              <Link href="/">Home</Link>
+              <Link href="/#tools">Tools</Link>
+              <Link href="/ebay-fee-calculator">eBay Fee Calculator</Link>
+              <Link href="/amazon-fee-calculator">Amazon Fee Calculator</Link>
             </nav>
           </div>
         </header>

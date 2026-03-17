@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MARKET_LIST } from "./market-config";
-import { CountryFlag } from "./country-flags";
+import { FlagIcon } from "../components/country-flags";
 
 export const metadata: Metadata = {
   title: "eBay Fee Calculator – All Marketplaces | SellerLab",
@@ -351,7 +351,7 @@ export default function EbayFeeCalculatorHubPage() {
                     lineHeight: 0,
                   }}
                 >
-                  <CountryFlag countryId={m.id} size={52} />
+                  <FlagIcon code={m.id} size={52} />
                 </div>
                 <div style={{ minWidth: 0 }}>
                   <div
@@ -499,7 +499,7 @@ export default function EbayFeeCalculatorHubPage() {
                       gap: 8,
                     }}
                   >
-                    <CountryFlag countryId={row.id} size={22} />
+                    <FlagIcon code={row.id} size={22} />
                     eBay {row.name}
                   </Link>
                 </td>

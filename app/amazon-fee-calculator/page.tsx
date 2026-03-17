@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AMAZON_MARKET_LIST } from "./markets";
+import { FlagIcon } from "../components/country-flags";
 
 export const metadata: Metadata = {
   title: "Amazon Fee Calculator \u2013 All Marketplaces | SellerLab",
@@ -255,15 +256,7 @@ export default function AmazonFeeCalculatorHubPage() {
                   }}
                   className="market-card"
                 >
-                  <div
-                    style={{
-                      fontSize: 32,
-                      lineHeight: 1,
-                      flexShrink: 0,
-                    }}
-                  >
-                    {m.flag}
-                  </div>
+                  <FlagIcon code={m.id} size={40} style={{ borderRadius: 4 }} />
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <div
                       style={{
@@ -586,7 +579,7 @@ export default function AmazonFeeCalculatorHubPage() {
               textDecoration: "none",
             }}
           >
-            {"\u{1F1FA}\u{1F1F8}"} US Calculator
+            <FlagIcon code="US" /> US Calculator
           </Link>
           <Link
             href="/amazon-fee-calculator/uk"
@@ -602,7 +595,7 @@ export default function AmazonFeeCalculatorHubPage() {
               border: "1px solid rgba(255,255,255,0.3)",
             }}
           >
-            {"\u{1F1EC}\u{1F1E7}"} UK Calculator
+            <FlagIcon code="UK" /> UK Calculator
           </Link>
           <Link
             href="/amazon-fee-calculator/de"
@@ -618,7 +611,7 @@ export default function AmazonFeeCalculatorHubPage() {
               border: "1px solid rgba(255,255,255,0.3)",
             }}
           >
-            {"\u{1F1E9}\u{1F1EA}"} DE Calculator
+            <FlagIcon code="DE" /> DE Calculator
           </Link>
         </div>
       </section>
