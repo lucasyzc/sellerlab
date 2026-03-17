@@ -30,6 +30,7 @@ export default function RootLayout({
               <Link href="/">首页</Link>
               <Link href="/#tools">工具</Link>
               <Link href="/ebay-fee-calculator">eBay 费率计算</Link>
+              <Link href="/amazon-fee-calculator">Amazon 费率计算</Link>
             </nav>
           </div>
         </header>

@@ -21,7 +21,7 @@ const PLATFORMS = [
     bg: "#fffaf0",
     description: "全球最大电商平台，FBA/FBM 多模式运营，覆盖主要发达市场",
     countries: ["US", "UK", "DE", "FR", "IT", "ES", "JP", "CA", "AU"],
-    toolCount: 0,
+    toolCount: 1,
   },
   {
     id: "tiktok",
@@ -125,8 +125,8 @@ const TOOLS: Tool[] = [
     description: "估算 FBA 配送费、仓储费与佣金，快速评估产品盈利空间",
     platform: "amazon",
     countries: ["US", "UK", "DE", "JP"],
-    status: "coming",
-    href: "#",
+    status: "live",
+    href: "/amazon-fee-calculator",
   },
   {
     id: "tiktok-profit-calc",

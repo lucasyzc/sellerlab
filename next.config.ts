@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         destination: "/ebay-fee-calculator/:market",
         permanent: true,
       },
+      {
+        source: "/tools/amazon-fee-calculator",
+        destination: "/amazon-fee-calculator",
+        permanent: true,
+      },
+      {
+        source: "/tools/amazon-fee-calculator/:market",
+        destination: "/amazon-fee-calculator/:market",
+        permanent: true,
+      },
     ];
   },
 };
