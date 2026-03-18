@@ -70,6 +70,13 @@ async function sendDiscord(payload: FeedbackPayload) {
 }
 
 async function saveToSupabase(payload: FeedbackPayload) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    console.error("Supabase env vars missing:", { url: !!url, key: !!key });
+    return { ok: false, error: "Supabase env vars not configured" };
+  }
+
   const { error } = await getSupabaseAdmin().from("feedbacks").insert({
     type: payload.type,
     source: payload.source,
@@ -77,7 +84,11 @@ async function saveToSupabase(payload: FeedbackPayload) {
     context: payload.context ?? null,
     contact: payload.contact ?? null,
   });
-  if (error) console.error("Supabase insert error:", error);
+  if (error) {
+    console.error("Supabase insert error:", error);
+    return { ok: false, error: error.message };
+  }
+  return { ok: true };
 }
 
 export async function POST(req: Request) {
@@ -110,7 +121,26 @@ export async function POST(req: Request) {
       );
     }
 
-    await Promise.allSettled([sendDiscord(body), saveToSupabase(body)]);
+    const [discordResult, dbResult] = await Promise.allSettled([
+      sendDiscord(body),
+      saveToSupabase(body),
+    ]);
+
+    const dbFailed =
+      dbResult.status === "rejected" ||
+      (dbResult.status === "fulfilled" && dbResult.value?.ok === false);
+
+    if (dbFailed) {
+      const reason =
+        dbResult.status === "rejected"
+          ? String(dbResult.reason)
+          : dbResult.value?.error;
+      console.error("Feedback DB save failed:", reason);
+      return NextResponse.json(
+        { ok: false, error: "Failed to save feedback." },
+        { status: 502 }
+      );
+    }
 
     return NextResponse.json({ ok: true });
   } catch {
