@@ -31,7 +31,7 @@ const PLATFORMS = [
     bg: "#f5f5f5",
     description: "Fast-growing social commerce platform powered by short videos and livestream shopping",
     countries: ["US", "UK", "ID", "TH", "MY", "VN", "PH"],
-    toolCount: 0,
+    toolCount: 1,
   },
   {
     id: "shopify",
@@ -131,12 +131,12 @@ const TOOLS: Tool[] = [
   },
   {
     id: "tiktok-profit-calc",
-    name: "TikTok Shop Profit Calculator",
-    description: "Calculate actual profit after TikTok Shop commissions and shipping subsidies to aid product selection and pricing",
+    name: "TikTok Shop Fee Calculator",
+    description: "Calculate referral fees, FBT fulfillment costs, affiliate commissions, and net profit for TikTok Shop sellers",
     platform: "tiktok",
-    countries: ["US", "UK"],
-    status: "coming",
-    href: "#",
+    countries: ["US"],
+    status: "live",
+    href: "/tiktok-shop-fee-calculator",
   },
   {
     id: "shopify-cost-calc",

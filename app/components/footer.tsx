@@ -26,6 +26,9 @@ export function Footer() {
               <li>
                 <Link href="/amazon-fee-calculator">Amazon Fee Calculator</Link>
               </li>
+              <li>
+                <Link href="/tiktok-shop-fee-calculator">TikTok Shop Fee Calculator</Link>
+              </li>
             </ul>
           </div>
 

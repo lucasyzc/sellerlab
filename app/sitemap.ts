@@ -7,6 +7,7 @@ const AMAZON_MARKETS = [
   "us", "uk", "de", "jp", "ca", "it", "es", "au",
   "ae", "br", "sg", "mx", "nl", "be", "se", "pl", "tr",
 ];
+const TIKTOK_MARKETS = ["us"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -26,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/amazon-fee-calculator`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/tiktok-shop-fee-calculator`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -74,5 +81,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticPages, ...ebayMarketPages, ...amazonMarketPages];
+  const tiktokMarketPages: MetadataRoute.Sitemap = TIKTOK_MARKETS.map(
+    (market) => ({
+      url: `${BASE_URL}/tiktok-shop-fee-calculator/${market}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })
+  );
+
+  return [...staticPages, ...ebayMarketPages, ...amazonMarketPages, ...tiktokMarketPages];
 }
