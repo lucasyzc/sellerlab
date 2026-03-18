@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 interface FeedbackPayload {
   type: "calculator_issue" | "contact" | "general";
@@ -70,7 +70,7 @@ async function sendDiscord(payload: FeedbackPayload) {
 }
 
 async function saveToSupabase(payload: FeedbackPayload) {
-  const { error } = await supabaseAdmin.from("feedbacks").insert({
+  const { error } = await getSupabaseAdmin().from("feedbacks").insert({
     type: payload.type,
     source: payload.source,
     message: payload.message,
