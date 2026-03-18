@@ -420,7 +420,7 @@ function FeedbackSection({
 }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -428,31 +428,38 @@ function FeedbackSection({
     else dialogRef.current?.close();
   }, [open]);
 
-  function buildReport() {
-    return [
-      `Market: ${config.name} (${config.siteName})`,
-      `Store/Seller Type: ${form.storeType}`,
-      `Category: ${form.category}${form.subCategory ? ` > ${form.subCategory}` : ""}`,
-      `Sold Price: ${fmt(form.soldPrice)}`,
-      `Shipping Charged: ${fmt(form.shippingCharged)}`,
-      `Total Fees: ${fmt(res.totalFees)}`,
-      `Net Profit: ${fmt(res.netProfit)}`,
-      "",
-      `Issue: ${message}`,
-      "",
-      `URL: ${window.location.href}`,
-    ].join("\n");
-  }
-
   async function handleSubmit() {
-    const report = buildReport();
-    await navigator.clipboard.writeText(report);
-    setSubmitted(true);
-    setTimeout(() => {
-      setOpen(false);
-      setSubmitted(false);
-      setMessage("");
-    }, 2500);
+    setStatus("sending");
+    try {
+      const resp = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "calculator_issue",
+          source: "ebay-fee-calculator",
+          message,
+          context: {
+            Market: `${config.name} (${config.siteName})`,
+            "Store Type": form.storeType,
+            Category: `${form.category}${form.subCategory ? ` > ${form.subCategory}` : ""}`,
+            "Sold Price": fmt(form.soldPrice),
+            "Shipping Charged": fmt(form.shippingCharged),
+            "Total Fees": fmt(res.totalFees),
+            "Net Profit": fmt(res.netProfit),
+            URL: window.location.href,
+          },
+        }),
+      });
+      if (!resp.ok) throw new Error();
+      setStatus("success");
+      setTimeout(() => {
+        setOpen(false);
+        setStatus("idle");
+        setMessage("");
+      }, 2500);
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -484,15 +491,20 @@ function FeedbackSection({
           Describe the issue you found. Your current calculation parameters will be included automatically.
         </p>
 
-        {submitted ? (
+        {status === "success" ? (
           <div style={{
             textAlign: "center", padding: "24px 0",
             color: "#16a34a", fontWeight: 600, fontSize: 15,
           }}>
-            Report copied to clipboard. Thank you for your feedback!
+            Report submitted successfully. Thank you for your feedback!
           </div>
         ) : (
           <>
+            {status === "error" && (
+              <div style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>
+                Failed to submit. Please try again later.
+              </div>
+            )}
             <textarea
               value={message}
               onChange={e => setMessage(e.target.value)}
@@ -507,8 +519,12 @@ function FeedbackSection({
               <button onClick={() => setOpen(false)} className="btn btn-secondary">
                 Cancel
               </button>
-              <button onClick={handleSubmit} className="btn btn-primary" disabled={!message.trim()}>
-                Copy Report & Close
+              <button
+                onClick={handleSubmit}
+                className="btn btn-primary"
+                disabled={!message.trim() || status === "sending"}
+              >
+                {status === "sending" ? "Submitting..." : "Submit Report"}
               </button>
             </div>
           </>
