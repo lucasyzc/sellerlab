@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://sellerlab.tools";
 
 const EBAY_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];

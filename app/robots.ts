@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://sellerlab.tools";
 
 export default function robots(): MetadataRoute.Robots {

@@ -10,6 +10,8 @@ import {
   MarketStructuredData,
 } from "../seo-content";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return MARKET_LIST.map(m => ({ market: m.id }));
 }

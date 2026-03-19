@@ -11,6 +11,8 @@ import {
   MarketStructuredData,
 } from "../seo-content";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return AMAZON_MARKET_LIST.map(m => ({ market: m.id }));
 }
