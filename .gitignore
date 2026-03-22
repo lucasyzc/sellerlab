@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # Cloudflare dev vars
 .dev.vars
+
+# local claude workspace files
+/.claude/
