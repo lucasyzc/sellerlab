@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
+import { COMPARE_ENTRIES } from "./compare/data";
+import { UPDATE_ENTRIES } from "./updates/data";
 
 export const dynamic = "force-static";
 const BASE_URL = SITE_URL;
@@ -45,6 +47,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/compare`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/updates`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
     },
     {
       url: `${BASE_URL}/about`,
@@ -108,5 +122,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticPages, ...ebayMarketPages, ...amazonMarketPages, ...tiktokMarketPages, ...shopifyMarketPages];
+  const comparePages: MetadataRoute.Sitemap = COMPARE_ENTRIES.map((entry) => ({
+    url: `${BASE_URL}/compare/${entry.slug}`,
+    lastModified: new Date(entry.updatedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  const updatePages: MetadataRoute.Sitemap = UPDATE_ENTRIES.map((entry) => ({
+    url: `${BASE_URL}/updates/${entry.slug}`,
+    lastModified: new Date(entry.updatedAt),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  return [
+    ...staticPages,
+    ...ebayMarketPages,
+    ...amazonMarketPages,
+    ...tiktokMarketPages,
+    ...shopifyMarketPages,
+    ...comparePages,
+    ...updatePages,
+  ];
 }

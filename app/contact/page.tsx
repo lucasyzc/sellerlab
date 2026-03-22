@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
@@ -13,8 +14,16 @@ export default function ContactPage() {
     setStatus("sending");
 
     const data = new FormData(e.currentTarget);
+    const email = String(data.get("email") || "").trim();
+    const subject = String(data.get("subject") || "General Inquiry");
 
     try {
+      trackEvent("CtaClicked", {
+        tool_id: "contact",
+        page_type: "contact",
+        cta_id: "contact_submit",
+      });
+
       const resp = await fetch(FEEDBACK_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -23,15 +32,31 @@ export default function ContactPage() {
           source: "contact-page",
           message: String(data.get("message") || ""),
           context: {
-            Subject: String(data.get("subject") || "General Inquiry"),
+            Subject: subject,
           },
           contact: {
             name: String(data.get("name") || ""),
-            email: String(data.get("email") || ""),
+            email,
           },
         }),
       });
       if (!resp.ok) throw new Error();
+
+      if (email) {
+        trackEvent("EmailCaptured", {
+          tool_id: "contact",
+          page_type: "contact",
+          capture_source: "contact_form",
+          has_email: true,
+        });
+      }
+
+      trackEvent("LeadSubmitted", {
+        tool_id: "contact",
+        page_type: "contact",
+        lead_source: "contact-page",
+        subject,
+      });
       setStatus("success");
     } catch {
       setStatus("error");

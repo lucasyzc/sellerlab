@@ -13,6 +13,7 @@ import {
 } from "./amazon-config";
 import { AMAZON_MARKET_LIST, AMAZON_MARKETS } from "./markets";
 import { FlagIcon } from "../components/country-flags";
+import { trackEvent } from "@/lib/analytics";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
@@ -43,14 +44,43 @@ export default function AmazonFeeCalculator({ marketId }: { marketId: AmazonMark
 
   const res = useMemo(() => calculate(form, config), [form, config]);
   const fmt = useCallback((v: number) => formatCurrency(v, config), [config]);
+  const hasTrackedToolUsed = useRef(false);
+  const hasTrackedResultViewed = useRef(false);
+
+  const trackCalculatorInteraction = useCallback((interactionType: string) => {
+    if (!hasTrackedToolUsed.current) {
+      trackEvent("ToolUsed", {
+        tool_id: "amazon",
+        market: marketId,
+        page_type: "calculator",
+        interaction_type: interactionType,
+      });
+      hasTrackedToolUsed.current = true;
+    }
+
+    if (!hasTrackedResultViewed.current) {
+      trackEvent("ResultViewed", {
+        tool_id: "amazon",
+        market: marketId,
+        page_type: "calculator",
+      });
+      hasTrackedResultViewed.current = true;
+    }
+  }, [marketId]);
+
+  function applyPatch(partial: Partial<AmazonFormState>) {
+    setForm((p) => ({ ...p, ...partial }));
+  }
 
   function patch(partial: Partial<AmazonFormState>) {
-    setForm(p => ({ ...p, ...partial }));
+    trackCalculatorInteraction("form_change");
+    applyPatch(partial);
   }
 
   function setNum(key: keyof AmazonFormState, raw: string) {
     const n = Number(raw);
-    patch({ [key]: Number.isFinite(n) ? n : 0 });
+    trackCalculatorInteraction("numeric_input");
+    applyPatch({ [key]: Number.isFinite(n) ? n : 0 });
   }
 
   return (
@@ -112,6 +142,14 @@ function MarketSwitcher({ current }: { current: AmazonMarketId }) {
         <Link
           key={m.id}
           href={`/amazon-fee-calculator/${m.id}`}
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "amazon",
+              market: current,
+              page_type: "calculator",
+              cta_id: `market_switch_${m.id}`,
+            });
+          }}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -397,6 +435,12 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
 
   async function copyLink() {
     await navigator.clipboard.writeText(shareUrl);
+    trackEvent("CtaClicked", {
+      tool_id: "amazon",
+      market: config.id,
+      page_type: "calculator",
+      cta_id: "share_copy_link",
+    });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -410,6 +454,14 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
         <a
           href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`}
           target="_blank" rel="noopener noreferrer"
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "amazon",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "share_x",
+            });
+          }}
           className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
         >
           <XIcon /> Post on X
@@ -417,6 +469,14 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
         <a
           href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
           target="_blank" rel="noopener noreferrer"
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "amazon",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "share_facebook",
+            });
+          }}
           className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
         >
           <FacebookIcon /> Share
@@ -424,6 +484,14 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
         <a
           href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
           target="_blank" rel="noopener noreferrer"
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "amazon",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "share_linkedin",
+            });
+          }}
           className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
         >
           <LinkedInIcon /> Share
@@ -459,6 +527,12 @@ function FeedbackSection({
   }, [open]);
 
   async function handleSubmit() {
+    trackEvent("CtaClicked", {
+      tool_id: "amazon",
+      market: config.id,
+      page_type: "calculator",
+      cta_id: "report_issue_submit",
+    });
     setStatus("sending");
     try {
       const resp = await fetch(FEEDBACK_ENDPOINT, {
@@ -496,7 +570,15 @@ function FeedbackSection({
     <>
       <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: 12 }}>
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "amazon",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "report_issue_open",
+            });
+            setOpen(true);
+          }}
           style={{
             background: "none", border: "none", cursor: "pointer",
             fontSize: 13, color: "var(--color-primary)", fontWeight: 600, padding: 0,

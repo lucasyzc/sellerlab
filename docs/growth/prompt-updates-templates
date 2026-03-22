@@ -1,0 +1,26 @@
+范围：
+- 生成 [N] 篇，slug 为：[...]
+- 平台/市场：[Amazon US / eBay UK ...]
+- 时间范围：[例如 2026 Q3]
+- 受众：[跨境卖家/运营负责人]
+
+硬性要求（每篇都要有）：
+1) heroStats（3条）
+2) summary（3-5条）
+3) evidenceMatrix（>=4条，含 claim/evidence/sourceIds/confidence）
+4) changeLog（>=3条，含 before/after/effectiveDate/businessImpact/sourceIds）
+5) scenarioModel（>=3条，含 marginBefore/marginAfter）
+6) playbook（3阶段：短期/中期/固化）
+7) riskChecklist（>=3条，含 P0/P1/P2）
+8) FAQ（>=3条）
+9) methodology（>=3条）
+10) sources（>=3条，优先官方一手来源）
+
+来源与事实要求：
+- 只用可核验来源，不要臆测；不确定就明确写“推断”。
+- 写清具体日期（如 2026-01-15），不要只写“近期”。
+
+工程要求：
+- 更新 app/updates/data.ts
+- 保持 app/updates/[slug]/page.tsx 结构兼容
+- 跑 npx tsc --noEmit 和定向 eslint 并汇报结果

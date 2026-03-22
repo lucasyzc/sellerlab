@@ -16,6 +16,7 @@ import {
   TIKTOK_MARKET_LIST,
 } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
+import { trackEvent } from "@/lib/analytics";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
@@ -31,18 +32,48 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
 
   const res = useMemo(() => calculate(form, config), [form, config]);
   const fmt = useCallback((v: number) => formatCurrency(v, config), [config]);
+  const hasTrackedToolUsed = useRef(false);
+  const hasTrackedResultViewed = useRef(false);
+
+  const trackCalculatorInteraction = useCallback((interactionType: string) => {
+    if (!hasTrackedToolUsed.current) {
+      trackEvent("ToolUsed", {
+        tool_id: "tiktok",
+        market: marketId,
+        page_type: "calculator",
+        interaction_type: interactionType,
+      });
+      hasTrackedToolUsed.current = true;
+    }
+
+    if (!hasTrackedResultViewed.current) {
+      trackEvent("ResultViewed", {
+        tool_id: "tiktok",
+        market: marketId,
+        page_type: "calculator",
+      });
+      hasTrackedResultViewed.current = true;
+    }
+  }, [marketId]);
+
+  function applyPatch(partial: Partial<TikTokFormState>) {
+    setForm((p) => ({ ...p, ...partial }));
+  }
 
   function patch(partial: Partial<TikTokFormState>) {
-    setForm(p => ({ ...p, ...partial }));
+    trackCalculatorInteraction("form_change");
+    applyPatch(partial);
   }
 
   function setNum(key: keyof TikTokFormState, raw: string) {
     const n = Number(raw);
-    patch({ [key]: Number.isFinite(n) ? n : 0 } as Partial<TikTokFormState>);
+    trackCalculatorInteraction("numeric_input");
+    applyPatch({ [key]: Number.isFinite(n) ? n : 0 } as Partial<TikTokFormState>);
   }
 
   function setManualInput(key: string, raw: string) {
     const n = Number(raw);
+    trackCalculatorInteraction("manual_fee_input");
     setForm(p => ({
       ...p,
       manualInputs: {
@@ -129,6 +160,14 @@ function MarketSwitcher({ current }: { current: TikTokMarketId }) {
         <Link
           key={m.id}
           href={`/tiktok-shop-fee-calculator/${m.id}`}
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "tiktok",
+              market: current,
+              page_type: "calculator",
+              cta_id: `market_switch_${m.id}`,
+            });
+          }}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -523,7 +562,7 @@ function ResultsPanel({
 }
 
 function ShareButtons({ config }: { config: TikTokMarketConfig }) {
-  const [shareUrl, setShareUrl] = useState(() => typeof window !== "undefined" ? window.location.href : "");
+  const [shareUrl] = useState(() => typeof window !== "undefined" ? window.location.href : "");
   const [copied, setCopied] = useState(false);
 
   const text = encodeURIComponent(`${config.seo.h1} - Calculate TikTok Shop fees & profit | SellerLab`);
@@ -531,6 +570,12 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
 
   async function copyLink() {
     await navigator.clipboard.writeText(shareUrl);
+    trackEvent("CtaClicked", {
+      tool_id: "tiktok",
+      market: config.id,
+      page_type: "calculator",
+      cta_id: "share_copy_link",
+    });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -541,13 +586,55 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
         Share this calculator
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <a href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "tiktok",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "share_x",
+            });
+          }}
+          className="btn btn-secondary"
+          style={{ fontSize: 13, gap: 6 }}
+        >
           <XIcon /> Post on X
         </a>
-        <a href={`https://www.facebook.com/sharer/sharer.php?u=${url}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "tiktok",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "share_facebook",
+            });
+          }}
+          className="btn btn-secondary"
+          style={{ fontSize: 13, gap: 6 }}
+        >
           <FacebookIcon /> Share
         </a>
-        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
+        <a
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "tiktok",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "share_linkedin",
+            });
+          }}
+          className="btn btn-secondary"
+          style={{ fontSize: 13, gap: 6 }}
+        >
           <LinkedInIcon /> Share
         </a>
         <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
@@ -577,6 +664,12 @@ function FeedbackSection({
   }, [open]);
 
   async function handleSubmit() {
+    trackEvent("CtaClicked", {
+      tool_id: "tiktok",
+      market: config.id,
+      page_type: "calculator",
+      cta_id: "report_issue_submit",
+    });
     setStatus("sending");
     try {
       const resp = await fetch(FEEDBACK_ENDPOINT, {
@@ -613,7 +706,15 @@ function FeedbackSection({
     <>
       <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: 12 }}>
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            trackEvent("CtaClicked", {
+              tool_id: "tiktok",
+              market: config.id,
+              page_type: "calculator",
+              cta_id: "report_issue_open",
+            });
+            setOpen(true);
+          }}
           style={{
             background: "none", border: "none", cursor: "pointer",
             fontSize: 13, color: "var(--color-primary)", fontWeight: 600, padding: 0,

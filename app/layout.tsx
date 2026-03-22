@@ -65,6 +65,8 @@ export default function RootLayout({
             <nav style={{ display: "flex", gap: 20, fontSize: 14, fontWeight: 500 }}>
               <Link href="/">Home</Link>
               <Link href="/#tools">Tools</Link>
+              <Link href="/compare">Compare</Link>
+              <Link href="/updates">Updates</Link>
               <Link href="/ebay-fee-calculator">eBay Fee Calculator</Link>
               <Link href="/amazon-fee-calculator">Amazon Fee Calculator</Link>
             </nav>
