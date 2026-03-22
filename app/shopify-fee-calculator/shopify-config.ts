@@ -3,6 +3,7 @@ import {
   CA_MARKET,
   CH_MARKET,
   EU_MARKET,
+  JP_MARKET,
   SG_MARKET,
   SHOPIFY_MARKET_REGISTRY,
   SHOPIFY_REGION_LABELS,
@@ -11,7 +12,7 @@ import {
   type ShopifyMarketRegion,
 } from "./markets";
 
-export type ShopifyMarketId = "us" | "ca" | "au" | "sg" | "eu" | "uk" | "ch";
+export type ShopifyMarketId = "us" | "ca" | "au" | "sg" | "jp" | "eu" | "uk" | "ch";
 export type ShopifyPlanId = "basic" | "shopify" | "advanced";
 export type ShopifyBillingCycle = "monthly" | "yearly";
 
@@ -146,48 +147,56 @@ function round2(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
 
+function roundMoney(value: number, config: ShopifyMarketConfig): number {
+  if (config.currency.decimals === 0) {
+    return Math.round(value);
+  }
+  return round2(value);
+}
+
 export function getSelectedPlan(config: ShopifyMarketConfig, planId: ShopifyPlanId): ShopifyPlan {
   return config.plans.find((plan) => plan.value === planId) ?? config.plans[0];
 }
 
 export function calculate(form: ShopifyFormState, config: ShopifyMarketConfig): ShopifyCalcResult {
+  const round = (value: number) => roundMoney(value, config);
   const plan = getSelectedPlan(config, form.plan);
   const ordersPerMonth = Math.max(1, Math.round(clampMoney(form.ordersPerMonth)));
-  const grossRevenue = round2(clampMoney(form.soldPrice) + clampMoney(form.shippingCharged));
+  const grossRevenue = round(clampMoney(form.soldPrice) + clampMoney(form.shippingCharged));
   const taxRate = clampMoney(form.taxRate);
   const priceIncludesTax = Boolean(form.priceIncludesTax);
   const revenueExcludingTax = priceIncludesTax && taxRate > 0
-    ? round2(grossRevenue / (1 + taxRate / 100))
+    ? round(grossRevenue / (1 + taxRate / 100))
     : grossRevenue;
-  const customerTax = round2(Math.max(grossRevenue - revenueExcludingTax, 0));
+  const customerTax = round(Math.max(grossRevenue - revenueExcludingTax, 0));
 
   const paymentProcessingFee = form.usesShopifyPayments
-    ? round2(grossRevenue * (plan.shopifyPaymentsRate / 100) + plan.shopifyPaymentsFixedFee)
+    ? round(grossRevenue * (plan.shopifyPaymentsRate / 100) + plan.shopifyPaymentsFixedFee)
     : 0;
 
   const thirdPartyProcessorFee = form.usesShopifyPayments
     ? 0
-    : round2(
+    : round(
         grossRevenue * (clampMoney(form.thirdPartyProcessorRate) / 100)
         + clampMoney(form.thirdPartyProcessorFixedFee),
       );
 
   const shopifyTransactionFee = form.usesShopifyPayments
     ? 0
-    : round2(grossRevenue * (plan.thirdPartyTransactionRate / 100));
+    : round(grossRevenue * (plan.thirdPartyTransactionRate / 100));
 
-  const monthlySubscriptionCost = plan.subscriptionByCycle[form.billingCycle];
-  const subscriptionPerOrder = round2(monthlySubscriptionCost / ordersPerMonth);
-  const appCostPerOrder = round2(clampMoney(form.monthlyAppCost) / ordersPerMonth);
-  const operationalCostPerOrder = round2(clampMoney(form.monthlyOperationalCost) / ordersPerMonth);
+  const monthlySubscriptionCost = round(plan.subscriptionByCycle[form.billingCycle]);
+  const subscriptionPerOrder = round(monthlySubscriptionCost / ordersPerMonth);
+  const appCostPerOrder = round(clampMoney(form.monthlyAppCost) / ordersPerMonth);
+  const operationalCostPerOrder = round(clampMoney(form.monthlyOperationalCost) / ordersPerMonth);
   const shopifyFeeTaxBase = (
     (config.tax.taxOnSubscription ? subscriptionPerOrder : 0)
     + (config.tax.taxOnShopifyPaymentsFee ? paymentProcessingFee : 0)
     + (config.tax.taxOnShopifyTransactionFee ? shopifyTransactionFee : 0)
   );
-  const shopifyFeeTax = taxRate > 0 ? round2(shopifyFeeTaxBase * (taxRate / 100)) : 0;
+  const shopifyFeeTax = taxRate > 0 ? round(shopifyFeeTaxBase * (taxRate / 100)) : 0;
 
-  const platformCosts = round2(
+  const platformCosts = round(
     paymentProcessingFee
     + thirdPartyProcessorFee
     + shopifyTransactionFee
@@ -197,16 +206,16 @@ export function calculate(form: ShopifyFormState, config: ShopifyMarketConfig): 
     + shopifyFeeTax,
   );
 
-  const productCosts = round2(
+  const productCosts = round(
     clampMoney(form.itemCost)
     + clampMoney(form.shippingCost)
     + clampMoney(form.marketingCost)
     + clampMoney(form.otherCostsPerOrder),
   );
 
-  const salesTaxRemitted = round2((priceIncludesTax ? customerTax : 0) + clampMoney(form.salesTaxPerOrder));
-  const totalCosts = round2(platformCosts + productCosts + salesTaxRemitted);
-  const netProfit = round2(grossRevenue - totalCosts);
+  const salesTaxRemitted = round((priceIncludesTax ? customerTax : 0) + clampMoney(form.salesTaxPerOrder));
+  const totalCosts = round(platformCosts + productCosts + salesTaxRemitted);
+  const netProfit = round(grossRevenue - totalCosts);
   const marginBase = revenueExcludingTax > 0 ? revenueExcludingTax : grossRevenue;
   const margin = marginBase > 0 ? (netProfit / marginBase) * 100 : 0;
 
@@ -267,6 +276,7 @@ export const SHOPIFY_MARKETS: Record<ShopifyMarketId, ShopifyMarketConfig> = {
   ca: CA_MARKET,
   au: AU_MARKET,
   sg: SG_MARKET,
+  jp: JP_MARKET,
   eu: EU_MARKET,
   uk: UK_MARKET,
   ch: CH_MARKET,

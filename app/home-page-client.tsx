@@ -39,7 +39,7 @@ const PLATFORMS = [
     color: "#95BF47",
     bg: "#f0fff4",
     description: "The go-to platform for building your own online store with full control over branding and data",
-    countries: ["US", "CA", "AU", "SG", "EU", "UK", "CH"],
+    countries: ["US", "CA", "AU", "SG", "JP", "EU", "UK", "CH"],
     toolCount: 1,
   },
   {
@@ -146,7 +146,7 @@ const TOOLS: Tool[] = [
     name: "Shopify Cost Calculator",
     description: "Factor in Shopify subscription, transaction fees, and payment gateway costs to estimate total store expenses",
     platform: "shopify",
-    countries: ["US", "CA", "AU", "SG", "EU", "UK", "CH"],
+    countries: ["US", "CA", "AU", "SG", "JP", "EU", "UK", "CH"],
     status: "live",
     href: "/shopify-fee-calculator",
   },

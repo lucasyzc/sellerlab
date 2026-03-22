@@ -10,7 +10,7 @@ const AMAZON_MARKETS = [
   "ae", "br", "sg", "mx", "nl", "be", "se", "pl", "tr",
 ];
 const TIKTOK_MARKETS = ["us", "uk", "vn", "th", "sg", "my", "id", "ph"];
-const SHOPIFY_MARKETS = ["us", "ca", "au", "sg", "eu", "uk", "ch"];
+const SHOPIFY_MARKETS = ["us", "ca", "au", "sg", "jp", "eu", "uk", "ch"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

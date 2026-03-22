@@ -165,6 +165,7 @@ function CalculatorForm({
   onSetNum: (key: keyof ShopifyFormState, raw: string) => void;
 }) {
   const sym = config.currency.symbol;
+  const moneyStep = config.currency.decimals === 0 ? "1" : "0.01";
   const selectedPlan = getSelectedPlan(config, form.plan);
 
   return (
@@ -221,19 +222,19 @@ function CalculatorForm({
 
       <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
         {form.usesShopifyPayments
-          ? `${planLabel}: ${selectedPlan.shopifyPaymentsRate.toFixed(2)}% + ${sym}${selectedPlan.shopifyPaymentsFixedFee.toFixed(2)} per order.`
+          ? `${planLabel}: ${selectedPlan.shopifyPaymentsRate.toFixed(2)}% + ${sym}${selectedPlan.shopifyPaymentsFixedFee.toFixed(config.currency.decimals)} per order.`
           : `${planLabel}: Shopify transaction fee ${selectedPlan.thirdPartyTransactionRate.toFixed(2)}% when using a third-party processor.`}
       </p>
 
       <SectionLabel>Revenue Inputs</SectionLabel>
 
       <Field label={`Product Price (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.soldPrice}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.soldPrice}
           onChange={(event) => onSetNum("soldPrice", event.target.value)} />
       </Field>
 
       <Field label={`Shipping Charged to Customer (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.shippingCharged}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.shippingCharged}
           onChange={(event) => onSetNum("shippingCharged", event.target.value)} />
       </Field>
 
@@ -255,7 +256,7 @@ function CalculatorForm({
       </Field>
 
       <Field label={`${config.tax.name} Remitted Adjustment (Manual, ${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.salesTaxPerOrder}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.salesTaxPerOrder}
           onChange={(event) => onSetNum("salesTaxPerOrder", event.target.value)} />
       </Field>
 
@@ -266,34 +267,34 @@ function CalculatorForm({
       <SectionLabel>Product and Operating Costs</SectionLabel>
 
       <Field label={`Item Cost / COGS (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.itemCost}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.itemCost}
           onChange={(event) => onSetNum("itemCost", event.target.value)} />
       </Field>
 
       <Field label={`Fulfillment Shipping Cost (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.shippingCost}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.shippingCost}
           onChange={(event) => onSetNum("shippingCost", event.target.value)} />
       </Field>
 
       <Field label={`Marketing Cost per Order (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.marketingCost}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.marketingCost}
           onChange={(event) => onSetNum("marketingCost", event.target.value)} />
       </Field>
 
       <Field label={`Other Cost per Order (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.otherCostsPerOrder}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.otherCostsPerOrder}
           onChange={(event) => onSetNum("otherCostsPerOrder", event.target.value)} />
       </Field>
 
       <SectionLabel>Monthly Overhead Allocation</SectionLabel>
 
       <Field label={`Monthly App Costs (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.monthlyAppCost}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.monthlyAppCost}
           onChange={(event) => onSetNum("monthlyAppCost", event.target.value)} />
       </Field>
 
       <Field label={`Monthly Operational Costs (${sym})`}>
-        <input className="input" type="number" min="0" step="0.01" value={form.monthlyOperationalCost}
+        <input className="input" type="number" min="0" step={moneyStep} value={form.monthlyOperationalCost}
           onChange={(event) => onSetNum("monthlyOperationalCost", event.target.value)} />
       </Field>
 
@@ -307,7 +308,7 @@ function CalculatorForm({
           </Field>
 
           <Field label={`Third-party Fixed Fee per Order (${sym})`}>
-            <input className="input" type="number" min="0" step="0.01" value={form.thirdPartyProcessorFixedFee}
+            <input className="input" type="number" min="0" step={moneyStep} value={form.thirdPartyProcessorFixedFee}
               onChange={(event) => onSetNum("thirdPartyProcessorFixedFee", event.target.value)} />
           </Field>
 
