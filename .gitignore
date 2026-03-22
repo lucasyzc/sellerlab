@@ -8,6 +8,10 @@
 # production
 /build
 
+#ai-context
+/ai-context
+/ai-tools
+
 # misc
 .DS_Store
 *.pem

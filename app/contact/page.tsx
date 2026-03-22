@@ -2,6 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 
+const FEEDBACK_ENDPOINT =
+  process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
+
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
@@ -12,7 +15,7 @@ export default function ContactPage() {
     const data = new FormData(e.currentTarget);
 
     try {
-      const resp = await fetch("/api/feedback", {
+      const resp = await fetch(FEEDBACK_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

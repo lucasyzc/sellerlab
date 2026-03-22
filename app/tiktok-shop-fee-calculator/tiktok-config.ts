@@ -1,88 +1,66 @@
-// ═══════════════════════════════════════════════════════════════
-// Shared Types
-// ═══════════════════════════════════════════════════════════════
-
-export type TikTokMarketId = "us";
+export type TikTokMarketId = "us" | "uk" | "id" | "vn" | "ph" | "th" | "my" | "sg";
 
 export type TikTokCategory = { label: string; value: string };
+export type TikTokSellerProfile = { label: string; value: string; description?: string };
 
-export type TikTokReferralRule = {
-  rate: number;
-  highValueRate?: number;
-  highValueThreshold?: number;
+export type TikTokCurrency = {
+  code: string;
+  symbol: string;
+  locale: string;
+  decimals: number;
 };
 
-export type TikTokFormState = {
-  category: string;
-  fulfillmentMethod: string;
-  isNewSeller: boolean;
-  soldPrice: number;
-  itemCost: number;
-  shippingCost: number;
-  affiliateRate: number;
-  adSpendPerUnit: number;
-  otherCosts: number;
-  weightLb: number;
-  weightOz: number;
-  dimensionLength: number;
-  dimensionWidth: number;
-  dimensionHeight: number;
-  unitsPerOrder: number;
-  storageDays: number;
-};
-
-export type TikTokCalcResult = {
-  referralFeeBase: number;
-  referralFeeRate: number;
-  referralFee: number;
-  referralFeeDesc: string;
-  affiliateCommission: number;
-  fbtFulfillmentFee: number;
-  fbtFulfillmentFeePerUnit: number;
-  fbtStorageFee: number;
-  totalPlatformFees: number;
-  adSpend: number;
-  totalRevenue: number;
-  netProfit: number;
-  margin: number;
-  chargeableWeight: number;
-  weightTierLabel: string;
-  roi: number;
-};
-
-export type TikTokMarketConfig = {
-  id: TikTokMarketId;
+export type TikTokTaxConfig = {
   name: string;
-  fullName: string;
-  flag: string;
-  domain: string;
-  currency: { code: string; symbol: string; locale: string; decimals: number };
-  categories: TikTokCategory[];
-  referralRules: Record<string, TikTokReferralRule>;
-  newSellerRate: number;
-  defaults: {
-    soldPrice: number;
-    itemCost: number;
-    shippingCost: number;
-    affiliateRate: number;
-    adSpendPerUnit: number;
-    weightLb: number;
-    weightOz: number;
-    dimensionLength: number;
-    dimensionWidth: number;
-    dimensionHeight: number;
-    unitsPerOrder: number;
-    storageDays: number;
-  };
-  seo: { title: string; description: string; h1: string; subtitle: string };
-  notes: string[];
+  defaultRate: number;
+  priceIncludesTaxByDefault: boolean;
+  helpText: string;
 };
 
-// ═══════════════════════════════════════════════════════════════
-// FBT Fulfillment Fee Rate Card (effective Jan 12, 2026)
-// ═══════════════════════════════════════════════════════════════
+export type TikTokSourceDoc = {
+  title: string;
+  url: string;
+  effectiveDate?: string;
+  scope?: string;
+};
 
-type FbtWeightTier = {
+export type TikTokFormulaBase =
+  | "item_after_seller_discount"
+  | "item_after_seller_discount_excl_tax"
+  | "buyer_payment_total"
+  | "buyer_payment_total_excl_tax"
+  | "seller_revenue_total"
+  | "seller_revenue_total_excl_tax";
+
+export type TikTokPercentageFeeRule = {
+  id: string;
+  type: "percentage";
+  label: string;
+  description: string;
+  base: TikTokFormulaBase;
+  defaultRate?: number;
+  rateByCategory?: Record<string, number>;
+  rateByProfile?: Record<string, number>;
+  sellerInput?: boolean;
+  inputLabel?: string;
+  capAmount?: number;
+  onlyCategories?: string[];
+};
+
+export type TikTokFlatFeeRule = {
+  id: string;
+  type: "flat";
+  label: string;
+  description: string;
+  defaultAmount?: number;
+  sellerInput?: boolean;
+  inputLabel?: string;
+  onlyCategories?: string[];
+};
+
+export type TikTokFeeRule = TikTokPercentageFeeRule | TikTokFlatFeeRule;
+
+export type TikTokWeightTier = {
   maxWeight: number;
   label: string;
   singleUnit: number;
@@ -91,300 +69,502 @@ type FbtWeightTier = {
   fourPlusUnits: number;
 };
 
-const FBT_WEIGHT_TIERS: FbtWeightTier[] = [
-  { maxWeight: 0.5, label: "0\u20138 oz", singleUnit: 3.58, twoUnits: 2.86, threeUnits: 2.72, fourPlusUnits: 2.58 },
-  { maxWeight: 1, label: "8 oz\u20131 lb", singleUnit: 3.78, twoUnits: 3.06, threeUnits: 2.92, fourPlusUnits: 2.78 },
-  { maxWeight: 2, label: "1\u20132 lb", singleUnit: 4.15, twoUnits: 3.43, threeUnits: 3.29, fourPlusUnits: 3.15 },
-  { maxWeight: 3, label: "2\u20133 lb", singleUnit: 4.58, twoUnits: 3.86, threeUnits: 3.72, fourPlusUnits: 3.58 },
-  { maxWeight: 4, label: "3\u20134 lb", singleUnit: 5.15, twoUnits: 4.43, threeUnits: 4.29, fourPlusUnits: 4.15 },
-  { maxWeight: 8, label: "4\u20138 lb", singleUnit: 5.75, twoUnits: 5.03, threeUnits: 4.89, fourPlusUnits: 4.75 },
-  { maxWeight: 16, label: "8\u201316 lb", singleUnit: 7.15, twoUnits: 6.43, threeUnits: 6.29, fourPlusUnits: 6.15 },
-  { maxWeight: 30, label: "16\u201330 lb", singleUnit: 9.75, twoUnits: 8.78, threeUnits: 8.64, fourPlusUnits: 8.50 },
-  { maxWeight: 50, label: "30\u201350 lb", singleUnit: 15.25, twoUnits: 13.78, threeUnits: 13.64, fourPlusUnits: 13.50 },
-];
-
-// ═══════════════════════════════════════════════════════════════
-// FBT Storage Fee Tiers (effective Dec 15, 2025)
-// First 60 days free, then tiered daily rates per cu ft
-// ═══════════════════════════════════════════════════════════════
-
-type FbtStorageTier = {
+export type TikTokStorageTier = {
   maxDays: number;
   dailyRate: number;
 };
 
-const FBT_STORAGE_TIERS: FbtStorageTier[] = [
-  { maxDays: 60, dailyRate: 0 },
-  { maxDays: 90, dailyRate: 0.023 },
-  { maxDays: 180, dailyRate: 0.05 },
-  { maxDays: 270, dailyRate: 0.08 },
-  { maxDays: Infinity, dailyRate: 0.12 },
-];
+export type TikTokSizeTier = {
+  value: string;
+  label: string;
+  fee: number;
+};
 
-// ═══════════════════════════════════════════════════════════════
-// FBT Fee Helpers
-// ═══════════════════════════════════════════════════════════════
+export type TikTokFulfillmentConfig =
+  | {
+      value: "self";
+      label: string;
+      description: string;
+      kind: "self";
+    }
+  | {
+      value: "platform";
+      label: string;
+      description: string;
+      kind: "weight-tier";
+      weightUnitLabel: string;
+      dimensionUnitLabel: string;
+      chargeableWeightUnitLabel: string;
+      maxWeight?: number;
+      maxSide?: number;
+      dimDivisor: number;
+      smallParcelRule?: { maxWeight: number; maxVolume: number };
+      weightTiers: TikTokWeightTier[];
+      storageTiers?: TikTokStorageTier[];
+      freeStorageDaysLabel?: string;
+    }
+  | {
+      value: "platform";
+      label: string;
+      description: string;
+      kind: "size-tier";
+      dimensionUnitLabel: string;
+      sizeTierLabel: string;
+      sizeTiers: TikTokSizeTier[];
+      storageTiers?: TikTokStorageTier[];
+      storageVolumeUnitLabel: string;
+      freeStorageDaysLabel?: string;
+    };
+
+export type TikTokMarketConfig = {
+  id: TikTokMarketId;
+  name: string;
+  fullName: string;
+  flag: string;
+  domain: string;
+  currency: TikTokCurrency;
+  categories: TikTokCategory[];
+  sellerProfiles?: TikTokSellerProfile[];
+  tax: TikTokTaxConfig;
+  feeRules: TikTokFeeRule[];
+  fulfillmentMethods: TikTokFulfillmentConfig[];
+  manualRateDisclaimer?: string;
+  defaults: {
+    category: string;
+    sellerProfile?: string;
+    fulfillmentMethod: "self" | "platform";
+    soldPrice: number;
+    sellerDiscount: number;
+    platformDiscount: number;
+    buyerShippingFee: number;
+    itemCost: number;
+    shippingCost: number;
+    affiliateRate: number;
+    adSpendPerUnit: number;
+    otherCosts: number;
+    taxRate?: number;
+    priceIncludesTax?: boolean;
+    weight?: number;
+    dimensionLength?: number;
+    dimensionWidth?: number;
+    dimensionHeight?: number;
+    unitsPerOrder?: number;
+    storageDays?: number;
+    packageSizeTier?: string;
+    manualInputs?: Record<string, number>;
+  };
+  seo: {
+    title: string;
+    description: string;
+    h1: string;
+    subtitle: string;
+  };
+  summary: {
+    shortFeeSummary: string;
+    taxSummary: string;
+    fulfillmentSummary: string;
+    disclaimer: string;
+  };
+  docs: TikTokSourceDoc[];
+  notes: string[];
+};
+
+export type TikTokFormState = {
+  category: string;
+  sellerProfile: string;
+  fulfillmentMethod: "self" | "platform";
+  soldPrice: number;
+  sellerDiscount: number;
+  platformDiscount: number;
+  buyerShippingFee: number;
+  itemCost: number;
+  shippingCost: number;
+  affiliateRate: number;
+  adSpendPerUnit: number;
+  otherCosts: number;
+  taxRate: number;
+  priceIncludesTax: boolean;
+  weight: number;
+  dimensionLength: number;
+  dimensionWidth: number;
+  dimensionHeight: number;
+  unitsPerOrder: number;
+  storageDays: number;
+  packageSizeTier: string;
+  manualInputs: Record<string, number>;
+};
+
+export type TikTokAppliedFee = {
+  id: string;
+  label: string;
+  amount: number;
+  detail: string;
+};
+
+export type TikTokCalcResult = {
+  customerPayment: number;
+  customerTax: number;
+  customerPaymentExclTax: number;
+  sellerRevenue: number;
+  sellerRevenueExclTax: number;
+  platformFees: TikTokAppliedFee[];
+  affiliateCommission: number;
+  fulfillmentFee: number;
+  storageFee: number;
+  totalPlatformFees: number;
+  adSpend: number;
+  netProfit: number;
+  margin: number;
+  roi: number;
+  chargeableWeight: number;
+  chargeableWeightLabel: string;
+  selectedSizeTierLabel: string;
+};
+
+function clampMoney(value: number): number {
+  return Number.isFinite(value) ? Math.max(value, 0) : 0;
+}
+
+function round2(value: number): number {
+  return Math.round((value + Number.EPSILON) * 100) / 100;
+}
+
+function stripIncludedTax(value: number, taxRate: number, includesTax: boolean): number {
+  if (!includesTax || taxRate <= 0) return value;
+  return value / (1 + taxRate / 100);
+}
+
+function getFormulaBases(form: TikTokFormState) {
+  const itemAfterSellerDiscount = clampMoney(form.soldPrice - form.sellerDiscount);
+  const buyerPaymentTotal = clampMoney(itemAfterSellerDiscount - form.platformDiscount + form.buyerShippingFee);
+  const sellerRevenueTotal = clampMoney(itemAfterSellerDiscount + form.buyerShippingFee);
+
+  return {
+    item_after_seller_discount: itemAfterSellerDiscount,
+    item_after_seller_discount_excl_tax: stripIncludedTax(itemAfterSellerDiscount, form.taxRate, form.priceIncludesTax),
+    buyer_payment_total: buyerPaymentTotal,
+    buyer_payment_total_excl_tax: stripIncludedTax(buyerPaymentTotal, form.taxRate, form.priceIncludesTax),
+    seller_revenue_total: sellerRevenueTotal,
+    seller_revenue_total_excl_tax: stripIncludedTax(sellerRevenueTotal, form.taxRate, form.priceIncludesTax),
+  } as const;
+}
+
+function resolvePercentageRate(rule: TikTokPercentageFeeRule, form: TikTokFormState): number {
+  if (rule.sellerInput) {
+    return clampMoney(form.manualInputs[rule.id] ?? rule.defaultRate ?? 0);
+  }
+
+  if (rule.rateByProfile?.[form.sellerProfile] !== undefined) {
+    return rule.rateByProfile[form.sellerProfile]!;
+  }
+
+  if (rule.rateByCategory?.[form.category] !== undefined) {
+    return rule.rateByCategory[form.category]!;
+  }
+
+  return clampMoney(rule.defaultRate ?? 0);
+}
+
+function ruleApplies(rule: TikTokFeeRule, form: TikTokFormState): boolean {
+  if (!rule.onlyCategories?.length) return true;
+  return rule.onlyCategories.includes(form.category);
+}
 
 function calcChargeableWeight(
-  actualWeightLb: number,
+  actualWeight: number,
   length: number,
   width: number,
   height: number,
+  fulfillment: Extract<TikTokFulfillmentConfig, { kind: "weight-tier" }>,
 ): number {
   const volume = length * width * height;
-  if (actualWeightLb <= 1 && volume <= 166) {
-    return actualWeightLb;
+
+  if (
+    fulfillment.smallParcelRule
+    && actualWeight <= fulfillment.smallParcelRule.maxWeight
+    && volume <= fulfillment.smallParcelRule.maxVolume
+  ) {
+    return actualWeight;
   }
-  const dimWeight = volume / 166;
-  return Math.max(actualWeightLb, dimWeight);
+
+  const dimWeight = volume > 0 ? volume / fulfillment.dimDivisor : 0;
+  return Math.max(actualWeight, dimWeight);
 }
 
-function lookupFbtFulfillmentFee(chargeableWeight: number, unitsPerOrder: number): { fee: number; tierLabel: string } {
-  const tier = FBT_WEIGHT_TIERS.find(t => chargeableWeight <= t.maxWeight)
-    ?? FBT_WEIGHT_TIERS[FBT_WEIGHT_TIERS.length - 1];
+function lookupWeightTierFee(
+  fulfillment: Extract<TikTokFulfillmentConfig, { kind: "weight-tier" }>,
+  chargeableWeight: number,
+  unitsPerOrder: number,
+): { fee: number; label: string } {
+  const tier = fulfillment.weightTiers.find(item => chargeableWeight <= item.maxWeight)
+    ?? fulfillment.weightTiers[fulfillment.weightTiers.length - 1];
 
-  let fee: number;
-  if (unitsPerOrder >= 4) fee = tier.fourPlusUnits;
-  else if (unitsPerOrder === 3) fee = tier.threeUnits;
-  else if (unitsPerOrder === 2) fee = tier.twoUnits;
-  else fee = tier.singleUnit;
-
-  return { fee, tierLabel: tier.label };
+  if (unitsPerOrder >= 4) return { fee: tier.fourPlusUnits, label: tier.label };
+  if (unitsPerOrder === 3) return { fee: tier.threeUnits, label: tier.label };
+  if (unitsPerOrder === 2) return { fee: tier.twoUnits, label: tier.label };
+  return { fee: tier.singleUnit, label: tier.label };
 }
 
-function calcFbtStorageFee(cubicFeet: number, totalDays: number): number {
-  if (totalDays <= 0 || cubicFeet <= 0) return 0;
+function calcStorageFee(storageTiers: TikTokStorageTier[] | undefined, volume: number, totalDays: number): number {
+  if (!storageTiers?.length || volume <= 0 || totalDays <= 0) return 0;
 
   let fee = 0;
   let daysAccounted = 0;
 
-  for (const tier of FBT_STORAGE_TIERS) {
+  for (const tier of storageTiers) {
     if (daysAccounted >= totalDays) break;
     const tierEnd = tier.maxDays === Infinity ? totalDays : Math.min(tier.maxDays, totalDays);
     const daysInTier = Math.max(tierEnd - daysAccounted, 0);
-    fee += cubicFeet * tier.dailyRate * daysInTier;
+    fee += volume * tier.dailyRate * daysInTier;
     daysAccounted = tierEnd;
   }
 
   return fee;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Referral Fee Calculation
-// ═══════════════════════════════════════════════════════════════
+function calcFulfillmentFees(form: TikTokFormState, config: TikTokMarketConfig) {
+  const fulfillment = config.fulfillmentMethods.find(item => item.value === form.fulfillmentMethod);
 
-function calcReferralFee(soldPrice: number, rule: TikTokReferralRule, isNewSeller: boolean, newSellerRate: number): {
-  fee: number;
-  effectiveRate: number;
-  desc: string;
-} {
-  if (isNewSeller) {
+  if (!fulfillment || fulfillment.kind === "self") {
     return {
-      fee: soldPrice * (newSellerRate / 100),
-      effectiveRate: newSellerRate,
-      desc: `${newSellerRate}% (new seller promotion)`,
+      feeItems: [] as TikTokAppliedFee[],
+      fulfillmentFee: 0,
+      storageFee: 0,
+      chargeableWeight: 0,
+      chargeableWeightLabel: "—",
+      selectedSizeTierLabel: "—",
     };
   }
 
-  if (rule.highValueThreshold && rule.highValueRate !== undefined && soldPrice > rule.highValueThreshold) {
-    const basePortion = rule.highValueThreshold * (rule.rate / 100);
-    const highPortion = (soldPrice - rule.highValueThreshold) * (rule.highValueRate / 100);
-    const fee = basePortion + highPortion;
-    const effectiveRate = soldPrice > 0 ? (fee / soldPrice) * 100 : rule.rate;
+  if (fulfillment.kind === "weight-tier") {
+    const actualWeight = clampMoney(form.weight);
+    const chargeableWeight = calcChargeableWeight(
+      actualWeight,
+      clampMoney(form.dimensionLength),
+      clampMoney(form.dimensionWidth),
+      clampMoney(form.dimensionHeight),
+      fulfillment,
+    );
+    const weightLookup = lookupWeightTierFee(fulfillment, chargeableWeight, Math.max(1, Math.round(form.unitsPerOrder)));
+    const cubicFeet = clampMoney(form.dimensionLength) * clampMoney(form.dimensionWidth) * clampMoney(form.dimensionHeight) / 1728;
+    const storageFee = calcStorageFee(fulfillment.storageTiers, cubicFeet, Math.round(form.storageDays));
+
+    const feeItems: TikTokAppliedFee[] = [
+      {
+        id: "platform-fulfillment",
+        label: fulfillment.label,
+        amount: round2(weightLookup.fee),
+        detail: `${weightLookup.label} · ${chargeableWeight.toFixed(2)} ${fulfillment.chargeableWeightUnitLabel}`,
+      },
+    ];
+
+    if (storageFee > 0) {
+      feeItems.push({
+        id: "platform-storage",
+        label: "Storage Fee",
+        amount: round2(storageFee),
+        detail: `${Math.round(form.storageDays)} days`,
+      });
+    }
+
     return {
-      fee,
-      effectiveRate,
-      desc: `${rule.rate}% up to $${rule.highValueThreshold.toLocaleString()} + ${rule.highValueRate}% above`,
+      feeItems,
+      fulfillmentFee: round2(weightLookup.fee),
+      storageFee: round2(storageFee),
+      chargeableWeight: round2(chargeableWeight),
+      chargeableWeightLabel: weightLookup.label,
+      selectedSizeTierLabel: "—",
     };
+  }
+
+  const sizeTier = fulfillment.sizeTiers.find(item => item.value === form.packageSizeTier) ?? fulfillment.sizeTiers[0];
+  const cubicMeters = clampMoney(form.dimensionLength) * clampMoney(form.dimensionWidth) * clampMoney(form.dimensionHeight) / 1_000_000;
+  const storageFee = calcStorageFee(fulfillment.storageTiers, cubicMeters, Math.round(form.storageDays));
+
+  const feeItems: TikTokAppliedFee[] = [
+    {
+      id: "platform-fulfillment",
+      label: fulfillment.label,
+      amount: round2(sizeTier.fee),
+      detail: sizeTier.label,
+    },
+  ];
+
+  if (storageFee > 0) {
+    feeItems.push({
+      id: "platform-storage",
+      label: "Storage Fee",
+      amount: round2(storageFee),
+      detail: `${Math.round(form.storageDays)} days`,
+    });
   }
 
   return {
-    fee: soldPrice * (rule.rate / 100),
-    effectiveRate: rule.rate,
-    desc: `${rule.rate}%`,
+    feeItems,
+    fulfillmentFee: round2(sizeTier.fee),
+    storageFee: round2(storageFee),
+    chargeableWeight: 0,
+    chargeableWeightLabel: "—",
+    selectedSizeTierLabel: sizeTier.label,
   };
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Main Calculation
-// ═══════════════════════════════════════════════════════════════
+export function calculate(form: TikTokFormState, config: TikTokMarketConfig): TikTokCalcResult {
+  const bases = getFormulaBases(form);
+  const feeItems: TikTokAppliedFee[] = [];
 
-export function calculate(f: TikTokFormState, config: TikTokMarketConfig): TikTokCalcResult {
-  const rule = config.referralRules[f.category] ?? config.referralRules["default"];
+  for (const rule of config.feeRules) {
+    if (!ruleApplies(rule, form)) continue;
 
-  const { fee: referralFee, effectiveRate, desc: referralFeeDesc } = calcReferralFee(
-    f.soldPrice, rule, f.isNewSeller, config.newSellerRate,
+    if (rule.type === "percentage") {
+      const rate = resolvePercentageRate(rule, form);
+      const baseAmount = bases[rule.base];
+      let amount = baseAmount * (rate / 100);
+      if (rule.capAmount !== undefined) {
+        amount = Math.min(amount, rule.capAmount);
+      }
+      feeItems.push({
+        id: rule.id,
+        label: rule.label,
+        amount: round2(amount),
+        detail: `${rate.toFixed(2)}% of ${rule.base.replaceAll("_", " ")}`,
+      });
+      continue;
+    }
+
+    const amount = rule.sellerInput
+      ? clampMoney(form.manualInputs[rule.id] ?? rule.defaultAmount ?? 0)
+      : clampMoney(rule.defaultAmount ?? 0);
+
+    feeItems.push({
+      id: rule.id,
+      label: rule.label,
+      amount: round2(amount),
+      detail: rule.description,
+    });
+  }
+
+  const fulfillment = calcFulfillmentFees(form, config);
+  feeItems.push(...fulfillment.feeItems);
+
+  const customerPayment = bases.buyer_payment_total;
+  const customerPaymentExclTax = bases.buyer_payment_total_excl_tax;
+  const customerTax = round2(customerPayment - customerPaymentExclTax);
+  const sellerRevenue = bases.seller_revenue_total;
+  const sellerRevenueExclTax = bases.seller_revenue_total_excl_tax;
+
+  const totalPlatformFees = round2(feeItems.reduce((sum, item) => sum + item.amount, 0));
+  const affiliateCommission = round2(clampMoney(form.soldPrice - form.sellerDiscount) * (clampMoney(form.affiliateRate) / 100));
+  const adSpend = round2(clampMoney(form.adSpendPerUnit));
+
+  const sellerCosts = round2(
+    clampMoney(form.itemCost)
+      + (form.fulfillmentMethod === "self" ? clampMoney(form.shippingCost) : 0)
+      + clampMoney(form.otherCosts)
+      + affiliateCommission
+      + adSpend,
   );
 
-  const affiliateCommission = f.soldPrice * (f.affiliateRate / 100);
-  const isFbt = f.fulfillmentMethod === "fbt";
-
-  let fbtFulfillmentFee = 0;
-  let fbtFulfillmentFeePerUnit = 0;
-  let fbtStorageFee = 0;
-  let chargeableWeight = 0;
-  let weightTierLabel = "\u2014";
-
-  if (isFbt) {
-    const actualWeight = f.weightLb + f.weightOz / 16;
-
-    if (f.dimensionLength > 0 && f.dimensionWidth > 0 && f.dimensionHeight > 0) {
-      chargeableWeight = calcChargeableWeight(actualWeight, f.dimensionLength, f.dimensionWidth, f.dimensionHeight);
-    } else {
-      chargeableWeight = actualWeight;
-    }
-
-    const lookup = lookupFbtFulfillmentFee(chargeableWeight, f.unitsPerOrder);
-    fbtFulfillmentFeePerUnit = lookup.fee;
-    fbtFulfillmentFee = lookup.fee;
-    weightTierLabel = lookup.tierLabel;
-
-    if (f.storageDays > 0 && f.dimensionLength > 0 && f.dimensionWidth > 0 && f.dimensionHeight > 0) {
-      const cubicFeet = (f.dimensionLength * f.dimensionWidth * f.dimensionHeight) / 1728;
-      fbtStorageFee = calcFbtStorageFee(cubicFeet, f.storageDays);
-    }
-  }
-
-  const totalPlatformFees = referralFee + fbtFulfillmentFee + fbtStorageFee;
-  const adSpend = f.adSpendPerUnit;
-  const sellerCosts = f.itemCost + (isFbt ? 0 : f.shippingCost) + f.otherCosts + affiliateCommission + adSpend;
-  const totalRevenue = f.soldPrice;
-  const netProfit = totalRevenue - totalPlatformFees - sellerCosts;
-  const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
-  const totalInvestment = f.itemCost + f.otherCosts + (isFbt ? 0 : f.shippingCost);
-  const roi = totalInvestment > 0 ? (netProfit / totalInvestment) * 100 : 0;
+  const netProfit = round2(sellerRevenueExclTax - totalPlatformFees - sellerCosts);
+  const margin = sellerRevenueExclTax > 0 ? (netProfit / sellerRevenueExclTax) * 100 : 0;
+  const investment = clampMoney(form.itemCost) + clampMoney(form.otherCosts) + (form.fulfillmentMethod === "self" ? clampMoney(form.shippingCost) : 0);
+  const roi = investment > 0 ? (netProfit / investment) * 100 : 0;
 
   return {
-    referralFeeBase: f.soldPrice,
-    referralFeeRate: effectiveRate,
-    referralFee,
-    referralFeeDesc,
+    customerPayment: round2(customerPayment),
+    customerTax,
+    customerPaymentExclTax: round2(customerPaymentExclTax),
+    sellerRevenue: round2(sellerRevenue),
+    sellerRevenueExclTax: round2(sellerRevenueExclTax),
+    platformFees: feeItems,
     affiliateCommission,
-    fbtFulfillmentFee,
-    fbtFulfillmentFeePerUnit,
-    fbtStorageFee,
+    fulfillmentFee: fulfillment.fulfillmentFee,
+    storageFee: fulfillment.storageFee,
     totalPlatformFees,
     adSpend,
-    totalRevenue,
     netProfit,
     margin,
-    chargeableWeight,
-    weightTierLabel,
     roi,
+    chargeableWeight: fulfillment.chargeableWeight,
+    chargeableWeightLabel: fulfillment.chargeableWeightLabel,
+    selectedSizeTierLabel: fulfillment.selectedSizeTierLabel,
   };
 }
-
-// ═══════════════════════════════════════════════════════════════
-// Formatter
-// ═══════════════════════════════════════════════════════════════
 
 export function formatCurrency(value: number, config: TikTokMarketConfig): string {
   const abs = Math.abs(value);
-  const d = config.currency.decimals;
   const formatted = new Intl.NumberFormat(config.currency.locale, {
-    minimumFractionDigits: d,
-    maximumFractionDigits: d,
+    minimumFractionDigits: config.currency.decimals,
+    maximumFractionDigits: config.currency.decimals,
   }).format(abs);
-  const sign = value < 0 ? "\u2212" : "";
-  return `${sign}${config.currency.symbol}${formatted}`;
+  return `${value < 0 ? "−" : ""}${config.currency.symbol}${formatted}`;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// US Market Configuration
-// ═══════════════════════════════════════════════════════════════
+export function makeDefaultForm(config: TikTokMarketConfig): TikTokFormState {
+  return {
+    category: config.defaults.category,
+    sellerProfile: config.defaults.sellerProfile ?? config.sellerProfiles?.[0]?.value ?? "standard",
+    fulfillmentMethod: config.defaults.fulfillmentMethod,
+    soldPrice: config.defaults.soldPrice,
+    sellerDiscount: config.defaults.sellerDiscount,
+    platformDiscount: config.defaults.platformDiscount,
+    buyerShippingFee: config.defaults.buyerShippingFee,
+    itemCost: config.defaults.itemCost,
+    shippingCost: config.defaults.shippingCost,
+    affiliateRate: config.defaults.affiliateRate,
+    adSpendPerUnit: config.defaults.adSpendPerUnit,
+    otherCosts: config.defaults.otherCosts,
+    taxRate: config.defaults.taxRate ?? config.tax.defaultRate,
+    priceIncludesTax: config.defaults.priceIncludesTax ?? config.tax.priceIncludesTaxByDefault,
+    weight: config.defaults.weight ?? 0,
+    dimensionLength: config.defaults.dimensionLength ?? 0,
+    dimensionWidth: config.defaults.dimensionWidth ?? 0,
+    dimensionHeight: config.defaults.dimensionHeight ?? 0,
+    unitsPerOrder: config.defaults.unitsPerOrder ?? 1,
+    storageDays: config.defaults.storageDays ?? 0,
+    packageSizeTier: config.defaults.packageSizeTier ?? "",
+    manualInputs: config.defaults.manualInputs ?? {},
+  };
+}
 
-const US_CATEGORIES: TikTokCategory[] = [
-  { label: "Automotive & Motorcycle", value: "automotive" },
-  { label: "Baby & Maternity", value: "baby" },
-  { label: "Beauty & Personal Care", value: "beauty" },
-  { label: "Books, Magazines & Audio", value: "books" },
-  { label: "Collectibles", value: "collectibles" },
-  { label: "Computers & Office Equipment", value: "computers" },
-  { label: "Fashion Accessories", value: "fashion_accessories" },
-  { label: "Food & Beverages", value: "food" },
-  { label: "Furniture", value: "furniture" },
-  { label: "Health", value: "health" },
-  { label: "Home Improvement", value: "home_improvement" },
-  { label: "Home Supplies", value: "home_supplies" },
-  { label: "Household Appliances", value: "appliances" },
-  { label: "Jewelry \u2013 Diamond, Gold, Jade, Platinum, Ruby/Sapphire/Emerald", value: "jewelry_premium" },
-  { label: "Jewelry \u2013 Other (Amber, Pearl, Silver, Crystal, etc.)", value: "jewelry_other" },
-  { label: "Kids' Fashion", value: "kids_fashion" },
-  { label: "Kitchenware", value: "kitchenware" },
-  { label: "Luggage & Bags", value: "luggage" },
-  { label: "Menswear & Underwear", value: "menswear" },
-  { label: "Pet Supplies", value: "pets" },
-  { label: "Phones & Electronics", value: "electronics" },
-  { label: "Pre-Owned", value: "preowned" },
-  { label: "Shoes", value: "shoes" },
-  { label: "Sports & Outdoor", value: "sports" },
-  { label: "Textiles & Soft Furnishings", value: "textiles" },
-  { label: "Tools & Hardware", value: "tools" },
-  { label: "Toys & Hobbies", value: "toys" },
-  { label: "Womenswear & Underwear", value: "womenswear" },
-];
+export function getDefaultSizeTier(config: TikTokMarketConfig): string {
+  const platform = config.fulfillmentMethods.find(item => item.value === "platform");
+  return platform?.kind === "size-tier" ? platform.sizeTiers[0]?.value ?? "" : "";
+}
 
-const US_REFERRAL_RULES: Record<string, TikTokReferralRule> = {
-  default: { rate: 6 },
-  jewelry_premium: { rate: 5 },
-  jewelry_other: { rate: 6 },
-  preowned: { rate: 5, highValueRate: 3, highValueThreshold: 10000 },
-  collectibles: { rate: 6, highValueRate: 3, highValueThreshold: 10000 },
-};
-
-export const US_MARKET: TikTokMarketConfig = {
-  id: "us",
-  name: "US",
-  fullName: "United States",
-  flag: "\u{1F1FA}\u{1F1F8}",
-  domain: "shop.tiktok.com",
-  currency: { code: "USD", symbol: "$", locale: "en-US", decimals: 2 },
-  categories: US_CATEGORIES,
-  referralRules: US_REFERRAL_RULES,
-  newSellerRate: 3,
-  defaults: {
-    soldPrice: 29.99,
-    itemCost: 8,
-    shippingCost: 5,
-    affiliateRate: 15,
-    adSpendPerUnit: 3,
-    weightLb: 1,
-    weightOz: 0,
-    dimensionLength: 10,
-    dimensionWidth: 8,
-    dimensionHeight: 4,
-    unitsPerOrder: 1,
-    storageDays: 30,
-  },
-  seo: {
-    title: "US TikTok Shop Fee Calculator | SellerLab",
-    description: "Calculate TikTok Shop referral fees, FBT fulfillment fees, storage costs, affiliate commissions, and net profit for US sellers. Accurate rates for 28 product categories.",
-    h1: "US TikTok Shop Fee Calculator",
-    subtitle: "Calculate referral fees, FBT costs, affiliate commissions & profit when selling on TikTok Shop US. Rates updated as of 2026.",
-  },
-  notes: [
-    "TikTok Shop charges a referral fee on all completed orders. In the US, payment processing is included \u2014 no separate processing fee.",
-    "Standard referral fee is 6% for most categories. Select jewelry sub-categories (Diamond, Gold, Jade, Platinum, Ruby/Sapphire/Emerald) are 5%.",
-    "New sellers who achieve their first sale within 60 days of onboarding receive a 3% referral fee rate for 30 days.",
-    "FBT (Fulfilled by TikTok) fees cover pick, pack, and shipping. Fees vary by weight and number of units per order. Max weight: 50 lb, max single side: 26 in.",
-    "FBT storage is free for the first 60 days. After that, daily fees apply based on cubic footage and storage duration.",
-    "Pre-Owned and Collectibles categories have a reduced rate on any portion of a sale exceeding $10,000.",
-    "Refund administration fee: 20% of the referral fee on refunded orders, capped at $5 per SKU.",
-  ],
-};
-
-// ═══════════════════════════════════════════════════════════════
-// Market Registry
-// ═══════════════════════════════════════════════════════════════
+import {
+  ID_MARKET,
+  MY_MARKET,
+  PH_MARKET,
+  SG_MARKET,
+  TH_MARKET,
+  UK_MARKET,
+  US_MARKET,
+  VN_MARKET,
+} from "./markets";
 
 export const TIKTOK_MARKETS: Record<TikTokMarketId, TikTokMarketConfig> = {
   us: US_MARKET,
+  uk: UK_MARKET,
+  id: ID_MARKET,
+  vn: VN_MARKET,
+  ph: PH_MARKET,
+  th: TH_MARKET,
+  my: MY_MARKET,
+  sg: SG_MARKET,
 };
 
-export const TIKTOK_MARKET_LIST: TikTokMarketConfig[] = [US_MARKET];
+export const TIKTOK_MARKET_LIST: TikTokMarketConfig[] = [
+  US_MARKET,
+  UK_MARKET,
+  VN_MARKET,
+  TH_MARKET,
+  SG_MARKET,
+  MY_MARKET,
+  ID_MARKET,
+  PH_MARKET,
+];
 
 export function getTikTokMarket(id: string): TikTokMarketConfig | undefined {
   return TIKTOK_MARKETS[id as TikTokMarketId];
 }
-
-export { FBT_WEIGHT_TIERS };

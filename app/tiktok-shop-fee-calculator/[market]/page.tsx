@@ -74,7 +74,7 @@ export default async function TikTokFeeCalculatorMarketPage({
       <MarketStructuredData config={config} />
       <MarketBreadcrumb config={config} />
 
-      <TikTokFeeCalculator marketId={market as TikTokMarketId} />
+      <TikTokFeeCalculator key={config.id} marketId={market as TikTokMarketId} />
 
       <div className="grid" style={{ gap: 16, marginTop: 24 }}>
         <MarketFeeTable config={config} />

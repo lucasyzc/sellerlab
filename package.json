@@ -6,11 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.99.2",
+    "axios": "^1.13.6",
     "country-flag-icons": "^1.6.15",
+    "express": "^5.2.1",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.3.4",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
@@ -22,5 +26,23 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
-  }
+  },
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasyzc/sellerlab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lucasyzc/sellerlab/issues"
+  },
+  "homepage": "https://github.com/lucasyzc/sellerlab#readme"
 }

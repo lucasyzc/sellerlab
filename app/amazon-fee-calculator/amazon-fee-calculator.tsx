@@ -14,6 +14,9 @@ import {
 import { AMAZON_MARKET_LIST, AMAZON_MARKETS } from "./markets";
 import { FlagIcon } from "../components/country-flags";
 
+const FEEDBACK_ENDPOINT =
+  process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
+
 export default function AmazonFeeCalculator({ marketId }: { marketId: AmazonMarketId }) {
   const config = AMAZON_MARKETS[marketId];
 
@@ -458,7 +461,7 @@ function FeedbackSection({
   async function handleSubmit() {
     setStatus("sending");
     try {
-      const resp = await fetch("/api/feedback", {
+      const resp = await fetch(FEEDBACK_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

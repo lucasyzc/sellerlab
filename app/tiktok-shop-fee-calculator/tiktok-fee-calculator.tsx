@@ -4,36 +4,30 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   type TikTokCalcResult,
+  type TikTokFeeRule,
   type TikTokFormState,
+  type TikTokFulfillmentConfig,
   type TikTokMarketConfig,
   type TikTokMarketId,
   calculate,
   formatCurrency,
+  getDefaultSizeTier,
+  makeDefaultForm,
   TIKTOK_MARKET_LIST,
 } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
 
+const FEEDBACK_ENDPOINT =
+  process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
+
 export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMarketId }) {
   const config = TIKTOK_MARKET_LIST.find(m => m.id === marketId)!;
 
-  const [form, setForm] = useState<TikTokFormState>(() => ({
-    category: config.categories[0].value,
-    fulfillmentMethod: "fbt",
-    isNewSeller: false,
-    soldPrice: config.defaults.soldPrice,
-    itemCost: config.defaults.itemCost,
-    shippingCost: config.defaults.shippingCost,
-    affiliateRate: config.defaults.affiliateRate,
-    adSpendPerUnit: config.defaults.adSpendPerUnit,
-    otherCosts: 0,
-    weightLb: config.defaults.weightLb,
-    weightOz: config.defaults.weightOz,
-    dimensionLength: config.defaults.dimensionLength,
-    dimensionWidth: config.defaults.dimensionWidth,
-    dimensionHeight: config.defaults.dimensionHeight,
-    unitsPerOrder: config.defaults.unitsPerOrder,
-    storageDays: config.defaults.storageDays,
-  }));
+  const [form, setForm] = useState<TikTokFormState>(() => {
+    const initial = makeDefaultForm(config);
+    if (!initial.packageSizeTier) initial.packageSizeTier = getDefaultSizeTier(config);
+    return initial;
+  });
 
   const res = useMemo(() => calculate(form, config), [form, config]);
   const fmt = useCallback((v: number) => formatCurrency(v, config), [config]);
@@ -44,7 +38,18 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
 
   function setNum(key: keyof TikTokFormState, raw: string) {
     const n = Number(raw);
-    patch({ [key]: Number.isFinite(n) ? n : 0 });
+    patch({ [key]: Number.isFinite(n) ? n : 0 } as Partial<TikTokFormState>);
+  }
+
+  function setManualInput(key: string, raw: string) {
+    const n = Number(raw);
+    setForm(p => ({
+      ...p,
+      manualInputs: {
+        ...p.manualInputs,
+        [key]: Number.isFinite(n) ? n : 0,
+      },
+    }));
   }
 
   return (
@@ -70,6 +75,7 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
           config={config}
           onPatch={patch}
           onSetNum={setNum}
+          onSetManualInput={setManualInput}
         />
         <ResultsPanel form={form} config={config} res={res} fmt={fmt} />
       </section>
@@ -77,6 +83,22 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
       <section className="card" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <ShareButtons config={config} />
         <FeedbackSection config={config} form={form} res={res} fmt={fmt} />
+      </section>
+
+      <section className="card" style={{ display: "grid", gap: 10 }}>
+        <h3 style={{ marginTop: 0, marginBottom: 0, fontSize: 15 }}>Official Sources</h3>
+        {config.docs.map((doc) => (
+          <a
+            key={doc.url}
+            href={doc.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--color-primary)", fontSize: 13, textDecoration: "none" }}
+          >
+            {doc.title}
+            {doc.effectiveDate ? ` · ${doc.effectiveDate}` : ""}
+          </a>
+        ))}
       </section>
 
       {config.notes.length > 0 && (
@@ -89,15 +111,16 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
               </li>
             ))}
           </ul>
+          {config.manualRateDisclaimer && (
+            <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 13, lineHeight: 1.6 }}>
+              {config.manualRateDisclaimer}
+            </p>
+          )}
         </section>
       )}
     </div>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════
-// Market Switcher
-// ═══════════════════════════════════════════════════════════════
 
 function MarketSwitcher({ current }: { current: TikTokMarketId }) {
   return (
@@ -129,21 +152,22 @@ function MarketSwitcher({ current }: { current: TikTokMarketId }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Calculator Form
-// ═══════════════════════════════════════════════════════════════
-
 function CalculatorForm({
-  form, config,
-  onPatch, onSetNum,
+  form,
+  config,
+  onPatch,
+  onSetNum,
+  onSetManualInput,
 }: {
   form: TikTokFormState;
   config: TikTokMarketConfig;
   onPatch: (p: Partial<TikTokFormState>) => void;
   onSetNum: (key: keyof TikTokFormState, raw: string) => void;
+  onSetManualInput: (key: string, raw: string) => void;
 }) {
-  const isFbt = form.fulfillmentMethod === "fbt";
   const sym = config.currency.symbol;
+  const platformMethod = config.fulfillmentMethods.find(item => item.value === "platform");
+  const isPlatform = form.fulfillmentMethod === "platform" && !!platformMethod;
 
   return (
     <form className="card grid" style={{ gap: 14 }} onSubmit={e => e.preventDefault()}>
@@ -162,24 +186,33 @@ function CalculatorForm({
         </select>
       </Field>
 
+      {config.sellerProfiles?.length ? (
+        <Field label="Seller Profile">
+          <select
+            className="input"
+            value={form.sellerProfile}
+            onChange={e => onPatch({ sellerProfile: e.target.value })}
+            style={{ cursor: "pointer" }}
+          >
+            {config.sellerProfiles.map(profile => (
+              <option key={profile.value} value={profile.value}>{profile.label}</option>
+            ))}
+          </select>
+        </Field>
+      ) : null}
+
       <Field label="Fulfillment Method">
         <select
           className="input"
           value={form.fulfillmentMethod}
-          onChange={e => onPatch({ fulfillmentMethod: e.target.value })}
+          onChange={e => onPatch({ fulfillmentMethod: e.target.value as "self" | "platform" })}
           style={{ cursor: "pointer" }}
         >
-          <option value="fbt">FBT (Fulfilled by TikTok)</option>
-          <option value="self">Self-Fulfilled</option>
+          {config.fulfillmentMethods.map(method => (
+            <option key={method.value} value={method.value}>{method.label}</option>
+          ))}
         </select>
       </Field>
-
-      <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
-        <input type="checkbox" checked={form.isNewSeller}
-          onChange={e => onPatch({ isNewSeller: e.target.checked })}
-          style={{ width: 16, height: 16, cursor: "pointer" }} />
-        <span style={{ fontSize: 14 }}>New seller promotion (3% for first 30 days)</span>
-      </label>
 
       <SectionLabel>Pricing</SectionLabel>
 
@@ -188,6 +221,37 @@ function CalculatorForm({
           onChange={e => onSetNum("soldPrice", e.target.value)} />
       </Field>
 
+      <Field label={`Seller Discount (${sym})`}>
+        <input className="input" type="number" min="0" step="0.01" value={form.sellerDiscount}
+          onChange={e => onSetNum("sellerDiscount", e.target.value)} />
+      </Field>
+
+      <Field label={`Platform Discount (${sym})`}>
+        <input className="input" type="number" min="0" step="0.01" value={form.platformDiscount}
+          onChange={e => onSetNum("platformDiscount", e.target.value)} />
+      </Field>
+
+      <Field label={`Buyer Shipping Fee (${sym})`}>
+        <input className="input" type="number" min="0" step="0.01" value={form.buyerShippingFee}
+          onChange={e => onSetNum("buyerShippingFee", e.target.value)} />
+      </Field>
+
+      <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+        <input type="checkbox" checked={form.priceIncludesTax}
+          onChange={e => onPatch({ priceIncludesTax: e.target.checked })}
+          style={{ width: 16, height: 16, cursor: "pointer" }} />
+        <span style={{ fontSize: 14 }}>Price includes {config.tax.name}</span>
+      </label>
+
+      <Field label={`${config.tax.name} Rate (%)`}>
+        <input className="input" type="number" min="0" step="0.01" value={form.taxRate}
+          onChange={e => onSetNum("taxRate", e.target.value)} />
+      </Field>
+
+      <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+        {config.tax.helpText}
+      </p>
+
       <SectionLabel>Your Costs</SectionLabel>
 
       <Field label={`Item Cost / COGS (${sym})`}>
@@ -195,7 +259,7 @@ function CalculatorForm({
           onChange={e => onSetNum("itemCost", e.target.value)} />
       </Field>
 
-      {!isFbt && (
+      {!isPlatform && (
         <Field label={`Shipping Cost (${sym})`}>
           <input className="input" type="number" min="0" step="0.01" value={form.shippingCost}
             onChange={e => onSetNum("shippingCost", e.target.value)} />
@@ -210,7 +274,7 @@ function CalculatorForm({
       <SectionLabel>Marketing</SectionLabel>
 
       <Field label="Affiliate Commission Rate (%)">
-        <input className="input" type="number" min="0" max="100" step="1" value={form.affiliateRate}
+        <input className="input" type="number" min="0" max="100" step="0.01" value={form.affiliateRate}
           onChange={e => onSetNum("affiliateRate", e.target.value)} />
       </Field>
 
@@ -219,121 +283,221 @@ function CalculatorForm({
           onChange={e => onSetNum("adSpendPerUnit", e.target.value)} />
       </Field>
 
-      {isFbt && (
+      {config.feeRules.some(rule => rule.sellerInput) && (
         <>
-          <SectionLabel>FBT Product Info</SectionLabel>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            <Field label="Weight (lb)">
-              <input className="input" type="number" min="0" max="50" step="1" value={form.weightLb}
-                onChange={e => onSetNum("weightLb", e.target.value)} />
-            </Field>
-            <Field label="Weight (oz)">
-              <input className="input" type="number" min="0" max="15" step="1" value={form.weightOz}
-                onChange={e => onSetNum("weightOz", e.target.value)} />
-            </Field>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-            <Field label="Length (in)">
-              <input className="input" type="number" min="0" max="26" step="0.1" value={form.dimensionLength}
-                onChange={e => onSetNum("dimensionLength", e.target.value)} />
-            </Field>
-            <Field label="Width (in)">
-              <input className="input" type="number" min="0" max="26" step="0.1" value={form.dimensionWidth}
-                onChange={e => onSetNum("dimensionWidth", e.target.value)} />
-            </Field>
-            <Field label="Height (in)">
-              <input className="input" type="number" min="0" max="26" step="0.1" value={form.dimensionHeight}
-                onChange={e => onSetNum("dimensionHeight", e.target.value)} />
-            </Field>
-          </div>
-
-          <Field label="Units per Order">
-            <select
-              className="input"
-              value={form.unitsPerOrder}
-              onChange={e => onPatch({ unitsPerOrder: Number(e.target.value) })}
-              style={{ cursor: "pointer" }}
-            >
-              <option value={1}>1 unit (single)</option>
-              <option value={2}>2 units</option>
-              <option value={3}>3 units</option>
-              <option value={4}>4+ units</option>
-            </select>
-          </Field>
-
-          <SectionLabel>FBT Storage</SectionLabel>
-
-          <Field label="Storage Duration (days)">
-            <input className="input" type="number" min="0" max="365" step="1" value={form.storageDays}
-              onChange={e => onSetNum("storageDays", e.target.value)} />
-          </Field>
+          <SectionLabel>Manual Fee Inputs</SectionLabel>
+          {config.feeRules.filter(rule => rule.sellerInput).map(rule => (
+            <ManualFeeField
+              key={rule.id}
+              rule={rule}
+              value={form.manualInputs[rule.id] ?? (rule.type === "flat" ? rule.defaultAmount ?? 0 : rule.defaultRate ?? 0)}
+              symbol={sym}
+              onChange={onSetManualInput}
+            />
+          ))}
+          {config.manualRateDisclaimer && (
+            <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+              {config.manualRateDisclaimer}
+            </p>
+          )}
         </>
+      )}
+
+      {isPlatform && platformMethod?.kind === "weight-tier" && (
+        <WeightTierFields form={form} method={platformMethod} onPatch={onPatch} onSetNum={onSetNum} />
+      )}
+
+      {isPlatform && platformMethod?.kind === "size-tier" && (
+        <SizeTierFields form={form} method={platformMethod} onPatch={onPatch} onSetNum={onSetNum} />
       )}
     </form>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Results Panel
-// ═══════════════════════════════════════════════════════════════
+function ManualFeeField({
+  rule,
+  value,
+  symbol,
+  onChange,
+}: {
+  rule: TikTokFeeRule;
+  value: number;
+  symbol: string;
+  onChange: (key: string, raw: string) => void;
+}) {
+  const isPercent = rule.type === "percentage";
+  const label = rule.inputLabel ?? rule.label;
+
+  return (
+    <Field label={isPercent ? label : `${label} (${symbol})`}>
+      <input
+        className="input"
+        type="number"
+        min="0"
+        step="0.01"
+        value={value}
+        onChange={e => onChange(rule.id, e.target.value)}
+      />
+    </Field>
+  );
+}
+
+function WeightTierFields({
+  form,
+  method,
+  onPatch,
+  onSetNum,
+}: {
+  form: TikTokFormState;
+  method: Extract<TikTokFulfillmentConfig, { kind: "weight-tier" }>;
+  onPatch: (p: Partial<TikTokFormState>) => void;
+  onSetNum: (key: keyof TikTokFormState, raw: string) => void;
+}) {
+  return (
+    <>
+      <SectionLabel>{method.label}</SectionLabel>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        <Field label={`Weight (${method.weightUnitLabel})`}>
+          <input className="input" type="number" min="0" step="0.01" value={form.weight}
+            onChange={e => onSetNum("weight", e.target.value)} />
+        </Field>
+        <Field label="Units per Order">
+          <select
+            className="input"
+            value={form.unitsPerOrder}
+            onChange={e => onPatch({ unitsPerOrder: Number(e.target.value) })}
+            style={{ cursor: "pointer" }}
+          >
+            <option value={1}>1 unit</option>
+            <option value={2}>2 units</option>
+            <option value={3}>3 units</option>
+            <option value={4}>4+ units</option>
+          </select>
+        </Field>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+        <Field label={`Length (${method.dimensionUnitLabel})`}>
+          <input className="input" type="number" min="0" step="0.1" value={form.dimensionLength}
+            onChange={e => onSetNum("dimensionLength", e.target.value)} />
+        </Field>
+        <Field label={`Width (${method.dimensionUnitLabel})`}>
+          <input className="input" type="number" min="0" step="0.1" value={form.dimensionWidth}
+            onChange={e => onSetNum("dimensionWidth", e.target.value)} />
+        </Field>
+        <Field label={`Height (${method.dimensionUnitLabel})`}>
+          <input className="input" type="number" min="0" step="0.1" value={form.dimensionHeight}
+            onChange={e => onSetNum("dimensionHeight", e.target.value)} />
+        </Field>
+      </div>
+
+      {method.storageTiers?.length ? (
+        <Field label="Storage Duration (days)">
+          <input className="input" type="number" min="0" step="1" value={form.storageDays}
+            onChange={e => onSetNum("storageDays", e.target.value)} />
+        </Field>
+      ) : null}
+    </>
+  );
+}
+
+function SizeTierFields({
+  form,
+  method,
+  onPatch,
+  onSetNum,
+}: {
+  form: TikTokFormState;
+  method: Extract<TikTokFulfillmentConfig, { kind: "size-tier" }>;
+  onPatch: (p: Partial<TikTokFormState>) => void;
+  onSetNum: (key: keyof TikTokFormState, raw: string) => void;
+}) {
+  return (
+    <>
+      <SectionLabel>{method.label}</SectionLabel>
+      <Field label={method.sizeTierLabel}>
+        <select
+          className="input"
+          value={form.packageSizeTier}
+          onChange={e => onPatch({ packageSizeTier: e.target.value })}
+          style={{ cursor: "pointer" }}
+        >
+          {method.sizeTiers.map(tier => (
+            <option key={tier.value} value={tier.value}>{tier.label}</option>
+          ))}
+        </select>
+      </Field>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+        <Field label={`Length (${method.dimensionUnitLabel})`}>
+          <input className="input" type="number" min="0" step="0.1" value={form.dimensionLength}
+            onChange={e => onSetNum("dimensionLength", e.target.value)} />
+        </Field>
+        <Field label={`Width (${method.dimensionUnitLabel})`}>
+          <input className="input" type="number" min="0" step="0.1" value={form.dimensionWidth}
+            onChange={e => onSetNum("dimensionWidth", e.target.value)} />
+        </Field>
+        <Field label={`Height (${method.dimensionUnitLabel})`}>
+          <input className="input" type="number" min="0" step="0.1" value={form.dimensionHeight}
+            onChange={e => onSetNum("dimensionHeight", e.target.value)} />
+        </Field>
+      </div>
+
+      {method.storageTiers?.length ? (
+        <Field label="Storage Duration (days)">
+          <input className="input" type="number" min="0" step="1" value={form.storageDays}
+            onChange={e => onSetNum("storageDays", e.target.value)} />
+        </Field>
+      ) : null}
+    </>
+  );
+}
 
 function ResultsPanel({
-  form, config, res, fmt,
+  form,
+  config,
+  res,
+  fmt,
 }: {
   form: TikTokFormState;
   config: TikTokMarketConfig;
   res: TikTokCalcResult;
   fmt: (v: number) => string;
 }) {
-  const isFbt = form.fulfillmentMethod === "fbt";
-
   return (
     <aside className="card" style={{ position: "sticky", top: 20 }}>
       <h2 style={{ marginTop: 0, fontSize: 20, marginBottom: 16 }}>Calculation Results</h2>
 
-      <GroupLabel>Sale Summary</GroupLabel>
-      <Row label="Sold Price" value={fmt(form.soldPrice)} />
-      <Row label="Total Revenue" value={fmt(res.totalRevenue)} bold />
+      <GroupLabel>Revenue</GroupLabel>
+      <Row label="Customer Payment" value={fmt(res.customerPayment)} />
+      <Row label={`${config.tax.name}`} value={fmt(res.customerTax)} />
+      <Row label="Customer Payment Excl. Tax" value={fmt(res.customerPaymentExclTax)} />
+      <Row label="Seller Revenue" value={fmt(res.sellerRevenue)} />
+      <Row label="Seller Revenue Excl. Tax" value={fmt(res.sellerRevenueExclTax)} bold />
 
       <Divider />
 
       <GroupLabel>TikTok Shop Fees</GroupLabel>
-      <Row label="Referral Fee" value={fmt(res.referralFee)} />
-      <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
-        {res.referralFeeDesc} (incl. payment processing)
-      </div>
-      {isFbt && res.fbtFulfillmentFee > 0 && (
-        <>
-          <Row label="FBT Fulfillment Fee" value={fmt(res.fbtFulfillmentFee)} />
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
-            Weight tier: {res.weightTierLabel} &middot; Chargeable: {res.chargeableWeight.toFixed(2)} lb
-            {form.unitsPerOrder > 1 && ` \u00b7 ${form.unitsPerOrder} units/order pricing`}
+      {res.platformFees.map(item => (
+        <div key={item.id} style={{ marginBottom: 8 }}>
+          <Row label={item.label} value={fmt(item.amount)} />
+          <div className="muted" style={{ fontSize: 12, marginTop: -4, paddingLeft: 4 }}>
+            {item.detail}
           </div>
-        </>
-      )}
-      {isFbt && res.fbtStorageFee > 0 && (
-        <>
-          <Row label="FBT Storage Fee" value={fmt(res.fbtStorageFee)} />
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
-            {form.storageDays} day{form.storageDays !== 1 ? "s" : ""}
-            {form.storageDays <= 60 && " (free period)"}
-          </div>
-        </>
-      )}
+        </div>
+      ))}
       <Row label="Total TikTok Fees" value={fmt(res.totalPlatformFees)} bold color="#dc2626" />
 
       <Divider />
 
       <GroupLabel>Seller Costs</GroupLabel>
       <Row label="Item Cost / COGS" value={fmt(form.itemCost)} />
-      {!isFbt && <Row label="Shipping Cost" value={fmt(form.shippingCost)} />}
+      {form.fulfillmentMethod === "self" && <Row label="Shipping Cost" value={fmt(form.shippingCost)} />}
       {res.affiliateCommission > 0 && (
         <>
           <Row label="Affiliate Commission" value={fmt(res.affiliateCommission)} />
           <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
-            {form.affiliateRate}% of sold price
+            {form.affiliateRate}% of item price after seller discount
           </div>
         </>
       )}
@@ -358,17 +522,9 @@ function ResultsPanel({
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Share Buttons
-// ═══════════════════════════════════════════════════════════════
-
 function ShareButtons({ config }: { config: TikTokMarketConfig }) {
-  const [shareUrl, setShareUrl] = useState("");
+  const [shareUrl, setShareUrl] = useState(() => typeof window !== "undefined" ? window.location.href : "");
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    setShareUrl(window.location.href);
-  }, []);
 
   const text = encodeURIComponent(`${config.seo.h1} - Calculate TikTok Shop fees & profit | SellerLab`);
   const url = encodeURIComponent(shareUrl);
@@ -385,25 +541,13 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
         Share this calculator
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <a
-          href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`}
-          target="_blank" rel="noopener noreferrer"
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
-        >
+        <a href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
           <XIcon /> Post on X
         </a>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
-          target="_blank" rel="noopener noreferrer"
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
-        >
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${url}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
           <FacebookIcon /> Share
         </a>
-        <a
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
-          target="_blank" rel="noopener noreferrer"
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
-        >
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
           <LinkedInIcon /> Share
         </a>
         <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
@@ -413,10 +557,6 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
     </div>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════
-// Feedback Section
-// ═══════════════════════════════════════════════════════════════
 
 function FeedbackSection({
   config, form, res, fmt,
@@ -439,7 +579,7 @@ function FeedbackSection({
   async function handleSubmit() {
     setStatus("sending");
     try {
-      const resp = await fetch("/api/feedback", {
+      const resp = await fetch(FEEDBACK_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -449,8 +589,8 @@ function FeedbackSection({
           context: {
             Market: `${config.name} (${config.domain})`,
             Category: form.category,
-            Fulfillment: form.fulfillmentMethod.toUpperCase(),
-            "Sold Price": fmt(form.soldPrice),
+            Fulfillment: form.fulfillmentMethod,
+            "Customer Payment": fmt(res.customerPayment),
             "Total Fees": fmt(res.totalPlatformFees),
             "Net Profit": fmt(res.netProfit),
             URL: window.location.href,
@@ -499,10 +639,7 @@ function FeedbackSection({
         </p>
 
         {status === "success" ? (
-          <div style={{
-            textAlign: "center", padding: "24px 0",
-            color: "#16a34a", fontWeight: 600, fontSize: 15,
-          }}>
+          <div style={{ textAlign: "center", padding: "24px 0", color: "#16a34a", fontWeight: 600, fontSize: 15 }}>
             Report submitted successfully. Thank you for your feedback!
           </div>
         ) : (
@@ -515,7 +652,7 @@ function FeedbackSection({
             <textarea
               value={message}
               onChange={e => setMessage(e.target.value)}
-              placeholder="e.g. The referral fee for Pre-Owned items seems incorrect for items above $10,000..."
+              placeholder="Describe which official rule or result looks wrong..."
               style={{
                 width: "100%", minHeight: 100, border: "1px solid var(--color-border)",
                 borderRadius: "var(--radius-sm)", padding: 10, fontSize: 14,
@@ -540,10 +677,6 @@ function FeedbackSection({
     </>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════
-// Sub-components
-// ═══════════════════════════════════════════════════════════════
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -578,55 +711,29 @@ function Row({ label, value, bold, color, large }: {
   label: string; value: string; bold?: boolean; color?: string; large?: boolean;
 }) {
   return (
-    <div style={{
-      display: "flex", justifyContent: "space-between", alignItems: "center",
-      paddingBottom: 6, marginBottom: 2, fontSize: large ? 16 : 14,
-    }}>
-      <span className={bold ? undefined : "muted"} style={bold ? { fontWeight: 600 } : undefined}>
-        {label}
-      </span>
-      <span style={{ fontWeight: bold ? 700 : 500, color }}>{value}</span>
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
+      <div style={{ fontSize: large ? 15 : 14, fontWeight: bold ? 700 : 500 }}>{label}</div>
+      <div style={{ fontSize: large ? 15 : 14, fontWeight: bold ? 700 : 600, color }}>{value}</div>
     </div>
   );
 }
 
 function Divider() {
-  return <div style={{ borderBottom: "1px solid var(--color-border)", margin: "6px 0 10px" }} />;
+  return <div style={{ height: 1, background: "var(--color-border)", margin: "12px 0" }} />;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Icons (inline SVG)
-// ═══════════════════════════════════════════════════════════════
-
 function XIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
+  return <span aria-hidden="true">𝕏</span>;
 }
 
 function FacebookIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-    </svg>
-  );
+  return <span aria-hidden="true">f</span>;
 }
 
 function LinkedInIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  );
+  return <span aria-hidden="true">in</span>;
 }
 
 function LinkIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-    </svg>
-  );
+  return <span aria-hidden="true">🔗</span>;
 }

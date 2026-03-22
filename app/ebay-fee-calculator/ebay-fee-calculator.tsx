@@ -16,6 +16,9 @@ import {
 } from "./market-config";
 import { FlagIcon } from "../components/country-flags";
 
+const FEEDBACK_ENDPOINT =
+  process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
+
 export default function EbayFeeCalculator({ marketId }: { marketId: MarketId }) {
   const config = MARKETS[marketId];
 
@@ -424,14 +427,20 @@ function FeedbackSection({
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    if (open) dialogRef.current?.showModal();
-    else dialogRef.current?.close();
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (open) {
+      if (!dialog.open) dialog.showModal();
+    } else if (dialog.open) {
+      dialog.close();
+    }
   }, [open]);
 
   async function handleSubmit() {
     setStatus("sending");
     try {
-      const resp = await fetch("/api/feedback", {
+      const resp = await fetch(FEEDBACK_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
