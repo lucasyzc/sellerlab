@@ -1,412 +1,106 @@
-"use client";
+import type { Metadata } from "next";
+import HomePageClient from "./home-page-client";
+import { absoluteUrl } from "@/lib/site-url";
 
-import Link from "next/link";
-import { useState } from "react";
-import { PlatformLogo } from "./components/platform-logos";
-import { FlagIcon } from "./components/country-flags";
+export const metadata: Metadata = {
+  title: "SellerLab - Free Cross-border Seller Tools & Fee Calculators",
+  description:
+    "Use free fee calculators and profit tools for eBay, Amazon, TikTok Shop, and Shopify across global marketplaces.",
+  keywords: [
+    "seller tools",
+    "cross-border ecommerce tools",
+    "ebay fee calculator",
+    "amazon fee calculator",
+    "tiktok shop fee calculator",
+    "shopify fee calculator",
+    "ecommerce profit calculator",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "SellerLab - Free Cross-border Seller Tools & Fee Calculators",
+    description:
+      "Free calculators and operational tools for eBay, Amazon, TikTok Shop, and Shopify sellers.",
+    url: "/",
+    type: "website",
+    siteName: "SellerLab",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "SellerLab - Free Cross-border Seller Tools & Fee Calculators",
+    description:
+      "Calculate fees and profit for major ecommerce marketplaces with free, market-specific tools.",
+  },
+};
 
-const PLATFORMS = [
-  {
-    id: "ebay",
-    name: "eBay",
-    color: "#e53e3e",
-    bg: "#fff5f5",
-    description: "The world's leading auction and fixed-price marketplace, available in 190+ countries",
-    countries: ["US", "UK", "DE", "AU", "FR", "IT", "ES", "CA"],
-    toolCount: 1,
-  },
-  {
-    id: "amazon",
-    name: "Amazon",
-    color: "#FF9900",
-    bg: "#fffaf0",
-    description: "The world's largest e-commerce platform with FBA/FBM fulfillment across major markets",
-    countries: ["US", "UK", "DE", "FR", "IT", "ES", "JP", "CA", "AU"],
-    toolCount: 1,
-  },
-  {
-    id: "tiktok",
-    name: "TikTok Shop",
-    color: "#010101",
-    bg: "#f5f5f5",
-    description: "Fast-growing social commerce platform powered by short videos and livestream shopping",
-    countries: ["US", "UK", "ID", "TH", "MY", "VN", "PH"],
-    toolCount: 1,
-  },
-  {
-    id: "shopify",
-    name: "Shopify",
-    color: "#95BF47",
-    bg: "#f0fff4",
-    description: "The go-to platform for building your own online store with full control over branding and data",
-    countries: ["US", "UK", "DE", "FR", "CA", "AU", "JP"],
-    toolCount: 0,
-  },
-  {
-    id: "walmart",
-    name: "Walmart",
-    color: "#0071CE",
-    bg: "#ebf8ff",
-    description: "North America's second-largest e-commerce platform, ideal for established sellers to expand",
-    countries: ["US", "CA", "MX"],
-    toolCount: 0,
-  },
-  {
-    id: "aliexpress",
-    name: "AliExpress",
-    color: "#FF4747",
-    bg: "#fff5f5",
-    description: "Alibaba's global retail marketplace for consumers worldwide with robust logistics",
-    countries: ["US", "UK", "DE", "FR", "ES", "RU", "BR"],
-    toolCount: 0,
-  },
-  {
-    id: "temu",
-    name: "Temu",
-    color: "#FB7701",
-    bg: "#fffaf0",
-    description: "PDD's global marketplace with a fully-managed model for rapid scaling",
-    countries: ["US", "UK", "DE", "FR", "IT", "ES", "AU", "CA"],
-    toolCount: 0,
-  },
-  {
-    id: "shein",
-    name: "SHEIN",
-    color: "#000000",
-    bg: "#f7f7f7",
-    description: "Fast-fashion giant with an agile small-batch model, combining marketplace and DTC channels",
-    countries: ["US", "UK", "DE", "FR", "IT", "ES", "AU"],
-    toolCount: 0,
-  },
-];
+function HomeStructuredData() {
+  const webSite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "SellerLab",
+    url: absoluteUrl("/"),
+    description:
+      "SellerLab provides free fee calculators and seller tools for cross-border ecommerce marketplaces.",
+    inLanguage: "en",
+  };
 
-const COUNTRIES = [
-  { code: "US", name: "United States", flag: "🇺🇸", platforms: ["ebay", "amazon", "tiktok", "shopify", "walmart", "aliexpress", "temu", "shein"] },
-  { code: "UK", name: "United Kingdom", flag: "🇬🇧", platforms: ["ebay", "amazon", "tiktok", "shopify", "aliexpress", "temu", "shein"] },
-  { code: "DE", name: "Germany", flag: "🇩🇪", platforms: ["ebay", "amazon", "shopify", "aliexpress", "temu", "shein"] },
-  { code: "FR", name: "France", flag: "🇫🇷", platforms: ["ebay", "amazon", "shopify", "aliexpress", "temu", "shein"] },
-  { code: "IT", name: "Italy", flag: "🇮🇹", platforms: ["ebay", "amazon", "temu", "shein"] },
-  { code: "ES", name: "Spain", flag: "🇪🇸", platforms: ["ebay", "amazon", "aliexpress", "temu", "shein"] },
-  { code: "AU", name: "Australia", flag: "🇦🇺", platforms: ["ebay", "amazon", "shopify", "temu", "shein"] },
-  { code: "CA", name: "Canada", flag: "🇨🇦", platforms: ["ebay", "amazon", "shopify", "walmart", "temu"] },
-  { code: "JP", name: "Japan", flag: "🇯🇵", platforms: ["amazon", "shopify"] },
-  { code: "MX", name: "Mexico", flag: "🇲🇽", platforms: ["walmart"] },
-  { code: "ID", name: "Indonesia", flag: "🇮🇩", platforms: ["tiktok"] },
-  { code: "TH", name: "Thailand", flag: "🇹🇭", platforms: ["tiktok"] },
-  { code: "MY", name: "Malaysia", flag: "🇲🇾", platforms: ["tiktok"] },
-  { code: "VN", name: "Vietnam", flag: "🇻🇳", platforms: ["tiktok"] },
-  { code: "PH", name: "Philippines", flag: "🇵🇭", platforms: ["tiktok"] },
-  { code: "RU", name: "Russia", flag: "🇷🇺", platforms: ["aliexpress"] },
-  { code: "BR", name: "Brazil", flag: "🇧🇷", platforms: ["aliexpress"] },
-];
+  const organization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "SellerLab",
+    url: absoluteUrl("/"),
+    logo: absoluteUrl("/logo.svg"),
+  };
 
-interface Tool {
-  id: string;
-  name: string;
-  description: string;
-  platform: string;
-  countries: string[];
-  status: "live" | "coming";
-  href: string;
-}
-
-const TOOLS: Tool[] = [
-  {
-    id: "ebay-fee-calc",
-    name: "eBay Fee Calculator",
-    description: "Enter sale price, cost, and shipping to instantly calculate eBay fees, net profit, and margins",
-    platform: "ebay",
-    countries: ["US", "UK", "DE", "AU"],
-    status: "live",
-    href: "/ebay-fee-calculator",
-  },
-  {
-    id: "amazon-fba-calc",
-    name: "Amazon FBA Calculator",
-    description: "Estimate FBA fulfillment fees, storage costs, and referral fees to quickly assess product profitability",
-    platform: "amazon",
-    countries: ["US", "UK", "DE", "JP"],
-    status: "live",
-    href: "/amazon-fee-calculator",
-  },
-  {
-    id: "tiktok-profit-calc",
-    name: "TikTok Shop Fee Calculator",
-    description: "Calculate referral fees, FBT fulfillment costs, affiliate commissions, and net profit for TikTok Shop sellers",
-    platform: "tiktok",
-    countries: ["US"],
-    status: "live",
-    href: "/tiktok-shop-fee-calculator",
-  },
-  {
-    id: "shopify-cost-calc",
-    name: "Shopify Cost Calculator",
-    description: "Factor in Shopify subscription, transaction fees, and payment gateway costs to estimate total store expenses",
-    platform: "shopify",
-    countries: ["US", "UK", "DE", "CA"],
-    status: "coming",
-    href: "#",
-  },
-  {
-    id: "walmart-fee-calc",
-    name: "Walmart Fee Calculator",
-    description: "Calculate Walmart Marketplace fees by category commission rate and estimate expected profit",
-    platform: "walmart",
-    countries: ["US"],
-    status: "coming",
-    href: "#",
-  },
-  {
-    id: "ebay-title-optimizer",
-    name: "eBay Title Optimizer",
-    description: "AI-powered listing title generator based on trending keywords to boost search visibility",
-    platform: "ebay",
-    countries: ["US", "UK", "DE", "AU"],
-    status: "coming",
-    href: "#",
-  },
-  {
-    id: "amazon-keyword-tool",
-    name: "Amazon Keyword Tool",
-    description: "Discover Amazon search terms, analyze search volume and competition to optimize your listings",
-    platform: "amazon",
-    countries: ["US", "UK", "DE"],
-    status: "coming",
-    href: "#",
-  },
-  {
-    id: "temu-profit-calc",
-    name: "Temu Profit Calculator",
-    description: "Calculate actual earnings after platform deductions under Temu's fully-managed model",
-    platform: "temu",
-    countries: ["US", "UK", "DE"],
-    status: "coming",
-    href: "#",
-  },
-];
-
-export default function LandingPage() {
-  const [platformFilter, setPlatformFilter] = useState<string>("all");
-  const [countryFilter, setCountryFilter] = useState<string>("all");
-
-  const filteredTools = TOOLS.filter((tool) => {
-    const matchPlatform = platformFilter === "all" || tool.platform === platformFilter;
-    const matchCountry = countryFilter === "all" || tool.countries.includes(countryFilter);
-    return matchPlatform && matchCountry;
-  });
-
-  const platformNames: Record<string, string> = {};
-  PLATFORMS.forEach((p) => { platformNames[p.id] = p.name; });
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Seller Tools",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "eBay Fee Calculator",
+        url: absoluteUrl("/ebay-fee-calculator"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Amazon Fee Calculator",
+        url: absoluteUrl("/amazon-fee-calculator"),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "TikTok Shop Fee Calculator",
+        url: absoluteUrl("/tiktok-shop-fee-calculator"),
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: "Shopify Cost Calculator",
+        url: absoluteUrl("/shopify-fee-calculator"),
+      },
+    ],
+  };
 
   return (
-    <div className="container">
-      {/* ── Hero ── */}
-      <section className="hero">
-        <span className="hero-badge">Tools Hub for Cross-border Sellers</span>
-        <h1>All-in-One Seller Tools Hub</h1>
-        <p>
-          Fee calculators and operations tools for eBay, Amazon, TikTok Shop, Shopify, and more —
-          supporting 17+ marketplaces across the US, UK, Germany, and beyond.
-        </p>
-        <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-          <Link className="btn btn-primary" href="/ebay-fee-calculator">
-            Try eBay Fee Calculator
-          </Link>
-          <Link className="btn btn-secondary" href="#tools">
-            Browse All Tools
-          </Link>
-        </div>
-        <div className="hero-stats">
-        <div className="hero-stat">
-            <div className="hero-stat-value">{TOOLS.length}</div>
-            <div className="hero-stat-label">Seller Tools</div>
-          </div>
-          <div className="hero-stat">
-            <div className="hero-stat-value">{PLATFORMS.length}</div>
-            <div className="hero-stat-label">Platforms</div>
-          </div>
-          <div className="hero-stat">
-            <div className="hero-stat-value">{COUNTRIES.length}+</div>
-            <div className="hero-stat-label">Marketplaces</div>
-          </div>
-         
-        </div>
-      </section>
-      {/* ── Tool Matrix ── */}
-      <section className="section" id="tools">
-        <div className="section-header">
-          <div>
-            <h2 className="section-title">
-              Seller Tools
-              {platformFilter !== "all" && (
-                <span style={{ fontSize: 16, fontWeight: 400, color: "var(--color-text-secondary)", marginLeft: 8 }}>
-                  · {platformNames[platformFilter]}
-                </span>
-              )}
-              {countryFilter !== "all" && (
-                <span style={{ fontSize: 16, fontWeight: 400, color: "var(--color-text-secondary)", marginLeft: 8 }}>
-                  · {countryFilter}
-                </span>
-              )}
-            </h2>
-            <p className="section-subtitle">
-              {filteredTools.length} {filteredTools.length === 1 ? "tool" : "tools"}
-              {(platformFilter !== "all" || countryFilter !== "all") && " matching current filters"}
-            </p>
-          </div>
-        </div>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify([webSite, organization, itemList]),
+      }}
+    />
+  );
+}
 
-        {/* Filter bar */}
-        <div className="filter-bar">
-          <button
-            className="filter-tab"
-            data-active={platformFilter === "all" && countryFilter === "all" ? "true" : undefined}
-            onClick={() => { setPlatformFilter("all"); setCountryFilter("all"); }}
-          >
-            All
-          </button>
-          {PLATFORMS.slice(0, 5).map((p) => (
-            <button
-              key={p.id}
-              className="filter-tab"
-              data-active={platformFilter === p.id ? "true" : undefined}
-              onClick={() => { setPlatformFilter(p.id === platformFilter ? "all" : p.id); setCountryFilter("all"); }}
-            >
-              <PlatformLogo platformId={p.id} size={18} /> {p.name}
-            </button>
-          ))}
-          <span style={{ width: 1, background: "var(--color-border)", margin: "0 4px" }} />
-          {COUNTRIES.slice(0, 6).map((c) => (
-            <button
-              key={c.code}
-              className="filter-tab"
-              data-active={countryFilter === c.code ? "true" : undefined}
-              onClick={() => { setCountryFilter(c.code === countryFilter ? "all" : c.code); setPlatformFilter("all"); }}
-            >
-              <FlagIcon code={c.code} size={16} /> {c.code}
-            </button>
-          ))}
-        </div>
-
-        {/* Tool cards */}
-        <div className="tool-matrix">
-          {filteredTools.map((tool) => (
-            <Link
-              key={tool.id}
-              href={tool.href}
-              className="tool-card"
-              style={tool.status === "coming" ? { opacity: 0.75 } : undefined}
-            >
-              <div className="tool-card-header">
-                <PlatformLogo platformId={tool.platform} size={22} />
-                <h4>{tool.name}</h4>
-              </div>
-              <p>{tool.description}</p>
-              <div className="tool-badges">
-                <span className="badge badge-platform">
-                  {platformNames[tool.platform] || tool.platform}
-                </span>
-                {tool.countries.map((c) => (
-                  <span key={c} className="badge badge-country">{c}</span>
-                ))}
-                <span className={`badge ${tool.status === "live" ? "badge-live" : "badge-status"}`}>
-                  {tool.status === "live" ? "Live" : "Coming Soon"}
-                </span>
-              </div>
-            </Link>
-          ))}
-
-          {filteredTools.length === 0 && (
-            <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: 40, color: "var(--color-text-tertiary)" }}>
-              <p style={{ fontSize: 16 }}>No tools match the current filters</p>
-              <button
-                className="btn btn-secondary"
-                style={{ marginTop: 12 }}
-                onClick={() => { setPlatformFilter("all"); setCountryFilter("all"); }}
-              >
-                Clear Filters
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* ── Platforms ── */}
-      <section className="section">
-        <div className="section-header">
-          <div>
-            <h2 className="section-title">Browse by Platform</h2>
-            <p className="section-subtitle">Select your primary platform to view available tools</p>
-          </div>
-        </div>
-        <div className="platform-grid">
-          {PLATFORMS.map((platform) => (
-            <div
-              key={platform.id}
-              className="platform-card"
-              onClick={() => {
-                setPlatformFilter(platform.id === platformFilter ? "all" : platform.id);
-                document.getElementById("tools")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              style={platformFilter === platform.id ? { borderColor: "var(--color-primary)", boxShadow: "var(--shadow-md)" } : undefined}
-            >
-              <div className="platform-icon" style={{ background: platform.bg, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <PlatformLogo platformId={platform.id} size={36} />
-              </div>
-              <h3>{platform.name}</h3>
-              <p>{platform.description}</p>
-              <div className="platform-meta">
-                <span className="platform-tag">
-                  {platform.countries.length} {platform.countries.length === 1 ? "market" : "markets"}
-                </span>
-                <span className="platform-tag">
-                  {platform.toolCount > 0 ? `${platform.toolCount} ${platform.toolCount === 1 ? "tool" : "tools"}` : "Coming Soon"}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Countries ── */}
-      <section className="section">
-        <div className="section-header">
-          <div>
-            <h2 className="section-title">Browse by Marketplace</h2>
-            <p className="section-subtitle">Select a target market to see supported platforms and tools</p>
-          </div>
-        </div>
-        <div className="country-grid">
-          {COUNTRIES.map((country) => (
-            <div
-              key={country.code}
-              className="country-card"
-              onClick={() => {
-                setCountryFilter(country.code === countryFilter ? "all" : country.code);
-                document.getElementById("tools")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              style={countryFilter === country.code ? { borderColor: "var(--color-primary)", boxShadow: "var(--shadow-md)" } : undefined}
-            >
-              <FlagIcon code={country.code} size={36} style={{ borderRadius: 4 }} />
-              <h4>{country.name} ({country.code})</h4>
-              <p>{country.platforms.length} {country.platforms.length === 1 ? "platform" : "platforms"}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      
-
-      {/* ── CTA ── */}
-      <section className="section">
-        <div className="cta-banner">
-          <h2>Start Optimizing Your Cross-border Business</h2>
-          <p>Use our free seller tools to accurately calculate fees and profit — know your numbers on every sale</p>
-          <Link className="btn" href="/ebay-fee-calculator">
-            Try eBay Fee Calculator — Free
-          </Link>
-        </div>
-      </section>
-    </div>
+export default function HomePage() {
+  return (
+    <>
+      <HomeStructuredData />
+      <HomePageClient />
+    </>
   );
 }

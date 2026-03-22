@@ -1,16 +1,43 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Terms of Service - SellerLab",
   description:
     "Read the terms and conditions governing your use of SellerLab's seller tools, fee calculators, and website services.",
+  keywords: ["terms of service", "sellerlab terms", "calculator disclaimer"],
   alternates: { canonical: "/terms-of-service" },
+  openGraph: {
+    title: "Terms of Service - SellerLab",
+    description:
+      "Terms and conditions for using SellerLab tools and website services.",
+    url: "/terms-of-service",
+    type: "article",
+    siteName: "SellerLab",
+  },
+  twitter: {
+    card: "summary",
+    title: "Terms of Service - SellerLab",
+    description: "Understand usage terms and service limitations for SellerLab.",
+  },
 };
 
 export default function TermsOfServicePage() {
   return (
     <div className="container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Terms of Service - SellerLab",
+            url: absoluteUrl("/terms-of-service"),
+            dateModified: "2026-03-18",
+          }),
+        }}
+      />
       <article className="legal-page">
         <h1>Terms of Service</h1>
         <p className="legal-updated">Last updated: March 18, 2026</p>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { MarketConfig, MarketId } from "./market-config";
+import { absoluteUrl } from "@/lib/site-url";
 
 // ═══════════════════════════════════════════════════════════════
 // Types
@@ -36,9 +37,9 @@ export function MarketStructuredData({ config }: { config: MarketConfig }) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://sellerlab.tools/" },
-      { "@type": "ListItem", position: 2, name: "eBay Fee Calculator", item: "https://sellerlab.tools/ebay-fee-calculator" },
-      { "@type": "ListItem", position: 3, name: config.seo.h1, item: `https://sellerlab.tools${url}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "eBay Fee Calculator", item: absoluteUrl("/ebay-fee-calculator") },
+      { "@type": "ListItem", position: 3, name: config.seo.h1, item: absoluteUrl(url) },
     ],
   };
 
@@ -46,7 +47,7 @@ export function MarketStructuredData({ config }: { config: MarketConfig }) {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: config.seo.h1,
-    url: `https://sellerlab.tools${url}`,
+    url: absoluteUrl(url),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: config.currency.code },

@@ -1,15 +1,16 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site-url";
 
 export const dynamic = "force-static";
-
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://sellerlab.tools";
+const BASE_URL = SITE_URL;
 
 const EBAY_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];
 const AMAZON_MARKETS = [
   "us", "uk", "de", "jp", "ca", "it", "es", "au",
   "ae", "br", "sg", "mx", "nl", "be", "se", "pl", "tr",
 ];
-const TIKTOK_MARKETS = ["us"];
+const TIKTOK_MARKETS = ["us", "uk", "vn", "th", "sg", "my", "id", "ph"];
+const SHOPIFY_MARKETS = ["us", "ca", "au", "sg", "eu", "uk", "ch"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -35,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/tiktok-shop-fee-calculator`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/shopify-fee-calculator`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -92,5 +99,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticPages, ...ebayMarketPages, ...amazonMarketPages, ...tiktokMarketPages];
+  const shopifyMarketPages: MetadataRoute.Sitemap = SHOPIFY_MARKETS.map(
+    (market) => ({
+      url: `${BASE_URL}/shopify-fee-calculator/${market}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })
+  );
+
+  return [...staticPages, ...ebayMarketPages, ...amazonMarketPages, ...tiktokMarketPages, ...shopifyMarketPages];
 }

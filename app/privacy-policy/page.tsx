@@ -1,16 +1,43 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - SellerLab",
   description:
     "Learn how SellerLab collects, uses, and protects your personal information. Our privacy policy covers cookies, analytics, and advertising disclosures.",
+  keywords: ["privacy policy", "sellerlab privacy", "cookie policy", "data protection"],
   alternates: { canonical: "/privacy-policy" },
+  openGraph: {
+    title: "Privacy Policy - SellerLab",
+    description:
+      "How SellerLab collects, uses, and protects personal information and cookie preferences.",
+    url: "/privacy-policy",
+    type: "article",
+    siteName: "SellerLab",
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy - SellerLab",
+    description: "Read how data, cookies, and analytics are handled at SellerLab.",
+  },
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Privacy Policy - SellerLab",
+            url: absoluteUrl("/privacy-policy"),
+            dateModified: "2026-03-18",
+          }),
+        }}
+      />
       <article className="legal-page">
         <h1>Privacy Policy</h1>
         <p className="legal-updated">Last updated: March 18, 2026</p>

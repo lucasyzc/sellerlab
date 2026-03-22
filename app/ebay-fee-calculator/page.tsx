@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MARKET_LIST } from "./market-config";
 import { FlagIcon } from "../components/country-flags";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "eBay Fee Calculator – All Marketplaces | SellerLab",
@@ -22,6 +23,14 @@ export const metadata: Metadata = {
       "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
     type: "website",
     siteName: "SellerLab",
+    url: "/ebay-fee-calculator",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "eBay Fee Calculator – All Marketplaces | SellerLab",
+    description:
+      "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
   },
   alternates: {
     canonical: "/ebay-fee-calculator",
@@ -33,12 +42,12 @@ function StructuredData() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
       {
         "@type": "ListItem",
         position: 2,
         name: "eBay Fee Calculator",
-        item: "/ebay-fee-calculator",
+        item: absoluteUrl("/ebay-fee-calculator"),
       },
     ],
   };
@@ -47,7 +56,7 @@ function StructuredData() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "eBay Fee Calculator",
-    url: "/ebay-fee-calculator",
+    url: absoluteUrl("/ebay-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { TIKTOK_MARKET_LIST } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "TikTok Shop Fee Calculator – Multi-Market | SellerLab",
@@ -21,6 +22,14 @@ export const metadata: Metadata = {
       "Estimate TikTok Shop marketplace fees, taxes, creator commissions, logistics costs, and profit across supported TikTok Shop markets.",
     type: "website",
     siteName: "SellerLab",
+    url: "/tiktok-shop-fee-calculator",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "TikTok Shop Fee Calculator – Multi-Market | SellerLab",
+    description:
+      "Calculate TikTok Shop fees, tax impact, and net profit for multiple markets.",
   },
   alternates: {
     canonical: "/tiktok-shop-fee-calculator",
@@ -51,12 +60,12 @@ function StructuredData() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
       {
         "@type": "ListItem",
         position: 2,
         name: "TikTok Shop Fee Calculator",
-        item: "/tiktok-shop-fee-calculator",
+        item: absoluteUrl("/tiktok-shop-fee-calculator"),
       },
     ],
   };
@@ -65,7 +74,7 @@ function StructuredData() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "TikTok Shop Fee Calculator",
-    url: "/tiktok-shop-fee-calculator",
+    url: absoluteUrl("/tiktok-shop-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

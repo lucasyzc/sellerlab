@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AMAZON_MARKET_LIST } from "./markets";
 import { FlagIcon } from "../components/country-flags";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Amazon Fee Calculator \u2013 All Marketplaces | SellerLab",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     "amazon referral fee",
     "amazon profit calculator",
     "fba fee calculator",
-    "amazon selling fees 2025",
+    "amazon selling fees",
     "amazon global selling",
   ],
   openGraph: {
@@ -23,6 +24,14 @@ export const metadata: Metadata = {
       "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces. Covers 45+ categories with referral fee rates, fulfillment fees, and storage costs.",
     type: "website",
     siteName: "SellerLab",
+    url: "/amazon-fee-calculator",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "Amazon Fee Calculator – All Marketplaces | SellerLab",
+    description:
+      "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces.",
   },
   alternates: {
     canonical: "/amazon-fee-calculator",
@@ -34,12 +43,12 @@ function StructuredData() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
       {
         "@type": "ListItem",
         position: 2,
         name: "Amazon Fee Calculator",
-        item: "/amazon-fee-calculator",
+        item: absoluteUrl("/amazon-fee-calculator"),
       },
     ],
   };
@@ -48,7 +57,7 @@ function StructuredData() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Amazon Fee Calculator",
-    url: "/amazon-fee-calculator",
+    url: absoluteUrl("/amazon-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

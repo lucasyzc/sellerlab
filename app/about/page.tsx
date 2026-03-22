@@ -1,16 +1,48 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "About SellerLab - Free Tools for Cross-border Sellers",
   description:
     "SellerLab provides free, accurate fee calculators and seller tools for eBay, Amazon, and more. Learn about our mission to help cross-border sellers succeed.",
+  keywords: [
+    "about sellerlab",
+    "cross-border seller tools",
+    "ecommerce fee calculator team",
+  ],
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About SellerLab - Free Tools for Cross-border Sellers",
+    description:
+      "Learn about SellerLab's mission to help cross-border ecommerce sellers make better pricing and profit decisions.",
+    url: "/about",
+    type: "article",
+    siteName: "SellerLab",
+  },
+  twitter: {
+    card: "summary",
+    title: "About SellerLab",
+    description: "Our mission, expertise, and commitment to accurate seller tools.",
+  },
 };
 
 export default function AboutPage() {
   return (
     <div className="container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            name: "About SellerLab",
+            url: absoluteUrl("/about"),
+            description:
+              "SellerLab provides free, accurate fee calculators and seller tools for cross-border ecommerce sellers.",
+          }),
+        }}
+      />
       <article className="legal-page">
         <h1>About SellerLab</h1>
 

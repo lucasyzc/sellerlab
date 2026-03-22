@@ -4,12 +4,41 @@ import { Footer } from "./components/footer";
 import { CookieConsent } from "./components/cookie-consent";
 import { GoogleAnalytics } from "./components/google-analytics";
 import { AdSense } from "./components/adsense";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SellerLab - Tools Hub for Cross-border Sellers",
   description: "All-in-one fee calculators and seller tools for eBay, Amazon, TikTok Shop, Shopify, and more. Supporting 17+ marketplaces across the US, UK, DE, and beyond.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sellerlab.tools"),
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "SellerLab",
+    title: "SellerLab - Tools Hub for Cross-border Sellers",
+    description: "All-in-one fee calculators and seller tools for cross-border ecommerce sellers.",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "SellerLab - Tools Hub for Cross-border Sellers",
+    description: "Free seller tools and fee calculators for eBay, Amazon, TikTok Shop, and Shopify.",
+  },
+  category: "business",
 };
 
 export default function RootLayout({
