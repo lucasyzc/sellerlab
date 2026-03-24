@@ -44,7 +44,7 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      siteName: "SellerLab",
+      siteName: "Data EDE",
       url: `/ebay-fee-calculator/${config.id}`,
     },
     twitter: {
@@ -82,3 +82,4 @@ export default async function EbayFeeCalculatorMarketPage({
     </div>
   );
 }
+

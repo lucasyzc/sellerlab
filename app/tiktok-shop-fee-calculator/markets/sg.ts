@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const SHARED_DOC = {
   title: "TikTok Shop Merchant Terms of Service",
@@ -82,7 +83,7 @@ export const SG_MARKET: TikTokMarketConfig = {
     },
   },
   seo: {
-    title: "Singapore TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("Singapore TikTok Shop Fee Calculator"),
     description: "Estimate Singapore TikTok Shop commission, transaction fees, GST effect, and profit using official public fee categories.",
     h1: "Singapore TikTok Shop Fee Calculator",
     subtitle: "Public Singapore docs expose fee categories and GST handling, while numeric fee rates often remain in Seller Center.",
@@ -106,3 +107,5 @@ export const SG_MARKET: TikTokMarketConfig = {
     "Singapore requires manual fee percentage entry because public official docs do not expose a reliable current numeric schedule.",
   ],
 };
+
+

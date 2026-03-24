@@ -1,28 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { absoluteUrl } from "@/lib/site-url";
+import { BRAND, withMasterBrand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "About SellerLab - Free Tools for Cross-border Sellers",
+  title: withMasterBrand("About"),
   description:
-    "SellerLab provides free, accurate fee calculators and seller tools for eBay, Amazon, and more. Learn about our mission to help cross-border sellers succeed.",
+    "Data EDE builds ecommerce intelligence products for cross-border sellers, including the SellerLab Suite of free fee calculators and operational tools.",
   keywords: [
-    "about sellerlab",
+    "about data ede",
+    "sellerlab by data ede",
     "cross-border seller tools",
     "ecommerce fee calculator team",
   ],
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About SellerLab - Free Tools for Cross-border Sellers",
+    title: withMasterBrand("About"),
     description:
-      "Learn about SellerLab's mission to help cross-border ecommerce sellers make better pricing and profit decisions.",
+      "Learn how Data EDE helps cross-border ecommerce teams make better pricing and profit decisions.",
     url: "/about",
     type: "article",
-    siteName: "SellerLab",
+    siteName: BRAND.masterName,
   },
   twitter: {
     card: "summary",
-    title: "About SellerLab",
+    title: withMasterBrand("About"),
     description: "Our mission, expertise, and commitment to accurate seller tools.",
   },
 };
@@ -36,20 +38,20 @@ export default function AboutPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "AboutPage",
-            name: "About SellerLab",
+            name: "About Data EDE",
             url: absoluteUrl("/about"),
             description:
-              "SellerLab provides free, accurate fee calculators and seller tools for cross-border ecommerce sellers.",
+              "Data EDE provides ecommerce intelligence and the SellerLab Suite of free fee calculators for cross-border ecommerce sellers.",
           }),
         }}
       />
       <article className="legal-page">
-        <h1>About SellerLab</h1>
+        <h1>About Data EDE</h1>
 
         <section>
           <h2>Our Mission</h2>
           <p>
-            SellerLab was built with a simple goal: to give cross-border
+            Data EDE was built with a simple goal: to give cross-border
             e-commerce sellers the free, accurate tools they need to make
             informed business decisions. We believe that every seller — whether
             just starting out or running a large operation — deserves access to
@@ -119,10 +121,10 @@ export default function AboutPage() {
           <h2>Why Free?</h2>
           <p>
             We believe essential seller tools should be accessible to
-            everyone. SellerLab is supported by advertising, which allows us to
-            keep all tools completely free. We are committed to maintaining a
-            clean, user-friendly experience while displaying relevant,
-            non-intrusive ads.
+            everyone. Data EDE is supported by advertising, which allows us to
+            keep the SellerLab Suite completely free. We are committed to
+            maintaining a clean, user-friendly experience while displaying
+            relevant, non-intrusive ads.
           </p>
         </section>
 
@@ -131,11 +133,12 @@ export default function AboutPage() {
           <p>
             Have feedback, suggestions, or found an error in our calculations?
             We&apos;d love to hear from you.{" "}
-            <Link href="/contact">Contact us</Link> and help us make SellerLab
-            even better.
+            <Link href="/contact">Contact us</Link> and help us make{" "}
+            {BRAND.suiteDisplay} even better.
           </p>
         </section>
       </article>
     </div>
   );
 }
+

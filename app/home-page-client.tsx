@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { PlatformLogo } from "./components/platform-logos";
 import { FlagIcon } from "./components/country-flags";
+import { BRAND } from "@/lib/brand";
 
 const PLATFORMS = [
   {
@@ -40,7 +41,7 @@ const PLATFORMS = [
     bg: "#f0fff4",
     description: "The go-to platform for building your own online store with full control over branding and data",
     countries: ["US", "CA", "AU", "SG", "JP", "EU", "UK", "CH"],
-    toolCount: 1,
+    toolCount: 2,
   },
   {
     id: "walmart",
@@ -164,9 +165,9 @@ const TOOLS: Tool[] = [
     name: "eBay Title Optimizer",
     description: "AI-powered listing title generator based on trending keywords to boost search visibility",
     platform: "ebay",
-    countries: ["US", "UK", "DE", "AU"],
-    status: "coming",
-    href: "#",
+    countries: ["US", "UK", "DE", "AU", "CA", "FR", "IT"],
+    status: "live",
+    href: "/ebay-title-optimizer",
   },
   {
     id: "amazon-keyword-tool",
@@ -205,24 +206,24 @@ export default function LandingPage() {
     <div className="container">
       {/* ── Hero ── */}
       <section className="hero">
-        <span className="hero-badge">Tools Hub for Cross-border Sellers</span>
-        <h1>All-in-One Seller Tools Hub</h1>
+        <span className="hero-badge">{`${BRAND.masterName} · ${BRAND.masterTagline}`}</span>
+        <h1>Make Better Ecommerce Decisions With Data</h1>
         <p>
-          Fee calculators and operations tools for eBay, Amazon, TikTok Shop, Shopify, and more —
-          supporting 17+ marketplaces across the US, UK, Germany, and beyond.
+          Data EDE helps cross-border teams model fees, margin, and channel performance. Use{" "}
+          {BRAND.suiteDisplay} to run practical calculations across eBay, Amazon, TikTok Shop, and Shopify.
         </p>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
-          <Link className="btn btn-primary" href="/ebay-fee-calculator">
-            Try eBay Fee Calculator
+          <Link className="btn btn-primary" href="#tools">
+            Enter {BRAND.suiteLabel}
           </Link>
-          <Link className="btn btn-secondary" href="#tools">
-            Browse All Tools
+          <Link className="btn btn-secondary" href="/compare">
+            View Comparison Guides
           </Link>
         </div>
         <div className="hero-stats">
         <div className="hero-stat">
             <div className="hero-stat-value">{TOOLS.length}</div>
-            <div className="hero-stat-label">Seller Tools</div>
+            <div className="hero-stat-label">SellerLab Tools</div>
           </div>
           <div className="hero-stat">
             <div className="hero-stat-value">{PLATFORMS.length}</div>
@@ -240,7 +241,7 @@ export default function LandingPage() {
         <div className="section-header">
           <div>
             <h2 className="section-title">
-              Seller Tools
+              {BRAND.suiteLabel} Tools
               {platformFilter !== "all" && (
                 <span style={{ fontSize: 16, fontWeight: 400, color: "var(--color-text-secondary)", marginLeft: 8 }}>
                   · {platformNames[platformFilter]}
@@ -403,10 +404,12 @@ export default function LandingPage() {
       {/* ── CTA ── */}
       <section className="section">
         <div className="cta-banner">
-          <h2>Start Optimizing Your Cross-border Business</h2>
-          <p>Use our free seller tools to accurately calculate fees and profit — know your numbers on every sale</p>
-          <Link className="btn" href="/ebay-fee-calculator">
-            Try eBay Fee Calculator — Free
+          <h2>Start With {BRAND.suiteLabel}</h2>
+          <p>
+            Use Data EDE&apos;s free calculators to model fees and protect profit before you scale into new marketplaces.
+          </p>
+          <Link className="btn" href="#tools">
+            Open {BRAND.suiteLabel}
           </Link>
         </div>
       </section>

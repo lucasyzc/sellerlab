@@ -2,3 +2,4 @@
 /tools/ebay-fee-calculator/:market /ebay-fee-calculator/:market 301
 /tools/amazon-fee-calculator /amazon-fee-calculator 301
 /tools/amazon-fee-calculator/:market /amazon-fee-calculator/:market 301
+/tools/ebay-title-optimizer /ebay-title-optimizer 301

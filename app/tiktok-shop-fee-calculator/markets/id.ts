@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const SHARED_DOC = {
   title: "TikTok Shop Merchant Terms of Service",
@@ -71,7 +72,7 @@ export const ID_MARKET: TikTokMarketConfig = {
     },
   },
   seo: {
-    title: "Indonesia TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("Indonesia TikTok Shop Fee Calculator"),
     description: "Estimate Indonesia TikTok Shop fees, PPN effect, and profit using public official fee categories and manual fee-rate inputs.",
     h1: "Indonesia TikTok Shop Fee Calculator",
     subtitle: "Official public Indonesia pages confirm fee categories, but current live numeric rates generally require Seller Center values.",
@@ -94,3 +95,5 @@ export const ID_MARKET: TikTokMarketConfig = {
     "Indonesia is implemented as a source-backed shell with manual percentage entry because public numeric rates were not reliably extractable.",
   ],
 };
+
+

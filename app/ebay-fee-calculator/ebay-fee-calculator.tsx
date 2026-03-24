@@ -16,6 +16,7 @@ import {
 } from "./market-config";
 import { FlagIcon } from "../components/country-flags";
 import { trackEvent } from "@/lib/analytics";
+import { BRAND } from "@/lib/brand";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
@@ -404,7 +405,7 @@ function ShareButtons({ config }: { config: MarketConfig }) {
     setShareUrl(window.location.href);
   }, []);
 
-  const text = encodeURIComponent(`${config.seo.h1} - Calculate eBay fees & profit | SellerLab`);
+  const text = encodeURIComponent(`${config.seo.h1} - Calculate eBay fees & profit | ${BRAND.suiteDisplay}`);
   const url = encodeURIComponent(shareUrl);
 
   async function copyLink() {
@@ -715,3 +716,4 @@ function LinkIcon() {
     </svg>
   );
 }
+

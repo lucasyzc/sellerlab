@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const EU_MARKET: ShopifyMarketConfig = {
   id: "eu",
@@ -62,7 +63,7 @@ export const EU_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0.25,
   },
   seo: {
-    title: "Shopify Fees EU Calculator (EUR) | SellerLab",
+    title: withSuiteBrand("Shopify Fees EU Calculator (EUR)"),
     description: "Calculate Shopify EU costs and profit using VAT-inclusive pricing, Shopify Payments rates, third-party transaction fees, and overhead allocation in EUR.",
     h1: "Shopify Fees EU Calculator",
     subtitle: "Model European Union Shopify costs with VAT-inclusive pricing and plan-level payment fee assumptions.",
@@ -97,3 +98,5 @@ export const EU_MARKET: ShopifyMarketConfig = {
     "If your account has VAT reverse-charge treatment, lower the VAT rate to match your invoice reality.",
   ],
 };
+
+

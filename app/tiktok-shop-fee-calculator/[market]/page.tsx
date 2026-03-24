@@ -46,7 +46,7 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      siteName: "SellerLab",
+      siteName: "Data EDE",
       url: `/tiktok-shop-fee-calculator/${config.id}`,
     },
     twitter: {
@@ -84,3 +84,4 @@ export default async function TikTokFeeCalculatorMarketPage({
     </div>
   );
 }
+

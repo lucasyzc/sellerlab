@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const USD_TO_JPY = 150;
 
@@ -73,7 +74,7 @@ export const JP_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0,
   },
   seo: {
-    title: "Shopify Fees Japan Calculator (JPY) | SellerLab",
+    title: withSuiteBrand("Shopify Fees Japan Calculator (JPY)"),
     description: "Calculate Shopify Japan fees in JPY with tax-inclusive pricing, payment processing costs, third-party transaction fees, and net profit on a pre-tax revenue basis.",
     h1: "Shopify Fees Japan Calculator",
     subtitle: "Model Shopify Japan costs with 10% consumption tax-inclusive pricing and integer JPY outputs.",
@@ -108,3 +109,5 @@ export const JP_MARKET: ShopifyMarketConfig = {
     "All JPY monetary outputs in this calculator are rounded to integers (no decimal yen units).",
   ],
 };
+
+

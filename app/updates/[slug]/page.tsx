@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { absoluteUrl } from "@/lib/site-url";
+import { BRAND, withSuiteBrand } from "@/lib/brand";
 import { getUpdateEntry, UPDATE_ENTRIES, type UpdateSource } from "../data";
 
 export const dynamicParams = false;
@@ -20,13 +21,13 @@ export async function generateMetadata({
   if (!entry) return {};
 
   return {
-    title: `${entry.title} | SellerLab`,
+    title: withSuiteBrand(entry.title),
     description: entry.description,
     alternates: {
       canonical: `/updates/${entry.slug}`,
     },
     openGraph: {
-      title: `${entry.title} | SellerLab`,
+      title: withSuiteBrand(entry.title),
       description: entry.description,
       type: "article",
       url: `/updates/${entry.slug}`,
@@ -45,8 +46,8 @@ function StructuredData({ slug }: { slug: string }) {
     description: entry.description,
     datePublished: entry.publishedAt,
     dateModified: entry.updatedAt,
-    author: { "@type": "Organization", name: "SellerLab" },
-    publisher: { "@type": "Organization", name: "SellerLab" },
+    author: { "@type": "Organization", name: BRAND.masterName },
+    publisher: { "@type": "Organization", name: BRAND.masterName },
     mainEntityOfPage: absoluteUrl(`/updates/${entry.slug}`),
   };
 
@@ -449,4 +450,5 @@ export default async function UpdateDetailPage({
     </div>
   );
 }
+
 

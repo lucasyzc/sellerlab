@@ -3,9 +3,12 @@ import Link from "next/link";
 import { SHOPIFY_MARKET_GROUPS } from "./shopify-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { withSuiteBrand } from "@/lib/brand";
+
+const TOOL_TITLE = withSuiteBrand("Shopify Cost Calculator – Multi-Market");
 
 export const metadata: Metadata = {
-  title: "Shopify Cost Calculator – Multi-Market | SellerLab",
+  title: TOOL_TITLE,
   description:
     "Free Shopify cost calculator with plan subscription, payment processing, third-party transaction fees, and profit analysis.",
   keywords: [
@@ -17,17 +20,17 @@ export const metadata: Metadata = {
     "shopify subscription cost",
   ],
   openGraph: {
-    title: "Shopify Cost Calculator – Multi-Market | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Estimate Shopify plan costs, payment processing fees, third-party transaction fees, and net profit with market-specific defaults.",
     type: "website",
-    siteName: "SellerLab",
+    siteName: "Data EDE",
     url: "/shopify-fee-calculator",
     locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "Shopify Cost Calculator – Multi-Market | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Estimate Shopify plan costs, payment processing fees, and per-order profit with market defaults.",
   },
@@ -263,3 +266,5 @@ export default function ShopifyFeeCalculatorHubPage() {
     </div>
   );
 }
+
+

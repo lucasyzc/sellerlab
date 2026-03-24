@@ -1,3 +1,5 @@
+import { withSuiteBrand } from "@/lib/brand";
+
 export type MarketId = "us" | "uk" | "de" | "au" | "ca" | "fr" | "it";
 
 export type FeeRule = {
@@ -537,7 +539,7 @@ const US: MarketConfig = {
   taxLabel: "Sales Tax (%)",
   defaults: { soldPrice: 39.99, shippingCharged: 5, itemCost: 12, shippingCost: 4.5 },
   seo: {
-    title: "US eBay Fee Calculator | SellerLab",
+    title: withSuiteBrand("US eBay Fee Calculator"),
     description: "Calculate eBay.com final value fees, managed payments, and net profit for US sellers. Accurate rates updated for 2025.",
     h1: "US eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.com. Rates updated as of Mar 2025.",
@@ -620,7 +622,7 @@ const UK: MarketConfig = {
   perOrderFeeByAmount: { threshold: 10, below: 0.30 },
   defaults: { soldPrice: 29.99, shippingCharged: 3.95, itemCost: 8, shippingCost: 3.5 },
   seo: {
-    title: "UK eBay Fee Calculator | SellerLab",
+    title: withSuiteBrand("UK eBay Fee Calculator"),
     description: "Calculate eBay.co.uk final value fees, regulatory fees, and net profit for UK sellers. Rates effective 12 February 2026.",
     h1: "UK eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.co.uk. Rates updated as of Feb 2026.",
@@ -676,7 +678,7 @@ const DE: MarketConfig = {
   perOrderFeeByAmount: { threshold: 9.99, below: 0.05 },
   defaults: { soldPrice: 29.99, shippingCharged: 4.99, itemCost: 10, shippingCost: 4.5 },
   seo: {
-    title: "Germany eBay Fee Calculator | SellerLab",
+    title: withSuiteBrand("Germany eBay Fee Calculator"),
     description: "Calculate eBay.de final value fees and net profit for German sellers. Accurate category-based rates.",
     h1: "Germany eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.de.",
@@ -725,7 +727,7 @@ const AU: MarketConfig = {
   fvfCap: (st: string) => st === "none" || st === "starter" ? 440 : 400,
   defaults: { soldPrice: 49.99, shippingCharged: 8.95, itemCost: 20, shippingCost: 8 },
   seo: {
-    title: "Australia eBay Fee Calculator | SellerLab",
+    title: withSuiteBrand("Australia eBay Fee Calculator"),
     description: "Calculate eBay.com.au final value fees and net profit for Australian sellers. Updated rates for 2025.",
     h1: "Australia eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.com.au.",
@@ -792,7 +794,7 @@ const CA: MarketConfig = {
   taxLabel: "Sales Tax (%)",
   defaults: { soldPrice: 39.99, shippingCharged: 7, itemCost: 15, shippingCost: 6 },
   seo: {
-    title: "Canada eBay Fee Calculator | SellerLab",
+    title: withSuiteBrand("Canada eBay Fee Calculator"),
     description: "Calculate eBay.ca final value fees, managed payments, and net profit for Canadian sellers. Updated rates for 2025.",
     h1: "Canada eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.ca. Rates updated as of Mar 2025.",
@@ -845,7 +847,7 @@ const FR: MarketConfig = {
   fvfCap: (st: string) => st === "private" ? 200 : null,
   defaults: { soldPrice: 29.99, shippingCharged: 4.99, itemCost: 10, shippingCost: 4.5 },
   seo: {
-    title: "France eBay Fee Calculator | SellerLab",
+    title: withSuiteBrand("France eBay Fee Calculator"),
     description: "Calculate eBay.fr final value fees and net profit for French sellers. Category-based rates for private and business sellers.",
     h1: "France eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.fr.",
@@ -898,7 +900,7 @@ const IT: MarketConfig = {
   fvfCap: (st: string) => st === "private" ? 200 : null,
   defaults: { soldPrice: 29.99, shippingCharged: 4.99, itemCost: 10, shippingCost: 4.5 },
   seo: {
-    title: "Italy eBay Fee Calculator | SellerLab",
+    title: withSuiteBrand("Italy eBay Fee Calculator"),
     description: "Calculate eBay.it final value fees and net profit for Italian sellers. Category-based rates for private and business sellers.",
     h1: "Italy eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.it.",
@@ -916,3 +918,5 @@ const IT: MarketConfig = {
 export const MARKETS: Record<MarketId, MarketConfig> = { us: US, uk: UK, de: DE, au: AU, ca: CA, fr: FR, it: IT };
 export const MARKET_LIST: MarketConfig[] = [US, UK, DE, AU, CA, FR, IT];
 export function getMarket(id: string): MarketConfig | undefined { return MARKETS[id as MarketId]; }
+
+

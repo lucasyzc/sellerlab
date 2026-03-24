@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const CA_MARKET: ShopifyMarketConfig = {
   id: "ca",
@@ -62,7 +63,7 @@ export const CA_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0.30,
   },
   seo: {
-    title: "Shopify Fees Canada Calculator (CAD) | SellerLab",
+    title: withSuiteBrand("Shopify Fees Canada Calculator (CAD)"),
     description: "Estimate Shopify fees Canada sellers pay, including Shopify Payments rates, third-party transaction fees, GST handling, and per-order profit in CAD.",
     h1: "Shopify Fees Canada Calculator",
     subtitle: "Model Shopify Canada plan costs, payment fees, GST settings, and net margin per order.",
@@ -97,3 +98,5 @@ export const CA_MARKET: ShopifyMarketConfig = {
     "Use your real third-party processor rates when Shopify Payments is disabled.",
   ],
 };
+
+

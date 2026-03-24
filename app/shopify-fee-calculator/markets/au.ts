@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const AU_MARKET: ShopifyMarketConfig = {
   id: "au",
@@ -62,7 +63,7 @@ export const AU_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0.30,
   },
   seo: {
-    title: "Shopify Fees Australia Calculator (AUD) | SellerLab",
+    title: withSuiteBrand("Shopify Fees Australia Calculator (AUD)"),
     description: "Calculate Shopify fees Australia stores face, including Shopify Payments rates, transaction fees, GST-inclusive pricing, and per-order margin in AUD.",
     h1: "Shopify Fees Australia Calculator",
     subtitle: "Estimate Shopify Australia costs with GST-inclusive pricing, payment fees, and plan-level overhead allocation.",
@@ -97,3 +98,5 @@ export const AU_MARKET: ShopifyMarketConfig = {
     "If your pricing is tax-exclusive, disable the price-includes-tax toggle.",
   ],
 };
+
+

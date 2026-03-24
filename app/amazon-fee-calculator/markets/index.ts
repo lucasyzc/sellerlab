@@ -33,3 +33,4 @@ export const AMAZON_MARKET_LIST: AmazonMarketConfig[] = [
 export function getAmazonMarket(id: string): AmazonMarketConfig | undefined {
   return AMAZON_MARKETS[id as AmazonMarketId];
 }
+

@@ -48,7 +48,7 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      siteName: "SellerLab",
+      siteName: "Data EDE",
       url: `/shopify-fee-calculator/${config.id}`,
     },
     twitter: {
@@ -86,3 +86,4 @@ export default async function ShopifyFeeCalculatorMarketPage({
     </div>
   );
 }
+

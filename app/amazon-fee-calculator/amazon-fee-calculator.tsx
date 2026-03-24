@@ -14,6 +14,7 @@ import {
 import { AMAZON_MARKET_LIST, AMAZON_MARKETS } from "./markets";
 import { FlagIcon } from "../components/country-flags";
 import { trackEvent } from "@/lib/analytics";
+import { BRAND } from "@/lib/brand";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
@@ -430,7 +431,7 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
     setShareUrl(window.location.href);
   }, []);
 
-  const text = encodeURIComponent(`${config.seo.h1} - Calculate Amazon fees & profit | SellerLab`);
+  const text = encodeURIComponent(`${config.seo.h1} - Calculate Amazon fees & profit | ${BRAND.suiteDisplay}`);
   const url = encodeURIComponent(shareUrl);
 
   async function copyLink() {
@@ -735,3 +736,4 @@ function LinkIcon() {
     </svg>
   );
 }
+

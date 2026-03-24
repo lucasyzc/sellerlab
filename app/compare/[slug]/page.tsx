@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { absoluteUrl } from "@/lib/site-url";
+import { BRAND, withSuiteBrand } from "@/lib/brand";
 import { COMPARE_ENTRIES, getCompareEntry } from "../data";
 
 export const dynamicParams = false;
@@ -20,13 +21,13 @@ export async function generateMetadata({
   if (!entry) return {};
 
   return {
-    title: `${entry.title} | SellerLab`,
+    title: withSuiteBrand(entry.title),
     description: entry.description,
     alternates: {
       canonical: `/compare/${entry.slug}`,
     },
     openGraph: {
-      title: `${entry.title} | SellerLab`,
+      title: withSuiteBrand(entry.title),
       description: entry.description,
       type: "article",
       url: `/compare/${entry.slug}`,
@@ -44,8 +45,8 @@ function StructuredData({ slug }: { slug: string }) {
     headline: entry.title,
     description: entry.description,
     dateModified: entry.updatedAt,
-    author: { "@type": "Organization", name: "SellerLab" },
-    publisher: { "@type": "Organization", name: "SellerLab" },
+    author: { "@type": "Organization", name: BRAND.masterName },
+    publisher: { "@type": "Organization", name: BRAND.masterName },
     mainEntityOfPage: absoluteUrl(`/compare/${entry.slug}`),
   };
 
@@ -193,4 +194,5 @@ export default async function CompareDetailPage({
     </div>
   );
 }
+
 

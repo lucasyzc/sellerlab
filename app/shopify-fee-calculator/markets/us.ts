@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const US_MARKET: ShopifyMarketConfig = {
   id: "us",
@@ -62,7 +63,7 @@ export const US_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0.30,
   },
   seo: {
-    title: "US Shopify Cost Calculator | SellerLab",
+    title: withSuiteBrand("US Shopify Cost Calculator"),
     description: "Calculate Shopify US costs and profit with subscription plans, Shopify Payments fees, third-party transaction fees, and operating expenses.",
     h1: "US Shopify Cost Calculator",
     subtitle: "Estimate per-order Shopify costs and net profit using Basic, Shopify (Grow), and Advanced plan fee structures.",
@@ -97,3 +98,5 @@ export const US_MARKET: ShopifyMarketConfig = {
     "Sales tax is intentionally manual because US tax treatment varies by state and nexus setup.",
   ],
 };
+
+

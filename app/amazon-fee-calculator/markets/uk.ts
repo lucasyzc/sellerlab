@@ -2,6 +2,7 @@ import {
   type AmazonMarketConfig, type SizeTier,
   flat, tiered, threshold, METRIC_UNITS,
 } from "../amazon-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const CATEGORIES = [
   { label: "Automotive & Powersports", value: "automotive" },
@@ -147,7 +148,7 @@ export const UK_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "UK Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("UK Amazon Fee Calculator"),
     description: "Calculate Amazon.co.uk referral fees, FBA fulfillment fees, storage costs, and net profit for UK sellers.",
     h1: "UK Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.co.uk.",
@@ -164,3 +165,6 @@ export const UK_MARKET: AmazonMarketConfig = {
   dimWeightDivisor: 5000,
   cubicDivisor: 1000000,
 };
+
+
+

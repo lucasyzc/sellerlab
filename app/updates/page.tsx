@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { UPDATE_ENTRIES } from "./data";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Fee Policy Updates | SellerLab",
+  title: withSuiteBrand("Fee Policy Updates"),
   description:
     "Seller-focused fee change updates with practical margin actions and direct links to calculators.",
   alternates: {
@@ -64,3 +65,4 @@ export default function UpdatesIndexPage() {
     </div>
   );
 }
+

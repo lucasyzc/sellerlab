@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const UK_MARKET: TikTokMarketConfig = {
   id: "uk",
@@ -77,7 +78,7 @@ export const UK_MARKET: TikTokMarketConfig = {
     storageDays: 20,
   },
   seo: {
-    title: "UK TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("UK TikTok Shop Fee Calculator"),
     description: "Calculate TikTok Shop UK commission, VAT impact, FBT costs, and profit.",
     h1: "UK TikTok Shop Fee Calculator",
     subtitle: "Use public UK merchant terms and FBT rate cards to estimate fees, VAT effect, and profit.",
@@ -107,3 +108,5 @@ export const UK_MARKET: TikTokMarketConfig = {
     "Use the marketplace fee as an estimate if TikTok later changes category-specific commission inside Seller Center.",
   ],
 };
+
+

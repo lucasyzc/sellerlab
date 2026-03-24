@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const TH_MARKET: TikTokMarketConfig = {
   id: "th",
@@ -98,7 +99,7 @@ export const TH_MARKET: TikTokMarketConfig = {
     manualInputs: { logistics_surcharge: 0 },
   },
   seo: {
-    title: "Thailand TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("Thailand TikTok Shop Fee Calculator"),
     description: "Calculate Thailand TikTok Shop commission, commerce growth fee, transaction fee, VAT impact, and profit.",
     h1: "Thailand TikTok Shop Fee Calculator",
     subtitle: "Based on public Thailand TikTok Shop pages for marketplace commission, commerce growth fee, transaction fee, and VAT treatment.",
@@ -140,3 +141,5 @@ export const TH_MARKET: TikTokMarketConfig = {
     "The first-30-days commerce growth fee waiver is not forced into the result; use the manual fields if you qualify.",
   ],
 };
+
+

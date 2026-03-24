@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const US_CATEGORIES = [
   { label: "Most Categories", value: "default" },
@@ -103,7 +104,7 @@ export const US_MARKET: TikTokMarketConfig = {
     manualInputs: { referral_fee: 6 },
   },
   seo: {
-    title: "US TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("US TikTok Shop Fee Calculator"),
     description: "Calculate TikTok Shop US referral fees, FBT costs, creator commissions, and profit.",
     h1: "US TikTok Shop Fee Calculator",
     subtitle: "Model public US referral rates, FBT fulfillment and storage, creator commission, and net profit.",
@@ -127,3 +128,5 @@ export const US_MARKET: TikTokMarketConfig = {
     "New seller promotional pricing is exposed as an optional manual override instead of being forced into the result.",
   ],
 };
+
+

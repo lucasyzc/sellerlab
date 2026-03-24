@@ -17,6 +17,7 @@ import {
 } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
 import { trackEvent } from "@/lib/analytics";
+import { BRAND } from "@/lib/brand";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
@@ -565,7 +566,7 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
   const [shareUrl] = useState(() => typeof window !== "undefined" ? window.location.href : "");
   const [copied, setCopied] = useState(false);
 
-  const text = encodeURIComponent(`${config.seo.h1} - Calculate TikTok Shop fees & profit | SellerLab`);
+  const text = encodeURIComponent(`${config.seo.h1} - Calculate TikTok Shop fees & profit | ${BRAND.suiteDisplay}`);
   const url = encodeURIComponent(shareUrl);
 
   async function copyLink() {
@@ -838,3 +839,4 @@ function LinkedInIcon() {
 function LinkIcon() {
   return <span aria-hidden="true">🔗</span>;
 }
+

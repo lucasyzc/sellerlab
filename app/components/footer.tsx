@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND } from "@/lib/brand";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -9,16 +10,16 @@ export function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <Link href="/" style={{ fontWeight: 700, fontSize: 18 }}>
-              SellerLab
+              {BRAND.masterName}
             </Link>
             <p>
-              Free fee calculators and seller tools for cross-border e-commerce.
-              Supporting eBay, Amazon, and 17+ marketplaces worldwide.
+              {BRAND.masterTagline}. {BRAND.suiteLabel} provides free fee calculators and
+              seller tools for cross-border e-commerce.
             </p>
           </div>
 
           <div className="footer-col">
-            <h4>Tools</h4>
+            <h4>{BRAND.suiteLabel}</h4>
             <ul>
               <li>
                 <Link href="/ebay-fee-calculator">eBay Fee Calculator</Link>
@@ -31,6 +32,9 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/shopify-fee-calculator">Shopify Cost Calculator</Link>
+              </li>
+              <li>
+                <Link href="/ebay-title-optimizer">eBay Title Optimizer</Link>
               </li>
             </ul>
           </div>
@@ -61,8 +65,9 @@ export function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {year} SellerLab. All rights reserved.</p>
+          <p>© {year} {BRAND.masterName}. All rights reserved.</p>
           <p>
+            {BRAND.suiteName} is a product suite by {BRAND.masterName}.{" "}
             Not affiliated with eBay, Amazon, or any other marketplace.
             Fee data is for estimation purposes only.
           </p>

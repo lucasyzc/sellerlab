@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const SG_MARKET: ShopifyMarketConfig = {
   id: "sg",
@@ -62,7 +63,7 @@ export const SG_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0.50,
   },
   seo: {
-    title: "Shopify Fees Singapore Calculator (SGD) | SellerLab",
+    title: withSuiteBrand("Shopify Fees Singapore Calculator (SGD)"),
     description: "Estimate Shopify fees Singapore merchants pay, including 3.2%-3.4% processing rates, third-party transaction fees, GST handling, and per-order profit in SGD.",
     h1: "Shopify Fees Singapore Calculator",
     subtitle: "Model Shopify Singapore costs with GST-inclusive pricing, payment fees, and profit per order.",
@@ -97,3 +98,5 @@ export const SG_MARKET: ShopifyMarketConfig = {
     "Switch off Shopify Payments to compare third-party processor economics plus Shopify transaction fees.",
   ],
 };
+
+

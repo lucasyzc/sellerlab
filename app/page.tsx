@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import HomePageClient from "./home-page-client";
 import { absoluteUrl } from "@/lib/site-url";
+import { BRAND, withMasterBrand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "SellerLab - Free Cross-border Seller Tools & Fee Calculators",
+  title: withMasterBrand("Ecommerce Data Engine and Seller Tool Suite"),
   description:
-    "Use free fee calculators and profit tools for eBay, Amazon, TikTok Shop, and Shopify across global marketplaces.",
+    "Data EDE delivers ecommerce intelligence for cross-border sellers, with the SellerLab Suite for fee, profit, and margin modeling across marketplaces.",
   keywords: [
     "seller tools",
     "cross-border ecommerce tools",
@@ -13,25 +14,26 @@ export const metadata: Metadata = {
     "amazon fee calculator",
     "tiktok shop fee calculator",
     "shopify fee calculator",
+    "ebay title optimizer",
     "ecommerce profit calculator",
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "SellerLab - Free Cross-border Seller Tools & Fee Calculators",
+    title: withMasterBrand("Ecommerce Data Engine and Seller Tool Suite"),
     description:
-      "Free calculators and operational tools for eBay, Amazon, TikTok Shop, and Shopify sellers.",
+      "Use Data EDE and the SellerLab Suite to model fees and improve pricing decisions across major marketplaces.",
     url: "/",
     type: "website",
-    siteName: "SellerLab",
+    siteName: BRAND.masterName,
     locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "SellerLab - Free Cross-border Seller Tools & Fee Calculators",
+    title: withMasterBrand("Ecommerce Data Engine and Seller Tool Suite"),
     description:
-      "Calculate fees and profit for major ecommerce marketplaces with free, market-specific tools.",
+      "Free market-specific calculators in SellerLab Suite, powered by Data EDE.",
   },
 };
 
@@ -39,25 +41,32 @@ function HomeStructuredData() {
   const webSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "SellerLab",
+    name: BRAND.masterName,
     url: absoluteUrl("/"),
     description:
-      "SellerLab provides free fee calculators and seller tools for cross-border ecommerce marketplaces.",
+      "Data EDE provides ecommerce data infrastructure and decision tools for cross-border marketplaces.",
     inLanguage: "en",
   };
 
   const organization = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "SellerLab",
+    name: BRAND.masterName,
     url: absoluteUrl("/"),
     logo: absoluteUrl("/logo.svg"),
+    hasPart: {
+      "@type": "Product",
+      name: BRAND.suiteName,
+      alternateName: BRAND.suiteDisplay,
+      description:
+        "SellerLab is the tool suite by Data EDE with fee calculators and operational utilities for ecommerce sellers.",
+    },
   };
 
   const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Seller Tools",
+    name: `${BRAND.suiteName} Tools`,
     itemListElement: [
       {
         "@type": "ListItem",
@@ -83,6 +92,12 @@ function HomeStructuredData() {
         name: "Shopify Cost Calculator",
         url: absoluteUrl("/shopify-fee-calculator"),
       },
+      {
+        "@type": "ListItem",
+        position: 5,
+        name: "eBay Title Optimizer",
+        url: absoluteUrl("/ebay-title-optimizer"),
+      },
     ],
   };
 
@@ -104,3 +119,4 @@ export default function HomePage() {
     </>
   );
 }
+

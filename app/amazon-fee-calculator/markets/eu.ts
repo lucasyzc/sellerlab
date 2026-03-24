@@ -2,6 +2,7 @@ import {
   type AmazonMarketConfig, type AmazonCategory, type ReferralRule, type SizeTier,
   flat, tiered, threshold, METRIC_UNITS,
 } from "../amazon-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 // ═══════════════════════════════════════════════════════════════
 // Shared EU Categories & Rules
@@ -173,7 +174,7 @@ export const DE_MARKET: AmazonMarketConfig = {
   individualFee: 0.99,
   defaults: euDefaults(),
   seo: {
-    title: "Germany Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Germany Amazon Fee Calculator"),
     description: "Calculate Amazon.de referral fees, FBA fulfillment fees, storage costs, and net profit for German marketplace sellers.",
     h1: "Germany Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.de.",
@@ -206,7 +207,7 @@ export const IT_MARKET: AmazonMarketConfig = {
   individualFee: 0.99,
   defaults: euDefaults(),
   seo: {
-    title: "Italy Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Italy Amazon Fee Calculator"),
     description: "Calculate Amazon.it referral fees, FBA fulfillment fees, storage costs, and net profit for Italian marketplace sellers.",
     h1: "Italy Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.it.",
@@ -238,7 +239,7 @@ export const ES_MARKET: AmazonMarketConfig = {
   individualFee: 0.99,
   defaults: euDefaults(),
   seo: {
-    title: "Spain Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Spain Amazon Fee Calculator"),
     description: "Calculate Amazon.es referral fees, FBA fulfillment fees, storage costs, and net profit for Spanish marketplace sellers.",
     h1: "Spain Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.es.",
@@ -270,7 +271,7 @@ export const NL_MARKET: AmazonMarketConfig = {
   individualFee: 0.99,
   defaults: euDefaults(),
   seo: {
-    title: "Netherlands Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Netherlands Amazon Fee Calculator"),
     description: "Calculate Amazon.nl referral fees, FBA fulfillment fees, storage costs, and net profit for Dutch marketplace sellers.",
     h1: "Netherlands Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.nl.",
@@ -302,7 +303,7 @@ export const BE_MARKET: AmazonMarketConfig = {
   individualFee: 0.99,
   defaults: euDefaults(),
   seo: {
-    title: "Belgium Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Belgium Amazon Fee Calculator"),
     description: "Calculate Amazon.com.be referral fees, FBA fulfillment fees, storage costs, and net profit for Belgian marketplace sellers.",
     h1: "Belgium Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com.be.",
@@ -344,7 +345,7 @@ export const SE_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Sweden Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Sweden Amazon Fee Calculator"),
     description: "Calculate Amazon.se referral fees, FBA fulfillment fees, storage costs, and net profit for Swedish marketplace sellers.",
     h1: "Sweden Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.se.",
@@ -386,7 +387,7 @@ export const PL_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Poland Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Poland Amazon Fee Calculator"),
     description: "Calculate Amazon.pl referral fees, FBA fulfillment fees, storage costs, and net profit for Polish marketplace sellers.",
     h1: "Poland Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.pl.",
@@ -398,3 +399,6 @@ export const PL_MARKET: AmazonMarketConfig = {
   ],
   ...EU_FBA_BASE,
 };
+
+
+

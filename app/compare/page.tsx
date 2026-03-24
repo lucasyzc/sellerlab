@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { COMPARE_ENTRIES } from "./data";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Marketplace Fee Comparisons | SellerLab",
+  title: withSuiteBrand("Marketplace Fee Comparisons"),
   description:
     "Compare marketplace selling fees and profit impact across countries and platforms with structured, calculator-linked guides.",
   alternates: {
@@ -43,4 +44,5 @@ export default function CompareIndexPage() {
     </div>
   );
 }
+
 

@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const SHARED_DOC = {
   title: "TikTok Shop Merchant Terms of Service",
@@ -82,7 +83,7 @@ export const MY_MARKET: TikTokMarketConfig = {
     },
   },
   seo: {
-    title: "Malaysia TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("Malaysia TikTok Shop Fee Calculator"),
     description: "Estimate Malaysia TikTok Shop fees, service-tax effect, and profit using official public fee categories.",
     h1: "Malaysia TikTok Shop Fee Calculator",
     subtitle: "Public Malaysia docs expose fee categories, but live numeric rates generally remain in Seller Center.",
@@ -112,3 +113,5 @@ export const MY_MARKET: TikTokMarketConfig = {
     "Malaysia public docs are sufficient for category names, but not for guaranteed current numeric seller fee rates.",
   ],
 };
+
+

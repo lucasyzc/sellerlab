@@ -2,14 +2,25 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { BRAND } from "@/lib/brand";
 
 type ConsentState = "pending" | "accepted" | "rejected";
 
-const STORAGE_KEY = "sellerlab_cookie_consent";
+const STORAGE_KEY = BRAND.storageKeys.cookieConsent;
+const LEGACY_STORAGE_KEY = BRAND.storageKeys.cookieConsentLegacy;
 
 export function getConsentState(): ConsentState {
   if (typeof window === "undefined") return "pending";
-  return (localStorage.getItem(STORAGE_KEY) as ConsentState) || "pending";
+  const currentState = localStorage.getItem(STORAGE_KEY) as ConsentState | null;
+  if (currentState) return currentState;
+
+  const legacyState = localStorage.getItem(LEGACY_STORAGE_KEY) as ConsentState | null;
+  if (legacyState) {
+    localStorage.setItem(STORAGE_KEY, legacyState);
+    return legacyState;
+  }
+
+  return "pending";
 }
 
 export function CookieConsent() {

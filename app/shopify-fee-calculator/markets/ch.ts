@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const CH_MARKET: ShopifyMarketConfig = {
   id: "ch",
@@ -62,7 +63,7 @@ export const CH_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0.30,
   },
   seo: {
-    title: "Shopify Fees Switzerland Calculator (CHF) | SellerLab",
+    title: withSuiteBrand("Shopify Fees Switzerland Calculator (CHF)"),
     description: "Calculate Shopify Switzerland fees in CHF with VAT-inclusive pricing, Shopify Payments rates, third-party transaction fees, and per-order profit.",
     h1: "Shopify Fees Switzerland Calculator",
     subtitle: "Estimate Shopify Switzerland costs with 7.7% VAT defaults, plan fees, and payment processing charges.",
@@ -97,3 +98,5 @@ export const CH_MARKET: ShopifyMarketConfig = {
     "Switch off Shopify Payments to compare external gateway + Shopify transaction fee economics.",
   ],
 };
+
+

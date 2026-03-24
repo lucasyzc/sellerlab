@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { trackEvent } from "@/lib/analytics";
+import { BRAND } from "@/lib/brand";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
@@ -97,8 +98,8 @@ export default function ContactPage() {
             {status === "error" && (
               <div style={{ color: "#dc2626", fontSize: 14, padding: "8px 12px", background: "#fef2f2", borderRadius: "var(--radius-sm)" }}>
                 Failed to send message. Please try again or email us directly at{" "}
-                <a href="mailto:support@sellerlab.tools" style={{ color: "var(--color-primary)" }}>
-                  support@sellerlab.tools
+                <a href={BRAND.supportMailto} style={{ color: "var(--color-primary)" }}>
+                  {BRAND.supportEmail}
                 </a>
               </div>
             )}
@@ -182,8 +183,8 @@ export default function ContactPage() {
           >
             <div className="card">
               <h3 style={{ margin: "0 0 8px", fontSize: 16 }}>Email</h3>
-              <a href="mailto:support@sellerlab.tools" style={{ color: "var(--color-primary)", fontSize: 14 }}>
-                support@sellerlab.tools
+              <a href={BRAND.supportMailto} style={{ color: "var(--color-primary)", fontSize: 14 }}>
+                {BRAND.supportEmail}
               </a>
             </div>
             <div className="card">
@@ -198,3 +199,4 @@ export default function ContactPage() {
     </div>
   );
 }
+

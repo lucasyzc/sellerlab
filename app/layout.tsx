@@ -5,11 +5,13 @@ import { CookieConsent } from "./components/cookie-consent";
 import { GoogleAnalytics } from "./components/google-analytics";
 import { AdSense } from "./components/adsense";
 import { SITE_URL } from "@/lib/site-url";
+import { BRAND, withMasterBrand } from "@/lib/brand";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SellerLab - Tools Hub for Cross-border Sellers",
-  description: "All-in-one fee calculators and seller tools for eBay, Amazon, TikTok Shop, Shopify, and more. Supporting 17+ marketplaces across the US, UK, DE, and beyond.",
+  title: withMasterBrand("Ecommerce Data Engine for Cross-border Sellers"),
+  description:
+    "Data EDE is an ecommerce data engine for cross-border sellers. Use the SellerLab Suite to calculate fees, model margin, and improve platform decisions.",
   metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
@@ -28,15 +30,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    siteName: "SellerLab",
-    title: "SellerLab - Tools Hub for Cross-border Sellers",
-    description: "All-in-one fee calculators and seller tools for cross-border ecommerce sellers.",
+    siteName: BRAND.masterName,
+    title: withMasterBrand("Ecommerce Data Engine for Cross-border Sellers"),
+    description:
+      "Data EDE powers the SellerLab Suite with calculators and data tools for cross-border ecommerce sellers.",
     locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "SellerLab - Tools Hub for Cross-border Sellers",
-    description: "Free seller tools and fee calculators for eBay, Amazon, TikTok Shop, and Shopify.",
+    title: withMasterBrand("Ecommerce Data Engine for Cross-border Sellers"),
+    description:
+      "Use SellerLab Suite tools to estimate marketplace fees, profit, and margin across global channels.",
   },
   category: "business",
 };
@@ -53,21 +57,30 @@ export default function RootLayout({
           <div
             className="container"
             style={{
-              height: 64,
+              minHeight: 64,
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
+              gap: 16,
+              flexWrap: "wrap",
+              padding: "12px 0",
             }}
           >
-            <Link href="/" style={{ fontWeight: 700 }}>
-              SellerLab
-            </Link>
-            <nav style={{ display: "flex", gap: 20, fontSize: 14, fontWeight: 500 }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Link href="/" style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.1 }}>
+                {BRAND.masterName}
+              </Link>
+              <span style={{ fontSize: 12, color: "var(--color-text-tertiary)", lineHeight: 1.2 }}>
+                {BRAND.masterTagline}
+              </span>
+            </div>
+            <nav style={{ display: "flex", gap: 18, fontSize: 14, fontWeight: 500, flexWrap: "wrap" }}>
               <Link href="/">Home</Link>
-              <Link href="/#tools">Tools</Link>
+              <Link href="/#tools">{BRAND.suiteLabel}</Link>
               <Link href="/compare">Compare</Link>
               <Link href="/updates">Updates</Link>
               <Link href="/ebay-fee-calculator">eBay Fee Calculator</Link>
+              <Link href="/ebay-title-optimizer">eBay Title Optimizer</Link>
               <Link href="/amazon-fee-calculator">Amazon Fee Calculator</Link>
             </nav>
           </div>
@@ -79,3 +92,4 @@ export default function RootLayout({
     </html>
   );
 }
+

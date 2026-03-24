@@ -1,4 +1,5 @@
 import type { ShopifyMarketConfig } from "../shopify-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const UK_MARKET: ShopifyMarketConfig = {
   id: "uk",
@@ -62,7 +63,7 @@ export const UK_MARKET: ShopifyMarketConfig = {
     thirdPartyProcessorFixedFee: 0.25,
   },
   seo: {
-    title: "Shopify Fees UK Calculator (GBP) | SellerLab",
+    title: withSuiteBrand("Shopify Fees UK Calculator (GBP)"),
     description: "Estimate Shopify UK costs in GBP with VAT-inclusive pricing, Shopify Payments fees, third-party transaction fees, and net profit per order.",
     h1: "Shopify Fees UK Calculator",
     subtitle: "Calculate UK Shopify costs with VAT-inclusive pricing and plan-level payment fee assumptions.",
@@ -97,3 +98,5 @@ export const UK_MARKET: ShopifyMarketConfig = {
     "Use your processor contract rates when comparing third-party gateway economics.",
   ],
 };
+
+

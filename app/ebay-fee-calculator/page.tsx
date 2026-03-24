@@ -3,9 +3,12 @@ import Link from "next/link";
 import { MARKET_LIST } from "./market-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { withSuiteBrand } from "@/lib/brand";
+
+const TOOL_TITLE = withSuiteBrand("eBay Fee Calculator – All Marketplaces");
 
 export const metadata: Metadata = {
-  title: "eBay Fee Calculator – All Marketplaces | SellerLab",
+  title: TOOL_TITLE,
   description:
     "Free eBay fee calculator for US, UK, Germany, Australia, Canada, France, and Italy. Compare final value fees, per-order fees, and selling costs across all major eBay marketplaces.",
   keywords: [
@@ -18,17 +21,17 @@ export const metadata: Metadata = {
     "ebay fee comparison",
   ],
   openGraph: {
-    title: "eBay Fee Calculator – All Marketplaces | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
     type: "website",
-    siteName: "SellerLab",
+    siteName: "Data EDE",
     url: "/ebay-fee-calculator",
     locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "eBay Fee Calculator – All Marketplaces | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
   },
@@ -729,3 +732,5 @@ export default function EbayFeeCalculatorHubPage() {
     </div>
   );
 }
+
+

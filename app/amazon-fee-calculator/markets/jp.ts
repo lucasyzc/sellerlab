@@ -2,6 +2,7 @@ import {
   type AmazonMarketConfig, type SizeTier,
   flat, tiered, threshold, METRIC_UNITS,
 } from "../amazon-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const CATEGORIES = [
   { label: "Books", value: "books" },
@@ -123,7 +124,7 @@ export const JP_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Japan Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Japan Amazon Fee Calculator"),
     description: "Calculate Amazon.co.jp referral fees, FBA fulfillment fees, storage costs, and net profit for Japan marketplace sellers.",
     h1: "Japan Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.co.jp.",
@@ -140,3 +141,6 @@ export const JP_MARKET: AmazonMarketConfig = {
   dimWeightDivisor: 5000,
   cubicDivisor: 1000000,
 };
+
+
+

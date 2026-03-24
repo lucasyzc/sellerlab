@@ -3,9 +3,12 @@ import Link from "next/link";
 import { TIKTOK_MARKET_LIST } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { withSuiteBrand } from "@/lib/brand";
+
+const TOOL_TITLE = withSuiteBrand("TikTok Shop Fee Calculator – Multi-Market");
 
 export const metadata: Metadata = {
-  title: "TikTok Shop Fee Calculator – Multi-Market | SellerLab",
+  title: TOOL_TITLE,
   description:
     "Free TikTok Shop fee calculator covering UK, US, Vietnam, Thailand, Singapore, Malaysia, Indonesia, and Philippines with market-specific fee models.",
   keywords: [
@@ -17,17 +20,17 @@ export const metadata: Metadata = {
     "tiktok shop marketplace fees",
   ],
   openGraph: {
-    title: "TikTok Shop Fee Calculator – Multi-Market | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Estimate TikTok Shop marketplace fees, taxes, creator commissions, logistics costs, and profit across supported TikTok Shop markets.",
     type: "website",
-    siteName: "SellerLab",
+    siteName: "Data EDE",
     url: "/tiktok-shop-fee-calculator",
     locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "TikTok Shop Fee Calculator – Multi-Market | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Calculate TikTok Shop fees, tax impact, and net profit for multiple markets.",
   },
@@ -268,3 +271,5 @@ export default function TikTokFeeCalculatorHubPage() {
     </div>
   );
 }
+
+

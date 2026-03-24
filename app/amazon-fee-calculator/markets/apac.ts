@@ -2,6 +2,7 @@ import {
   type AmazonMarketConfig, type AmazonCategory, type SizeTier,
   flat, tiered, threshold, METRIC_UNITS,
 } from "../amazon-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 // ═══════════════════════════════════════════════════════════════
 // Shared APAC Helpers
@@ -125,7 +126,7 @@ export const AU_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Australia Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Australia Amazon Fee Calculator"),
     description: "Calculate Amazon.com.au referral fees, FBA fulfillment fees, storage costs, and net profit for Australian sellers.",
     h1: "Australia Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com.au.",
@@ -219,7 +220,7 @@ export const SG_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Singapore Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Singapore Amazon Fee Calculator"),
     description: "Calculate Amazon.sg referral fees, FBA fulfillment fees, storage costs, and net profit for Singapore sellers.",
     h1: "Singapore Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.sg.",
@@ -235,3 +236,6 @@ export const SG_MARKET: AmazonMarketConfig = {
   dimWeightDivisor: 5000,
   cubicDivisor: 1000000,
 };
+
+
+

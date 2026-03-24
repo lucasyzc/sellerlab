@@ -1,25 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { absoluteUrl } from "@/lib/site-url";
+import { BRAND, withMasterBrand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - SellerLab",
+  title: withMasterBrand("Privacy Policy"),
   description:
-    "Learn how SellerLab collects, uses, and protects your personal information. Our privacy policy covers cookies, analytics, and advertising disclosures.",
-  keywords: ["privacy policy", "sellerlab privacy", "cookie policy", "data protection"],
+    "Learn how Data EDE collects, uses, and protects personal information across dataede.com and the SellerLab Suite.",
+  keywords: ["privacy policy", "data ede privacy", "cookie policy", "data protection"],
   alternates: { canonical: "/privacy-policy" },
   openGraph: {
-    title: "Privacy Policy - SellerLab",
+    title: withMasterBrand("Privacy Policy"),
     description:
-      "How SellerLab collects, uses, and protects personal information and cookie preferences.",
+      "How Data EDE collects, uses, and protects personal information and cookie preferences.",
     url: "/privacy-policy",
     type: "article",
-    siteName: "SellerLab",
+    siteName: BRAND.masterName,
   },
   twitter: {
     card: "summary",
-    title: "Privacy Policy - SellerLab",
-    description: "Read how data, cookies, and analytics are handled at SellerLab.",
+    title: withMasterBrand("Privacy Policy"),
+    description: "Read how data, cookies, and analytics are handled at Data EDE.",
   },
 };
 
@@ -32,7 +33,7 @@ export default function PrivacyPolicyPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "Privacy Policy - SellerLab",
+            name: "Privacy Policy - Data EDE",
             url: absoluteUrl("/privacy-policy"),
             dateModified: "2026-03-18",
           }),
@@ -45,10 +46,11 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2>1. Introduction</h2>
           <p>
-            Welcome to SellerLab (&quot;we,&quot; &quot;us,&quot; or
-            &quot;our&quot;). We are committed to protecting your privacy. This
-            Privacy Policy explains how we collect, use, disclose, and safeguard
-            your information when you visit our website.
+            Welcome to Data EDE (&quot;we,&quot; &quot;us,&quot; or
+            &quot;our&quot;), including the SellerLab Suite. We are committed
+            to protecting your privacy. This Privacy Policy explains how we
+            collect, use, disclose, and safeguard your information when you
+            visit our website.
           </p>
         </section>
 
@@ -229,3 +231,4 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+

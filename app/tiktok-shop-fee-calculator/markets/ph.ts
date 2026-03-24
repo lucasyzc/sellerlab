@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const SHARED_DOC = {
   title: "TikTok Shop Merchant Terms of Service",
@@ -71,7 +72,7 @@ export const PH_MARKET: TikTokMarketConfig = {
     },
   },
   seo: {
-    title: "Philippines TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("Philippines TikTok Shop Fee Calculator"),
     description: "Estimate Philippines TikTok Shop fees, VAT effect, and profit using public official fee categories and manual fee-rate inputs.",
     h1: "Philippines TikTok Shop Fee Calculator",
     subtitle: "Public Philippines pages confirm fee categories, but live numeric rates still need Seller Center values.",
@@ -94,3 +95,5 @@ export const PH_MARKET: TikTokMarketConfig = {
     "Philippines is implemented with manual percentage inputs because public official numeric rate tables were not extractable.",
   ],
 };
+
+

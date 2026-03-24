@@ -1,4 +1,5 @@
 import type { TikTokMarketConfig } from "../tiktok-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 export const VN_MARKET: TikTokMarketConfig = {
   id: "vn",
@@ -92,7 +93,7 @@ export const VN_MARKET: TikTokMarketConfig = {
     manualInputs: { shipping_fee_program: 0 },
   },
   seo: {
-    title: "Vietnam TikTok Shop Fee Calculator | SellerLab",
+    title: withSuiteBrand("Vietnam TikTok Shop Fee Calculator"),
     description: "Calculate Vietnam TikTok Shop commission, transaction fee, order processing fee, tax effect, and profit.",
     h1: "Vietnam TikTok Shop Fee Calculator",
     subtitle: "Based on public Vietnam TikTok Shop fee pages for commission, transaction fee, order processing fee, and platform-fee tax treatment.",
@@ -134,3 +135,5 @@ export const VN_MARKET: TikTokMarketConfig = {
     "Shipping rate cards exist publicly, but the full matrix is attached as files; this calculator leaves route-level shipping as seller input.",
   ],
 };
+
+

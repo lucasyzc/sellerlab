@@ -2,6 +2,7 @@ import {
   type AmazonMarketConfig, type AmazonCategory, type SizeTier,
   flat, tiered, threshold, METRIC_UNITS,
 } from "../amazon-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 // ═══════════════════════════════════════════════════════════════
 // Shared Category List (simplified for emerging markets)
@@ -116,7 +117,7 @@ export const AE_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "UAE Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("UAE Amazon Fee Calculator"),
     description: "Calculate Amazon.ae referral fees, FBA fulfillment fees, storage costs, and net profit for UAE sellers.",
     h1: "UAE Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.ae (Middle East).",
@@ -206,7 +207,7 @@ export const BR_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Brazil Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Brazil Amazon Fee Calculator"),
     description: "Calculate Amazon.com.br referral fees, FBA fulfillment fees, storage costs, and net profit for Brazilian sellers.",
     h1: "Brazil Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com.br.",
@@ -296,7 +297,7 @@ export const MX_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Mexico Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Mexico Amazon Fee Calculator"),
     description: "Calculate Amazon.com.mx referral fees, FBA fulfillment fees, storage costs, and net profit for Mexican marketplace sellers.",
     h1: "Mexico Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com.mx.",
@@ -386,7 +387,7 @@ export const TR_MARKET: AmazonMarketConfig = {
     weightMajor: 0, weightMinor: 500, dimensionLength: 25, dimensionWidth: 20, dimensionHeight: 5,
   },
   seo: {
-    title: "Turkey Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Turkey Amazon Fee Calculator"),
     description: "Calculate Amazon.com.tr referral fees, FBA fulfillment fees, storage costs, and net profit for Turkish marketplace sellers.",
     h1: "Turkey Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com.tr.",
@@ -402,3 +403,6 @@ export const TR_MARKET: AmazonMarketConfig = {
   dimWeightDivisor: 5000,
   cubicDivisor: 1000000,
 };
+
+
+

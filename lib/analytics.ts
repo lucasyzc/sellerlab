@@ -1,3 +1,4 @@
+import { BRAND } from "@/lib/brand";
 type AnalyticsValue = string | number | boolean;
 type EventParams = Record<string, AnalyticsValue | null | undefined>;
 
@@ -7,7 +8,8 @@ declare global {
   }
 }
 
-const RETURNING_USER_KEY = "sellerlab_returning_user";
+const RETURNING_USER_KEY = BRAND.storageKeys.returningUser;
+const LEGACY_RETURNING_USER_KEY = BRAND.storageKeys.returningUserLegacy;
 
 function normalizeHost(host: string): string {
   return host.replace(/^www\./, "").toLowerCase();
@@ -38,6 +40,13 @@ function getReturningUserFlag(): boolean {
   try {
     const existing = window.localStorage.getItem(RETURNING_USER_KEY);
     if (existing === "1") return true;
+
+    const legacyExisting = window.localStorage.getItem(LEGACY_RETURNING_USER_KEY);
+    if (legacyExisting === "1") {
+      window.localStorage.setItem(RETURNING_USER_KEY, "1");
+      return true;
+    }
+
     window.localStorage.setItem(RETURNING_USER_KEY, "1");
     return false;
   } catch {
@@ -67,4 +76,3 @@ export function trackEvent(eventName: string, params: EventParams = {}) {
     ...sanitizeParams(params),
   });
 }
-

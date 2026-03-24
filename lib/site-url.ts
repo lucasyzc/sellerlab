@@ -1,4 +1,4 @@
-const FALLBACK_SITE_URL = "https://sellerlab.tools";
+const FALLBACK_SITE_URL = "https://dataede.com";
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || FALLBACK_SITE_URL).replace(/\/$/, "");
 

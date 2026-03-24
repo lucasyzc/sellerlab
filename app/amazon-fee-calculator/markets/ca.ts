@@ -2,6 +2,7 @@ import {
   type AmazonMarketConfig, type SizeTier,
   flat, tiered, threshold, IMPERIAL_UNITS,
 } from "../amazon-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const CATEGORIES = [
   { label: "Automotive & Powersports", value: "automotive" },
@@ -145,7 +146,7 @@ export const CA_MARKET: AmazonMarketConfig = {
     weightMajor: 1, weightMinor: 0, dimensionLength: 10, dimensionWidth: 8, dimensionHeight: 2,
   },
   seo: {
-    title: "Canada Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("Canada Amazon Fee Calculator"),
     description: "Calculate Amazon.ca referral fees, FBA fulfillment fees, storage costs, and net profit for Canadian marketplace sellers.",
     h1: "Canada Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.ca.",
@@ -163,3 +164,6 @@ export const CA_MARKET: AmazonMarketConfig = {
   dimWeightDivisor: 139,
   cubicDivisor: 1728,
 };
+
+
+

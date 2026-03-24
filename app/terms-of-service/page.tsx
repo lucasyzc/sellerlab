@@ -1,25 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { absoluteUrl } from "@/lib/site-url";
+import { BRAND, withMasterBrand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Terms of Service - SellerLab",
+  title: withMasterBrand("Terms of Service"),
   description:
-    "Read the terms and conditions governing your use of SellerLab's seller tools, fee calculators, and website services.",
-  keywords: ["terms of service", "sellerlab terms", "calculator disclaimer"],
+    "Read the terms and conditions governing your use of Data EDE and the SellerLab Suite.",
+  keywords: ["terms of service", "data ede terms", "calculator disclaimer"],
   alternates: { canonical: "/terms-of-service" },
   openGraph: {
-    title: "Terms of Service - SellerLab",
+    title: withMasterBrand("Terms of Service"),
     description:
-      "Terms and conditions for using SellerLab tools and website services.",
+      "Terms and conditions for using Data EDE and SellerLab Suite tools.",
     url: "/terms-of-service",
     type: "article",
-    siteName: "SellerLab",
+    siteName: BRAND.masterName,
   },
   twitter: {
     card: "summary",
-    title: "Terms of Service - SellerLab",
-    description: "Understand usage terms and service limitations for SellerLab.",
+    title: withMasterBrand("Terms of Service"),
+    description: "Understand usage terms and service limitations for Data EDE.",
   },
 };
 
@@ -32,7 +33,7 @@ export default function TermsOfServicePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "Terms of Service - SellerLab",
+            name: "Terms of Service - Data EDE",
             url: absoluteUrl("/terms-of-service"),
             dateModified: "2026-03-18",
           }),
@@ -45,17 +46,18 @@ export default function TermsOfServicePage() {
         <section>
           <h2>1. Acceptance of Terms</h2>
           <p>
-            By accessing or using SellerLab (&quot;the Website&quot;), you agree
-            to be bound by these Terms of Service. If you do not agree to all of
-            these terms, you must not use the Website.
+            By accessing or using Data EDE and the SellerLab Suite
+            (&quot;the Website&quot;), you agree to be bound by these Terms of
+            Service. If you do not agree to all of these terms, you must not use
+            the Website.
           </p>
         </section>
 
         <section>
           <h2>2. Description of Services</h2>
           <p>
-            SellerLab provides free online tools for cross-border e-commerce
-            sellers, including but not limited to:
+            Data EDE provides free online tools for cross-border e-commerce
+            sellers through the SellerLab Suite, including but not limited to:
           </p>
           <ul>
             <li>eBay Fee Calculator for multiple marketplaces</li>
@@ -82,7 +84,7 @@ export default function TermsOfServicePage() {
               You should always verify fees directly with the respective
               platform before making business decisions.
             </strong>{" "}
-            SellerLab is not liable for any financial losses arising from
+            Data EDE is not liable for any financial losses arising from
             reliance on our calculations.
           </p>
         </section>
@@ -91,14 +93,14 @@ export default function TermsOfServicePage() {
           <h2>4. Intellectual Property</h2>
           <p>
             All content on this Website, including text, code, design, logos, and
-            tool interfaces, is the property of SellerLab and is protected by
+            tool interfaces, is the property of Data EDE and is protected by
             applicable intellectual property laws. You may not reproduce,
             distribute, or create derivative works without prior written consent.
           </p>
           <p>
             Platform names and logos (eBay, Amazon, etc.) are trademarks of their
-            respective owners. SellerLab is not affiliated with or endorsed by
-            any of these platforms.
+            respective owners. Data EDE and SellerLab are not affiliated with or
+            endorsed by any of these platforms.
           </p>
         </section>
 
@@ -135,7 +137,7 @@ export default function TermsOfServicePage() {
         <section>
           <h2>7. Limitation of Liability</h2>
           <p>
-            To the maximum extent permitted by law, SellerLab and its operators
+            To the maximum extent permitted by law, Data EDE and its operators
             shall not be liable for any indirect, incidental, special,
             consequential, or punitive damages arising from your use of the
             Website or tools, including but not limited to errors in fee
@@ -180,3 +182,4 @@ export default function TermsOfServicePage() {
     </div>
   );
 }
+

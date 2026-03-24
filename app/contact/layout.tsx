@@ -1,28 +1,29 @@
 import type { Metadata } from "next";
 import { absoluteUrl } from "@/lib/site-url";
+import { BRAND, withMasterBrand } from "@/lib/brand";
 
 export const metadata: Metadata = {
-  title: "Contact Us - SellerLab",
+  title: withMasterBrand("Contact Us"),
   description:
-    "Get in touch with the SellerLab team. Report fee errors, suggest features, or ask questions about our cross-border seller tools.",
+    "Contact Data EDE for support, feedback, or partnership. SellerLab Suite users can report fee model issues and request features.",
   keywords: [
-    "contact sellerlab",
+    "contact data ede",
     "report calculator issue",
     "seller tool support",
   ],
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "Contact SellerLab",
+    title: withMasterBrand("Contact Us"),
     description:
-      "Report fee model issues, suggest new tools, or send business inquiries to SellerLab.",
+      "Report fee model issues, suggest new tools, or send business inquiries to Data EDE.",
     url: "/contact",
     type: "website",
-    siteName: "SellerLab",
+    siteName: BRAND.masterName,
   },
   twitter: {
     card: "summary",
-    title: "Contact SellerLab",
-    description: "Get support or share feedback about SellerLab tools.",
+    title: withMasterBrand("Contact Us"),
+    description: "Get support or share feedback about SellerLab Suite tools.",
   },
 };
 
@@ -34,18 +35,23 @@ export default function ContactLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: "Contact SellerLab",
+    name: "Contact Data EDE",
     url: absoluteUrl("/contact"),
     description:
-      "Contact page for SellerLab. Reach out for support, feedback, and partnership inquiries.",
+      "Contact page for Data EDE. Reach out for support, feedback, and partnership inquiries.",
     mainEntity: {
       "@type": "Organization",
-      name: "SellerLab",
+      name: BRAND.masterName,
+      hasPart: {
+        "@type": "Product",
+        name: BRAND.suiteName,
+        alternateName: BRAND.suiteDisplay,
+      },
       url: absoluteUrl("/"),
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer support",
-        email: "support@sellerlab.tools",
+        email: BRAND.supportEmail,
       },
     },
   };
@@ -60,3 +66,5 @@ export default function ContactLayout({
     </>
   );
 }
+
+

@@ -2,6 +2,7 @@ import {
   type AmazonMarketConfig, type SizeTier,
   flat, tiered, threshold, IMPERIAL_UNITS,
 } from "../amazon-config";
+import { withSuiteBrand } from "@/lib/brand";
 
 const CATEGORIES = [
   { label: "Amazon Device Accessories", value: "device_accessories" },
@@ -179,7 +180,7 @@ export const US_MARKET: AmazonMarketConfig = {
     weightMajor: 1, weightMinor: 0, dimensionLength: 10, dimensionWidth: 8, dimensionHeight: 2,
   },
   seo: {
-    title: "US Amazon Fee Calculator | SellerLab",
+    title: withSuiteBrand("US Amazon Fee Calculator"),
     description: "Calculate Amazon.com referral fees, FBA fulfillment fees, storage costs, and net profit for US sellers. Accurate rates for 45+ categories.",
     h1: "US Amazon Fee Calculator",
     subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com. Rates updated as of 2025.",
@@ -197,3 +198,6 @@ export const US_MARKET: AmazonMarketConfig = {
   dimWeightDivisor: 139,
   cubicDivisor: 1728,
 };
+
+
+

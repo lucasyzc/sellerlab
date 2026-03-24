@@ -7,7 +7,10 @@
                     "build":  "next build",
                     "start":  "next start",
                     "lint":  "eslint .",
-                    "indexnow:submit":  "node scripts/indexnow-submit.mjs"
+                    "indexnow:submit":  "node scripts/indexnow-submit.mjs",
+                    "preview:static":  "npx serve -s out",
+                    "preview:pages":  "npx wrangler pages dev out --port 8788",
+                    "preview:pages:build":  "npm run build && npm run preview:pages"
                 },
     "dependencies":  {
                          "@supabase/supabase-js":  "^2.99.2",

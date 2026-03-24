@@ -3,9 +3,12 @@ import Link from "next/link";
 import { AMAZON_MARKET_LIST } from "./markets";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { withSuiteBrand } from "@/lib/brand";
+
+const TOOL_TITLE = withSuiteBrand("Amazon Fee Calculator – All Marketplaces");
 
 export const metadata: Metadata = {
-  title: "Amazon Fee Calculator \u2013 All Marketplaces | SellerLab",
+  title: TOOL_TITLE,
   description:
     "Free Amazon fee calculator for 17 global marketplaces. Calculate referral fees, FBA fulfillment costs, storage fees, and net profit across 45+ product categories.",
   keywords: [
@@ -19,17 +22,17 @@ export const metadata: Metadata = {
     "amazon global selling",
   ],
   openGraph: {
-    title: "Amazon Fee Calculator \u2013 All Marketplaces | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces. Covers 45+ categories with referral fee rates, fulfillment fees, and storage costs.",
     type: "website",
-    siteName: "SellerLab",
+    siteName: "Data EDE",
     url: "/amazon-fee-calculator",
     locale: "en_US",
   },
   twitter: {
     card: "summary",
-    title: "Amazon Fee Calculator – All Marketplaces | SellerLab",
+    title: TOOL_TITLE,
     description:
       "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces.",
   },
@@ -642,3 +645,5 @@ export default function AmazonFeeCalculatorHubPage() {
     </div>
   );
 }
+
+
