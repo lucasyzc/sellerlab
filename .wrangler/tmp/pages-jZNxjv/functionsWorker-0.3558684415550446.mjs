@@ -1,9 +1,7 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
-// .wrangler/tmp/pages-lLe9bv/functionsWorker-0.7980352438876658.mjs
-var __defProp2 = Object.defineProperty;
-var __name2 = /* @__PURE__ */ __name((target, value) => __defProp2(target, "name", { value, configurable: true }), "__name");
+// api/feedback.ts
 var CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -21,7 +19,6 @@ function json(data, status = 200) {
   });
 }
 __name(json, "json");
-__name2(json, "json");
 async function sendDiscord(env, payload) {
   if (!env.DISCORD_WEBHOOK_URL) return;
   const fields = [
@@ -53,7 +50,6 @@ async function sendDiscord(env, payload) {
   });
 }
 __name(sendDiscord, "sendDiscord");
-__name2(sendDiscord, "sendDiscord");
 async function saveToSupabase(env, payload) {
   const resp = await fetch(`${env.SUPABASE_URL}/rest/v1/feedbacks`, {
     method: "POST",
@@ -78,8 +74,7 @@ async function saveToSupabase(env, payload) {
   return { ok: true };
 }
 __name(saveToSupabase, "saveToSupabase");
-__name2(saveToSupabase, "saveToSupabase");
-var onRequestPost = /* @__PURE__ */ __name2(async (context) => {
+var onRequestPost = /* @__PURE__ */ __name(async (context) => {
   const { request, env } = context;
   try {
     const body = await request.json();
@@ -107,9 +102,11 @@ var onRequestPost = /* @__PURE__ */ __name2(async (context) => {
     return json({ ok: false, error: "Internal server error." }, 500);
   }
 }, "onRequestPost");
-var onRequestOptions = /* @__PURE__ */ __name2(async () => {
+var onRequestOptions = /* @__PURE__ */ __name(async () => {
   return new Response(null, { status: 204, headers: CORS_HEADERS });
 }, "onRequestOptions");
+
+// api/title-optimizer.ts
 var CORS_HEADERS2 = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -292,33 +289,27 @@ function json2(data, status = 200) {
     headers: { "Content-Type": "application/json", ...CORS_HEADERS2 }
   });
 }
-__name(json2, "json2");
-__name2(json2, "json");
+__name(json2, "json");
 function cleanText(value) {
   return value.replace(/\s+/g, " ").replace(/[|]{2,}/g, "|").trim();
 }
 __name(cleanText, "cleanText");
-__name2(cleanText, "cleanText");
 function decodeHtml(value) {
   return value.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ");
 }
 __name(decodeHtml, "decodeHtml");
-__name2(decodeHtml, "decodeHtml");
 function stripTags(value) {
   return decodeHtml(value.replace(/<[^>]+>/g, ""));
 }
 __name(stripTags, "stripTags");
-__name2(stripTags, "stripTags");
 function normalizeForMatch(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim();
 }
 __name(normalizeForMatch, "normalizeForMatch");
-__name2(normalizeForMatch, "normalizeForMatch");
 function tokenize(value) {
   return normalizeForMatch(value).split(" ").filter((token) => token && token.length > 1 && !STOP_WORDS.has(token));
 }
 __name(tokenize, "tokenize");
-__name2(tokenize, "tokenize");
 function uniqueStrings(values) {
   const set = /* @__PURE__ */ new Set();
   const output = [];
@@ -331,7 +322,6 @@ function uniqueStrings(values) {
   return output;
 }
 __name(uniqueStrings, "uniqueStrings");
-__name2(uniqueStrings, "uniqueStrings");
 async function fetchWithTimeout(url, timeoutMs = 6e3) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
@@ -348,7 +338,6 @@ async function fetchWithTimeout(url, timeoutMs = 6e3) {
   }
 }
 __name(fetchWithTimeout, "fetchWithTimeout");
-__name2(fetchWithTimeout, "fetchWithTimeout");
 function trimToLimit(title, maxLength) {
   if (title.length <= maxLength) return title;
   const truncated = title.slice(0, maxLength + 1);
@@ -357,7 +346,6 @@ function trimToLimit(title, maxLength) {
   return truncated.slice(0, boundary).trim();
 }
 __name(trimToLimit, "trimToLimit");
-__name2(trimToLimit, "trimToLimit");
 function removeBlockedTerms(title, blockedTerms) {
   if (!blockedTerms.length) return { text: title, changed: false };
   let next = title;
@@ -370,7 +358,6 @@ function removeBlockedTerms(title, blockedTerms) {
   return { text: next, changed: next !== title };
 }
 __name(removeBlockedTerms, "removeBlockedTerms");
-__name2(removeBlockedTerms, "removeBlockedTerms");
 function isDevelopmentRuntime() {
   try {
     const nodeEnv = "development";
@@ -380,7 +367,6 @@ function isDevelopmentRuntime() {
   }
 }
 __name(isDevelopmentRuntime, "isDevelopmentRuntime");
-__name2(isDevelopmentRuntime, "isDevelopmentRuntime");
 function extractJsonObject(raw) {
   const trimmed = raw.trim();
   if (trimmed.startsWith("{") && trimmed.endsWith("}")) return trimmed;
@@ -390,7 +376,6 @@ function extractJsonObject(raw) {
   return trimmed.slice(first, last + 1);
 }
 __name(extractJsonObject, "extractJsonObject");
-__name2(extractJsonObject, "extractJsonObject");
 function parseTitlesFromModelContent(content, variantCount) {
   const jsonObject = extractJsonObject(content);
   if (!jsonObject) return null;
@@ -406,7 +391,6 @@ function parseTitlesFromModelContent(content, variantCount) {
   return unique.slice(0, variantCount);
 }
 __name(parseTitlesFromModelContent, "parseTitlesFromModelContent");
-__name2(parseTitlesFromModelContent, "parseTitlesFromModelContent");
 function buildSystemPrompt(profile, goal) {
   const hardRules = profile.hard_rules.map((rule, index) => `${index + 1}. ${rule}`).join("\n");
   const styleRules = profile.style_rules[goal].map((rule, index) => `${index + 1}. ${rule}`).join("\n");
@@ -420,7 +404,6 @@ function buildSystemPrompt(profile, goal) {
   ].join("\n\n");
 }
 __name(buildSystemPrompt, "buildSystemPrompt");
-__name2(buildSystemPrompt, "buildSystemPrompt");
 function buildUserPrompt(payload) {
   return [
     "Return strict JSON only. No markdown, no prose.",
@@ -445,7 +428,6 @@ function buildUserPrompt(payload) {
   ].join("\n\n");
 }
 __name(buildUserPrompt, "buildUserPrompt");
-__name2(buildUserPrompt, "buildUserPrompt");
 async function extractListingTitle(listingUrl) {
   try {
     const url = new URL(listingUrl);
@@ -463,7 +445,6 @@ async function extractListingTitle(listingUrl) {
   }
 }
 __name(extractListingTitle, "extractListingTitle");
-__name2(extractListingTitle, "extractListingTitle");
 async function scrapeCompetitorTitles(market, query) {
   const host = MARKET_SITE[market];
   const url = `https://${host}/sch/i.html?_nkw=${encodeURIComponent(query)}&_sop=12`;
@@ -475,7 +456,6 @@ async function scrapeCompetitorTitles(market, query) {
   return uniqueStrings(rawTitles).slice(0, 20);
 }
 __name(scrapeCompetitorTitles, "scrapeCompetitorTitles");
-__name2(scrapeCompetitorTitles, "scrapeCompetitorTitles");
 function buildFallbackTitles(components, platform, language, blockedTerms, titleLengthLimit, variantCount) {
   const enabled = components.filter((component) => component.enabled && component.value.trim()).sort((a, b) => a.order - b.order);
   const values = enabled.map((component) => cleanText(component.value));
@@ -506,7 +486,6 @@ function buildFallbackTitles(components, platform, language, blockedTerms, title
   return uniqueStrings(titles.filter(Boolean)).slice(0, variantCount);
 }
 __name(buildFallbackTitles, "buildFallbackTitles");
-__name2(buildFallbackTitles, "buildFallbackTitles");
 async function generateWithOpenAI(env, platform, market, language, goal, titleLengthLimit, variantCount, components, productInput, blockedTerms, competitorTitles, listingHint, includePromptDebug) {
   if (!env.OPENAI_API_KEY) return { titles: null };
   const enabledComponents = components.filter((component) => component.enabled && component.value.trim()).sort((a, b) => a.order - b.order).map((component) => ({
@@ -542,7 +521,7 @@ async function generateWithOpenAI(env, platform, market, language, goal, titleLe
     user_prompt: userPrompt
   } : void 0;
   try {
-    const requestResponses = /* @__PURE__ */ __name2(async () => {
+    const requestResponses = /* @__PURE__ */ __name(async () => {
       const response = await fetch(`${baseUrl}/v1/responses`, {
         method: "POST",
         headers: {
@@ -581,7 +560,7 @@ async function generateWithOpenAI(env, platform, market, language, goal, titleLe
       }
       return content2;
     }, "requestResponses");
-    const requestChatCompletions = /* @__PURE__ */ __name2(async () => {
+    const requestChatCompletions = /* @__PURE__ */ __name(async () => {
       const response = await fetch(`${baseUrl}/v1/chat/completions`, {
         method: "POST",
         headers: {
@@ -619,7 +598,6 @@ async function generateWithOpenAI(env, platform, market, language, goal, titleLe
   }
 }
 __name(generateWithOpenAI, "generateWithOpenAI");
-__name2(generateWithOpenAI, "generateWithOpenAI");
 function computeJaccard(a, b) {
   const aSet = new Set(tokenize(a));
   const bSet = new Set(tokenize(b));
@@ -632,12 +610,10 @@ function computeJaccard(a, b) {
   return union <= 0 ? 0 : intersection / union;
 }
 __name(computeJaccard, "computeJaccard");
-__name2(computeJaccard, "computeJaccard");
 function clampScore(value) {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 __name(clampScore, "clampScore");
-__name2(clampScore, "clampScore");
 function scoreTitle(title, blockedTerms, keywordTargets, competitorTitles, titleLengthLimit) {
   const warnings = [];
   const titleTokens = new Set(tokenize(title));
@@ -687,7 +663,6 @@ function scoreTitle(title, blockedTerms, keywordTargets, competitorTitles, title
   };
 }
 __name(scoreTitle, "scoreTitle");
-__name2(scoreTitle, "scoreTitle");
 function buildCompositionDebug(title, components) {
   const normalizedTitle = normalizeForMatch(title);
   return {
@@ -703,8 +678,7 @@ function buildCompositionDebug(title, components) {
   };
 }
 __name(buildCompositionDebug, "buildCompositionDebug");
-__name2(buildCompositionDebug, "buildCompositionDebug");
-var onRequestPost2 = /* @__PURE__ */ __name2(async (context) => {
+var onRequestPost2 = /* @__PURE__ */ __name(async (context) => {
   try {
     const body = await context.request.json();
     const market = body.market;
@@ -860,9 +834,11 @@ var onRequestPost2 = /* @__PURE__ */ __name2(async (context) => {
     return json2({ ok: false, error: "Internal server error." }, 500);
   }
 }, "onRequestPost");
-var onRequestOptions2 = /* @__PURE__ */ __name2(async () => {
+var onRequestOptions2 = /* @__PURE__ */ __name(async () => {
   return new Response(null, { status: 204, headers: CORS_HEADERS2 });
 }, "onRequestOptions");
+
+// ../.wrangler/tmp/pages-jZNxjv/functionsRoutes-0.5455133710432236.mjs
 var routes = [
   {
     routePath: "/api/feedback",
@@ -893,6 +869,8 @@ var routes = [
     modules: [onRequestPost2]
   }
 ];
+
+// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/path-to-regexp/dist.es2015/index.js
 function lexer(str) {
   var tokens = [];
   var i = 0;
@@ -977,7 +955,6 @@ function lexer(str) {
   return tokens;
 }
 __name(lexer, "lexer");
-__name2(lexer, "lexer");
 function parse(str, options) {
   if (options === void 0) {
     options = {};
@@ -988,18 +965,18 @@ function parse(str, options) {
   var key = 0;
   var i = 0;
   var path = "";
-  var tryConsume = /* @__PURE__ */ __name2(function(type) {
+  var tryConsume = /* @__PURE__ */ __name(function(type) {
     if (i < tokens.length && tokens[i].type === type)
       return tokens[i++].value;
   }, "tryConsume");
-  var mustConsume = /* @__PURE__ */ __name2(function(type) {
+  var mustConsume = /* @__PURE__ */ __name(function(type) {
     var value2 = tryConsume(type);
     if (value2 !== void 0)
       return value2;
     var _a2 = tokens[i], nextType = _a2.type, index = _a2.index;
     throw new TypeError("Unexpected ".concat(nextType, " at ").concat(index, ", expected ").concat(type));
   }, "mustConsume");
-  var consumeText = /* @__PURE__ */ __name2(function() {
+  var consumeText = /* @__PURE__ */ __name(function() {
     var result2 = "";
     var value2;
     while (value2 = tryConsume("CHAR") || tryConsume("ESCAPED_CHAR")) {
@@ -1007,7 +984,7 @@ function parse(str, options) {
     }
     return result2;
   }, "consumeText");
-  var isSafe = /* @__PURE__ */ __name2(function(value2) {
+  var isSafe = /* @__PURE__ */ __name(function(value2) {
     for (var _i = 0, delimiter_1 = delimiter; _i < delimiter_1.length; _i++) {
       var char2 = delimiter_1[_i];
       if (value2.indexOf(char2) > -1)
@@ -1015,7 +992,7 @@ function parse(str, options) {
     }
     return false;
   }, "isSafe");
-  var safePattern = /* @__PURE__ */ __name2(function(prefix2) {
+  var safePattern = /* @__PURE__ */ __name(function(prefix2) {
     var prev = result[result.length - 1];
     var prevText = prefix2 || (prev && typeof prev === "string" ? prev : "");
     if (prev && !prevText) {
@@ -1078,14 +1055,12 @@ function parse(str, options) {
   return result;
 }
 __name(parse, "parse");
-__name2(parse, "parse");
 function match(str, options) {
   var keys = [];
   var re = pathToRegexp(str, keys, options);
   return regexpToFunction(re, keys, options);
 }
 __name(match, "match");
-__name2(match, "match");
 function regexpToFunction(re, keys, options) {
   if (options === void 0) {
     options = {};
@@ -1099,7 +1074,7 @@ function regexpToFunction(re, keys, options) {
       return false;
     var path = m[0], index = m.index;
     var params = /* @__PURE__ */ Object.create(null);
-    var _loop_1 = /* @__PURE__ */ __name2(function(i2) {
+    var _loop_1 = /* @__PURE__ */ __name(function(i2) {
       if (m[i2] === void 0)
         return "continue";
       var key = keys[i2 - 1];
@@ -1118,17 +1093,14 @@ function regexpToFunction(re, keys, options) {
   };
 }
 __name(regexpToFunction, "regexpToFunction");
-__name2(regexpToFunction, "regexpToFunction");
 function escapeString(str) {
   return str.replace(/([.+*?=^!:${}()[\]|/\\])/g, "\\$1");
 }
 __name(escapeString, "escapeString");
-__name2(escapeString, "escapeString");
 function flags(options) {
   return options && options.sensitive ? "" : "i";
 }
 __name(flags, "flags");
-__name2(flags, "flags");
 function regexpToRegexp(path, keys) {
   if (!keys)
     return path;
@@ -1149,7 +1121,6 @@ function regexpToRegexp(path, keys) {
   return path;
 }
 __name(regexpToRegexp, "regexpToRegexp");
-__name2(regexpToRegexp, "regexpToRegexp");
 function arrayToRegexp(paths, keys, options) {
   var parts = paths.map(function(path) {
     return pathToRegexp(path, keys, options).source;
@@ -1157,12 +1128,10 @@ function arrayToRegexp(paths, keys, options) {
   return new RegExp("(?:".concat(parts.join("|"), ")"), flags(options));
 }
 __name(arrayToRegexp, "arrayToRegexp");
-__name2(arrayToRegexp, "arrayToRegexp");
 function stringToRegexp(path, keys, options) {
   return tokensToRegexp(parse(path, options), keys, options);
 }
 __name(stringToRegexp, "stringToRegexp");
-__name2(stringToRegexp, "stringToRegexp");
 function tokensToRegexp(tokens, keys, options) {
   if (options === void 0) {
     options = {};
@@ -1218,7 +1187,6 @@ function tokensToRegexp(tokens, keys, options) {
   return new RegExp(route, flags(options));
 }
 __name(tokensToRegexp, "tokensToRegexp");
-__name2(tokensToRegexp, "tokensToRegexp");
 function pathToRegexp(path, keys, options) {
   if (path instanceof RegExp)
     return regexpToRegexp(path, keys);
@@ -1227,7 +1195,8 @@ function pathToRegexp(path, keys, options) {
   return stringToRegexp(path, keys, options);
 }
 __name(pathToRegexp, "pathToRegexp");
-__name2(pathToRegexp, "pathToRegexp");
+
+// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/pages-template-worker.ts
 var escapeRegex = /[.+?^${}()|[\]\\]/g;
 function* executeRequest(request) {
   const requestPath = new URL(request.url).pathname;
@@ -1278,14 +1247,13 @@ function* executeRequest(request) {
   }
 }
 __name(executeRequest, "executeRequest");
-__name2(executeRequest, "executeRequest");
 var pages_template_worker_default = {
   async fetch(originalRequest, env, workerContext) {
     let request = originalRequest;
     const handlerIterator = executeRequest(request);
     let data = {};
     let isFailOpen = false;
-    const next = /* @__PURE__ */ __name2(async (input, init) => {
+    const next = /* @__PURE__ */ __name(async (input, init) => {
       if (input !== void 0) {
         let url = input;
         if (typeof input === "string") {
@@ -1312,7 +1280,7 @@ var pages_template_worker_default = {
           },
           env,
           waitUntil: workerContext.waitUntil.bind(workerContext),
-          passThroughOnException: /* @__PURE__ */ __name2(() => {
+          passThroughOnException: /* @__PURE__ */ __name(() => {
             isFailOpen = true;
           }, "passThroughOnException")
         };
@@ -1340,14 +1308,16 @@ var pages_template_worker_default = {
     }
   }
 };
-var cloneResponse = /* @__PURE__ */ __name2((response) => (
+var cloneResponse = /* @__PURE__ */ __name((response) => (
   // https://fetch.spec.whatwg.org/#null-body-status
   new Response(
     [101, 204, 205, 304].includes(response.status) ? null : response.body,
     response
   )
 ), "cloneResponse");
-var drainBody = /* @__PURE__ */ __name2(async (request, env, _ctx, middlewareCtx) => {
+
+// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/middleware-ensure-req-body-drained.ts
+var drainBody = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx) => {
   try {
     return await middlewareCtx.next(request, env);
   } finally {
@@ -1363,6 +1333,8 @@ var drainBody = /* @__PURE__ */ __name2(async (request, env, _ctx, middlewareCtx
   }
 }, "drainBody");
 var middleware_ensure_req_body_drained_default = drainBody;
+
+// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts
 function reduceError(e) {
   return {
     name: e?.name,
@@ -1372,8 +1344,7 @@ function reduceError(e) {
   };
 }
 __name(reduceError, "reduceError");
-__name2(reduceError, "reduceError");
-var jsonError = /* @__PURE__ */ __name2(async (request, env, _ctx, middlewareCtx) => {
+var jsonError = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx) => {
   try {
     return await middlewareCtx.next(request, env);
   } catch (e) {
@@ -1385,17 +1356,20 @@ var jsonError = /* @__PURE__ */ __name2(async (request, env, _ctx, middlewareCtx
   }
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
+
+// ../.wrangler/tmp/bundle-7Looq9/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
 ];
 var middleware_insertion_facade_default = pages_template_worker_default;
+
+// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/common.ts
 var __facade_middleware__ = [];
 function __facade_register__(...args) {
   __facade_middleware__.push(...args.flat());
 }
 __name(__facade_register__, "__facade_register__");
-__name2(__facade_register__, "__facade_register__");
 function __facade_invokeChain__(request, env, ctx, dispatch, middlewareChain) {
   const [head, ...tail] = middlewareChain;
   const middlewareCtx = {
@@ -1407,7 +1381,6 @@ function __facade_invokeChain__(request, env, ctx, dispatch, middlewareChain) {
   return head(request, env, ctx, middlewareCtx);
 }
 __name(__facade_invokeChain__, "__facade_invokeChain__");
-__name2(__facade_invokeChain__, "__facade_invokeChain__");
 function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
   return __facade_invokeChain__(request, env, ctx, dispatch, [
     ...__facade_middleware__,
@@ -1415,18 +1388,16 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
   ]);
 }
 __name(__facade_invoke__, "__facade_invoke__");
-__name2(__facade_invoke__, "__facade_invoke__");
+
+// ../.wrangler/tmp/bundle-7Looq9/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
-  static {
-    __name(this, "___Facade_ScheduledController__");
-  }
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;
     this.cron = cron;
     this.#noRetry = noRetry;
   }
   static {
-    __name2(this, "__Facade_ScheduledController__");
+    __name(this, "__Facade_ScheduledController__");
   }
   #noRetry;
   noRetry() {
@@ -1443,7 +1414,7 @@ function wrapExportedHandler(worker) {
   for (const middleware of __INTERNAL_WRANGLER_MIDDLEWARE__) {
     __facade_register__(middleware);
   }
-  const fetchDispatcher = /* @__PURE__ */ __name2(function(request, env, ctx) {
+  const fetchDispatcher = /* @__PURE__ */ __name(function(request, env, ctx) {
     if (worker.fetch === void 0) {
       throw new Error("Handler does not export a fetch() function.");
     }
@@ -1452,7 +1423,7 @@ function wrapExportedHandler(worker) {
   return {
     ...worker,
     fetch(request, env, ctx) {
-      const dispatcher = /* @__PURE__ */ __name2(function(type, init) {
+      const dispatcher = /* @__PURE__ */ __name(function(type, init) {
         if (type === "scheduled" && worker.scheduled !== void 0) {
           const controller = new __Facade_ScheduledController__(
             Date.now(),
@@ -1468,7 +1439,6 @@ function wrapExportedHandler(worker) {
   };
 }
 __name(wrapExportedHandler, "wrapExportedHandler");
-__name2(wrapExportedHandler, "wrapExportedHandler");
 function wrapWorkerEntrypoint(klass) {
   if (__INTERNAL_WRANGLER_MIDDLEWARE__ === void 0 || __INTERNAL_WRANGLER_MIDDLEWARE__.length === 0) {
     return klass;
@@ -1477,7 +1447,7 @@ function wrapWorkerEntrypoint(klass) {
     __facade_register__(middleware);
   }
   return class extends klass {
-    #fetchDispatcher = /* @__PURE__ */ __name2((request, env, ctx) => {
+    #fetchDispatcher = /* @__PURE__ */ __name((request, env, ctx) => {
       this.env = env;
       this.ctx = ctx;
       if (super.fetch === void 0) {
@@ -1485,7 +1455,7 @@ function wrapWorkerEntrypoint(klass) {
       }
       return super.fetch(request);
     }, "#fetchDispatcher");
-    #dispatcher = /* @__PURE__ */ __name2((type, init) => {
+    #dispatcher = /* @__PURE__ */ __name((type, init) => {
       if (type === "scheduled" && super.scheduled !== void 0) {
         const controller = new __Facade_ScheduledController__(
           Date.now(),
@@ -1508,7 +1478,6 @@ function wrapWorkerEntrypoint(klass) {
   };
 }
 __name(wrapWorkerEntrypoint, "wrapWorkerEntrypoint");
-__name2(wrapWorkerEntrypoint, "wrapWorkerEntrypoint");
 var WRAPPED_ENTRY;
 if (typeof middleware_insertion_facade_default === "object") {
   WRAPPED_ENTRY = wrapExportedHandler(middleware_insertion_facade_default);
@@ -1516,178 +1485,8 @@ if (typeof middleware_insertion_facade_default === "object") {
   WRAPPED_ENTRY = wrapWorkerEntrypoint(middleware_insertion_facade_default);
 }
 var middleware_loader_entry_default = WRAPPED_ENTRY;
-
-// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/middleware-ensure-req-body-drained.ts
-var drainBody2 = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx) => {
-  try {
-    return await middlewareCtx.next(request, env);
-  } finally {
-    try {
-      if (request.body !== null && !request.bodyUsed) {
-        const reader = request.body.getReader();
-        while (!(await reader.read()).done) {
-        }
-      }
-    } catch (e) {
-      console.error("Failed to drain the unused request body.", e);
-    }
-  }
-}, "drainBody");
-var middleware_ensure_req_body_drained_default2 = drainBody2;
-
-// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts
-function reduceError2(e) {
-  return {
-    name: e?.name,
-    message: e?.message ?? String(e),
-    stack: e?.stack,
-    cause: e?.cause === void 0 ? void 0 : reduceError2(e.cause)
-  };
-}
-__name(reduceError2, "reduceError");
-var jsonError2 = /* @__PURE__ */ __name(async (request, env, _ctx, middlewareCtx) => {
-  try {
-    return await middlewareCtx.next(request, env);
-  } catch (e) {
-    const error = reduceError2(e);
-    return Response.json(error, {
-      status: 500,
-      headers: { "MF-Experimental-Error-Stack": "true" }
-    });
-  }
-}, "jsonError");
-var middleware_miniflare3_json_error_default2 = jsonError2;
-
-// .wrangler/tmp/bundle-FI5agg/middleware-insertion-facade.js
-var __INTERNAL_WRANGLER_MIDDLEWARE__2 = [
-  middleware_ensure_req_body_drained_default2,
-  middleware_miniflare3_json_error_default2
-];
-var middleware_insertion_facade_default2 = middleware_loader_entry_default;
-
-// C:/Users/Lucas/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/templates/middleware/common.ts
-var __facade_middleware__2 = [];
-function __facade_register__2(...args) {
-  __facade_middleware__2.push(...args.flat());
-}
-__name(__facade_register__2, "__facade_register__");
-function __facade_invokeChain__2(request, env, ctx, dispatch, middlewareChain) {
-  const [head, ...tail] = middlewareChain;
-  const middlewareCtx = {
-    dispatch,
-    next(newRequest, newEnv) {
-      return __facade_invokeChain__2(newRequest, newEnv, ctx, dispatch, tail);
-    }
-  };
-  return head(request, env, ctx, middlewareCtx);
-}
-__name(__facade_invokeChain__2, "__facade_invokeChain__");
-function __facade_invoke__2(request, env, ctx, dispatch, finalMiddleware) {
-  return __facade_invokeChain__2(request, env, ctx, dispatch, [
-    ...__facade_middleware__2,
-    finalMiddleware
-  ]);
-}
-__name(__facade_invoke__2, "__facade_invoke__");
-
-// .wrangler/tmp/bundle-FI5agg/middleware-loader.entry.ts
-var __Facade_ScheduledController__2 = class ___Facade_ScheduledController__2 {
-  constructor(scheduledTime, cron, noRetry) {
-    this.scheduledTime = scheduledTime;
-    this.cron = cron;
-    this.#noRetry = noRetry;
-  }
-  static {
-    __name(this, "__Facade_ScheduledController__");
-  }
-  #noRetry;
-  noRetry() {
-    if (!(this instanceof ___Facade_ScheduledController__2)) {
-      throw new TypeError("Illegal invocation");
-    }
-    this.#noRetry();
-  }
-};
-function wrapExportedHandler2(worker) {
-  if (__INTERNAL_WRANGLER_MIDDLEWARE__2 === void 0 || __INTERNAL_WRANGLER_MIDDLEWARE__2.length === 0) {
-    return worker;
-  }
-  for (const middleware of __INTERNAL_WRANGLER_MIDDLEWARE__2) {
-    __facade_register__2(middleware);
-  }
-  const fetchDispatcher = /* @__PURE__ */ __name(function(request, env, ctx) {
-    if (worker.fetch === void 0) {
-      throw new Error("Handler does not export a fetch() function.");
-    }
-    return worker.fetch(request, env, ctx);
-  }, "fetchDispatcher");
-  return {
-    ...worker,
-    fetch(request, env, ctx) {
-      const dispatcher = /* @__PURE__ */ __name(function(type, init) {
-        if (type === "scheduled" && worker.scheduled !== void 0) {
-          const controller = new __Facade_ScheduledController__2(
-            Date.now(),
-            init.cron ?? "",
-            () => {
-            }
-          );
-          return worker.scheduled(controller, env, ctx);
-        }
-      }, "dispatcher");
-      return __facade_invoke__2(request, env, ctx, dispatcher, fetchDispatcher);
-    }
-  };
-}
-__name(wrapExportedHandler2, "wrapExportedHandler");
-function wrapWorkerEntrypoint2(klass) {
-  if (__INTERNAL_WRANGLER_MIDDLEWARE__2 === void 0 || __INTERNAL_WRANGLER_MIDDLEWARE__2.length === 0) {
-    return klass;
-  }
-  for (const middleware of __INTERNAL_WRANGLER_MIDDLEWARE__2) {
-    __facade_register__2(middleware);
-  }
-  return class extends klass {
-    #fetchDispatcher = /* @__PURE__ */ __name((request, env, ctx) => {
-      this.env = env;
-      this.ctx = ctx;
-      if (super.fetch === void 0) {
-        throw new Error("Entrypoint class does not define a fetch() function.");
-      }
-      return super.fetch(request);
-    }, "#fetchDispatcher");
-    #dispatcher = /* @__PURE__ */ __name((type, init) => {
-      if (type === "scheduled" && super.scheduled !== void 0) {
-        const controller = new __Facade_ScheduledController__2(
-          Date.now(),
-          init.cron ?? "",
-          () => {
-          }
-        );
-        return super.scheduled(controller);
-      }
-    }, "#dispatcher");
-    fetch(request) {
-      return __facade_invoke__2(
-        request,
-        this.env,
-        this.ctx,
-        this.#dispatcher,
-        this.#fetchDispatcher
-      );
-    }
-  };
-}
-__name(wrapWorkerEntrypoint2, "wrapWorkerEntrypoint");
-var WRAPPED_ENTRY2;
-if (typeof middleware_insertion_facade_default2 === "object") {
-  WRAPPED_ENTRY2 = wrapExportedHandler2(middleware_insertion_facade_default2);
-} else if (typeof middleware_insertion_facade_default2 === "function") {
-  WRAPPED_ENTRY2 = wrapWorkerEntrypoint2(middleware_insertion_facade_default2);
-}
-var middleware_loader_entry_default2 = WRAPPED_ENTRY2;
 export {
-  __INTERNAL_WRANGLER_MIDDLEWARE__2 as __INTERNAL_WRANGLER_MIDDLEWARE__,
-  middleware_loader_entry_default2 as default
+  __INTERNAL_WRANGLER_MIDDLEWARE__,
+  middleware_loader_entry_default as default
 };
-//# sourceMappingURL=functionsWorker-0.7980352438876658.js.map
+//# sourceMappingURL=functionsWorker-0.3558684415550446.mjs.map

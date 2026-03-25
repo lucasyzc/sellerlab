@@ -1,11 +1,11 @@
 import {
   US, GB, DE, JP, CA, IT, ES, AU, AE, BR, SG, MX, NL, BE, SE, PL, TR, CH, EU,
-  FR, ID, TH, MY, VN, PH, RU,
+  FR, ID, TH, MY, VN, PH, RU, CL,
 } from "country-flag-icons/react/3x2";
 
 const FLAGS: Record<string, React.ComponentType<{ style?: React.CSSProperties }>> = {
   US, GB, DE, JP, CA, IT, ES, AU, AE, BR, SG, MX, NL, BE, SE, PL, TR, CH, EU,
-  FR, ID, TH, MY, VN, PH, RU,
+  FR, ID, TH, MY, VN, PH, RU, CL,
   UK: GB,
 };
 

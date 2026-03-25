@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Footer } from "./components/footer";
 import { CookieConsent } from "./components/cookie-consent";
 import { GoogleAnalytics } from "./components/google-analytics";
 import { AdSense } from "./components/adsense";
+import { SiteHeader } from "./components/site-header";
 import { SITE_URL } from "@/lib/site-url";
 import { BRAND, withMasterBrand } from "@/lib/brand";
 import "./globals.css";
@@ -53,38 +53,7 @@ export default function RootLayout({
       <body>
         <GoogleAnalytics />
         <AdSense />
-        <header style={{ borderBottom: "1px solid #e2e8f0", background: "#ffffff" }}>
-          <div
-            className="container"
-            style={{
-              minHeight: 64,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 16,
-              flexWrap: "wrap",
-              padding: "12px 0",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <Link href="/" style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.1 }}>
-                {BRAND.masterName}
-              </Link>
-              <span style={{ fontSize: 12, color: "var(--color-text-tertiary)", lineHeight: 1.2 }}>
-                {BRAND.masterTagline}
-              </span>
-            </div>
-            <nav style={{ display: "flex", gap: 18, fontSize: 14, fontWeight: 500, flexWrap: "wrap" }}>
-              <Link href="/">Home</Link>
-              <Link href="/#tools">{BRAND.suiteLabel}</Link>
-              <Link href="/compare">Compare</Link>
-              <Link href="/updates">Updates</Link>
-              <Link href="/ebay-fee-calculator">eBay Fee Calculator</Link>
-              <Link href="/ebay-title-optimizer">eBay Title Optimizer</Link>
-              <Link href="/amazon-fee-calculator">Amazon Fee Calculator</Link>
-            </nav>
-          </div>
-        </header>
+        <SiteHeader />
         <main style={{ padding: "24px 0 40px" }}>{children}</main>
         <Footer />
         <CookieConsent />

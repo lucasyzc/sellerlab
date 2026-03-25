@@ -13,6 +13,7 @@ const AMAZON_MARKETS = [
 ];
 const TIKTOK_MARKETS = ["us", "uk", "vn", "th", "sg", "my", "id", "ph"];
 const SHOPIFY_MARKETS = ["us", "ca", "au", "sg", "jp", "eu", "uk", "ch"];
+const WALMART_MARKETS = ["us", "ca", "mx", "cl"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -44,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/shopify-fee-calculator`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/walmart-fee-calculator`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -128,6 +135,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
+  const walmartMarketPages: MetadataRoute.Sitemap = WALMART_MARKETS.map(
+    (market) => ({
+      url: `${BASE_URL}/walmart-fee-calculator/${market}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })
+  );
+
   const comparePages: MetadataRoute.Sitemap = COMPARE_ENTRIES.map((entry) => ({
     url: `${BASE_URL}/compare/${entry.slug}`,
     lastModified: new Date(entry.updatedAt),
@@ -148,6 +164,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...amazonMarketPages,
     ...tiktokMarketPages,
     ...shopifyMarketPages,
+    ...walmartMarketPages,
     ...comparePages,
     ...updatePages,
   ];
