@@ -83,7 +83,7 @@ function StructuredData() {
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: `TikTok Shop Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/tiktok-shop-fee-calculator"),
     applicationCategory: "BusinessApplication",
@@ -220,6 +220,43 @@ export default function TikTokFeeCalculatorHubPage() {
       </section>
 
       <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 12 }}>
+          Calculation Logic
+        </h2>
+        <ul style={{ margin: 0, paddingLeft: 20 }}>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Total Fees = Marketplace Commission + Payment/Service Fees + Affiliate Commission + Logistics Cost.
+          </li>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Net Profit = Revenue − Product Cost − Tax Remitted − Total Fees.
+          </li>
+          <li className="muted" style={{ lineHeight: 1.7 }}>
+            Margin = Net Profit / Revenue.
+          </li>
+        </ul>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 10 }}>
+          Primary Sources
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, lineHeight: 1.7 }}>
+          Use official TikTok Shop documentation and your Seller Center fee cards for final fee validation in each market.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <a className="btn" href="https://seller-us.tiktok.com/university/essay?identity=1&role=1&knowledge_id=10002377" target="_blank" rel="noopener noreferrer">
+            TikTok Shop US Seller Academy
+          </a>
+          <a className="btn" href="https://seller-uk.tiktok.com/university" target="_blank" rel="noopener noreferrer">
+            TikTok Shop UK Seller Academy
+          </a>
+          <a className="btn" href="https://seller-vn.tiktok.com/university" target="_blank" rel="noopener noreferrer">
+            TikTok Shop Vietnam Seller Academy
+          </a>
+        </div>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
           Frequently Asked Questions
         </h2>
@@ -295,5 +332,3 @@ export default function TikTokFeeCalculatorHubPage() {
     </div>
   );
 }
-
-

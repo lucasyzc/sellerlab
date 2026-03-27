@@ -139,7 +139,7 @@ function StructuredData() {
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: `Walmart Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/walmart-fee-calculator"),
     applicationCategory: "BusinessApplication",
@@ -316,6 +316,43 @@ export default function WalmartFeeCalculatorHubPage() {
             ))}
           </tbody>
         </table>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 12 }}>
+          Calculation Logic
+        </h2>
+        <ul style={{ margin: 0, paddingLeft: 20 }}>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Total Fees = Referral Fee + Fulfillment Cost (WFS/manual) + Storage Cost + Optional Ads.
+          </li>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Net Profit = Revenue − Product Cost − Shipping/Operations Cost − Total Fees.
+          </li>
+          <li className="muted" style={{ lineHeight: 1.7 }}>
+            Margin = Net Profit / Revenue.
+          </li>
+        </ul>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 10 }}>
+          Primary Sources
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, lineHeight: 1.7 }}>
+          Validate category fees and fulfillment assumptions against the official Walmart Marketplace documentation for each country.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <a className="btn" href="https://marketplace.walmart.com/pricing/" target="_blank" rel="noopener noreferrer">
+            Walmart US Pricing
+          </a>
+          <a className="btn" href="https://marketplace.walmart.ca/s/pricing" target="_blank" rel="noopener noreferrer">
+            Walmart Canada Pricing
+          </a>
+          <a className="btn" href="https://marketplace.walmart.com.mx/" target="_blank" rel="noopener noreferrer">
+            Walmart Mexico Marketplace
+          </a>
+        </div>
       </section>
 
       <section style={{ background: "linear-gradient(135deg, #0071CE 0%, #005ca8 100%)", borderRadius: "var(--radius)", padding: "40px 24px", textAlign: "center", color: "#fff", marginTop: 16, marginBottom: 8 }}>

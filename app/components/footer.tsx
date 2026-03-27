@@ -25,6 +25,9 @@ export function Footer() {
                 <Link href="/ebay-fee-calculator">eBay Fee Calculator</Link>
               </li>
               <li>
+                <Link href="/ebay-pricing-calculator">eBay Pricing Calculator</Link>
+              </li>
+              <li>
                 <Link href="/amazon-fee-calculator">Amazon Fee Calculator</Link>
               </li>
               <li>
@@ -47,6 +50,9 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/contact">Contact</Link>
+              </li>
+              <li>
+                <Link href="/glossary">Glossary</Link>
               </li>
             </ul>
           </div>

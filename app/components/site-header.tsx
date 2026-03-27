@@ -17,6 +17,7 @@ const MAIN_NAV: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Compare", href: "/compare" },
   { label: "Updates", href: "/updates" },
+  { label: "Glossary", href: "/glossary" },
   { label: "About", href: "/about" },
 ];
 
@@ -26,6 +27,12 @@ const TOOLS_NAV: ToolNavItem[] = [
     href: "/ebay-fee-calculator",
     group: "fee",
     description: "Estimate fees, net profit, and margin for eBay listings.",
+  },
+  {
+    label: "eBay Pricing Calculator",
+    href: "/ebay-pricing-calculator",
+    group: "fee",
+    description: "Back-solve the minimum listing price from your target profit.",
   },
   {
     label: "Amazon Fee Calculator",
@@ -334,6 +341,13 @@ export function SiteHeader() {
               onClick={closeAllMenus}
             >
               Updates
+            </Link>
+            <Link
+              href="/glossary"
+              className={`mobile-nav-link ${isPathActive(pathname, "/glossary") ? "is-active" : ""}`}
+              onClick={closeAllMenus}
+            >
+              Glossary
             </Link>
           </div>
 

@@ -232,7 +232,7 @@ export function MarketStructuredData({ config }: { config: WalmartMarketConfig }
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: withSeoYear(config.seo.h1, seoYear),
     url: absoluteUrl(url),
     applicationCategory: "BusinessApplication",

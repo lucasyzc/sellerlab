@@ -126,6 +126,15 @@ const TOOLS: Tool[] = [
     href: "/ebay-fee-calculator",
   },
   {
+    id: "ebay-pricing-calc",
+    name: "eBay Pricing Calculator",
+    description: "Back-solve the minimum listing price from cost, discount rate, and target profit or margin",
+    platform: "ebay",
+    countries: ["US", "UK", "DE", "AU", "CA", "FR", "IT"],
+    status: "live",
+    href: "/ebay-pricing-calculator",
+  },
+  {
     id: "amazon-fba-calc",
     name: "Amazon FBA Calculator",
     description: "Estimate FBA fulfillment fees, storage costs, and referral fees to quickly assess product profitability",
@@ -202,6 +211,9 @@ export default function LandingPage() {
 
   const platformNames: Record<string, string> = {};
   PLATFORMS.forEach((p) => { platformNames[p.id] = p.name; });
+
+  const getLiveToolCount = (platformId: string) =>
+    TOOLS.filter((tool) => tool.platform === platformId && tool.status === "live").length;
 
   return (
     <div className="container">
@@ -345,7 +357,9 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="platform-grid">
-          {PLATFORMS.map((platform) => (
+          {PLATFORMS.map((platform) => {
+            const liveToolCount = getLiveToolCount(platform.id);
+            return (
             <div
               key={platform.id}
               className="platform-card"
@@ -365,11 +379,12 @@ export default function LandingPage() {
                   {platform.countries.length} {platform.countries.length === 1 ? "market" : "markets"}
                 </span>
                 <span className="platform-tag">
-                  {platform.toolCount > 0 ? `${platform.toolCount} ${platform.toolCount === 1 ? "tool" : "tools"}` : "Coming Soon"}
+                  {liveToolCount > 0 ? `${liveToolCount} ${liveToolCount === 1 ? "tool" : "tools"}` : "Coming Soon"}
                 </span>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

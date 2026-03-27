@@ -8,6 +8,7 @@ export const dynamic = "force-static";
 const BASE_URL = SITE_URL;
 
 const EBAY_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];
+const EBAY_PRICING_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];
 const AMAZON_MARKETS = [
   "us", "uk", "de", "jp", "ca", "it", "es", "au",
   "ae", "br", "sg", "mx", "nl", "be", "se", "pl", "tr",
@@ -19,6 +20,7 @@ const CORE_LAST_MODIFIED = new Date("2026-03-26");
 const FEE_LAST_MODIFIED = new Date(FEE_SEO_LAST_REVIEWED);
 const CONTENT_LAST_MODIFIED = new Date("2026-03-22");
 const LEGAL_LAST_MODIFIED = new Date("2026-03-18");
+const GLOSSARY_LAST_MODIFIED = new Date("2026-03-27");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -30,6 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/ebay-fee-calculator`,
+      lastModified: FEE_LAST_MODIFIED,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/ebay-pricing-calculator`,
       lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -77,6 +85,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${BASE_URL}/glossary`,
+      lastModified: GLOSSARY_LAST_MODIFIED,
+      changeFrequency: "monthly",
+      priority: 0.65,
+    },
+    {
       url: `${BASE_URL}/about`,
       lastModified: CORE_LAST_MODIFIED,
       changeFrequency: "monthly",
@@ -105,6 +119,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const ebayMarketPages: MetadataRoute.Sitemap = EBAY_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/ebay-fee-calculator/${market}`,
+      lastModified: FEE_LAST_MODIFIED,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })
+  );
+
+  const ebayPricingMarketPages: MetadataRoute.Sitemap = EBAY_PRICING_MARKETS.map(
+    (market) => ({
+      url: `${BASE_URL}/ebay-pricing-calculator/${market}`,
       lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly" as const,
       priority: 0.8,
@@ -164,6 +187,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticPages,
     ...ebayMarketPages,
+    ...ebayPricingMarketPages,
     ...amazonMarketPages,
     ...tiktokMarketPages,
     ...shopifyMarketPages,

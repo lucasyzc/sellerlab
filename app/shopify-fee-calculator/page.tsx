@@ -4,8 +4,10 @@ import { SHOPIFY_MARKET_GROUPS } from "./shopify-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
+import { FEE_SEO_LAST_REVIEWED, lastReviewedLabel } from "@/lib/fee-seo";
 
 const TOOL_TITLE = withSuiteBrand("Shopify Cost Calculator – Multi-Market");
+const HUB_LAST_REVIEWED = FEE_SEO_LAST_REVIEWED;
 
 export const metadata: Metadata = {
   title: TOOL_TITLE,
@@ -71,12 +73,13 @@ function StructuredData() {
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: "Shopify Cost Calculator",
     url: absoluteUrl("/shopify-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    dateModified: HUB_LAST_REVIEWED,
     description:
       "Free Shopify calculator for subscription costs, payment fees, transaction fees, and net profit analysis.",
   };
@@ -121,6 +124,9 @@ export default function ShopifyFeeCalculatorHubPage() {
         <p className="muted" style={{ fontSize: 17, maxWidth: 700, margin: "0 auto", lineHeight: 1.65 }}>
           Calculate Shopify plan costs, payment processing fees, third-party transaction fees,
           and per-order profitability with a detailed fee and cost breakdown.
+        </p>
+        <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 12 }}>
+          {lastReviewedLabel(HUB_LAST_REVIEWED)}
         </p>
       </section>
 
@@ -201,6 +207,43 @@ export default function ShopifyFeeCalculatorHubPage() {
       </section>
 
       <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 12 }}>
+          Calculation Logic
+        </h2>
+        <ul style={{ margin: 0, paddingLeft: 20 }}>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Total Fees = Subscription Allocation + Payment Processing + Transaction Fees + App/Operating Costs.
+          </li>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Net Profit = Revenue − Product Cost − Shipping Cost − Total Fees.
+          </li>
+          <li className="muted" style={{ lineHeight: 1.7 }}>
+            Margin = Net Profit / Revenue.
+          </li>
+        </ul>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 10 }}>
+          Primary Sources
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, lineHeight: 1.7 }}>
+          Confirm plan and payment assumptions with official Shopify pricing documentation for the market you sell in.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <a className="btn" href="https://www.shopify.com/pricing" target="_blank" rel="noopener noreferrer">
+            Shopify Pricing
+          </a>
+          <a className="btn" href="https://www.shopify.com/payments" target="_blank" rel="noopener noreferrer">
+            Shopify Payments
+          </a>
+          <a className="btn" href="https://help.shopify.com/en/manual/payments/third-party-providers" target="_blank" rel="noopener noreferrer">
+            Third-Party Payments
+          </a>
+        </div>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
           Frequently Asked Questions
         </h2>
@@ -266,5 +309,3 @@ export default function ShopifyFeeCalculatorHubPage() {
     </div>
   );
 }
-
-

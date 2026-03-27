@@ -44,7 +44,7 @@ export function MarketStructuredData({ config }: { config: ShopifyMarketConfig }
           },
           {
             "@context": "https://schema.org",
-            "@type": "WebApplication",
+            "@type": "SoftwareApplication",
             name: config.seo.h1,
             url: absoluteUrl(url),
             applicationCategory: "BusinessApplication",

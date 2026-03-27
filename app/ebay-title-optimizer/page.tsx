@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
 import { EbayTitleOptimizerClient } from "./optimizer-client";
+import { FEE_SEO_LAST_REVIEWED } from "@/lib/fee-seo";
 
 const TOOL_TITLE = withSuiteBrand("eBay Title Optimizer");
+const LAST_REVIEWED = FEE_SEO_LAST_REVIEWED;
 
 export const metadata: Metadata = {
   title: TOOL_TITLE,
@@ -58,12 +60,13 @@ function StructuredData() {
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: "eBay Title Optimizer",
     url: absoluteUrl("/ebay-title-optimizer"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    dateModified: LAST_REVIEWED,
     description:
       "Free AI eBay title optimization tool with SEO-focused prompt logic, market-aware output, and scored title variants.",
   };
@@ -159,9 +162,12 @@ export default function EbayTitleOptimizerPage() {
   return (
     <div className="container">
       <StructuredData />
+      <section className="card" style={{ marginBottom: 12 }}>
+        <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+          Last reviewed: {LAST_REVIEWED}. Use this tool with current marketplace policies before publishing title changes at scale.
+        </p>
+      </section>
       <EbayTitleOptimizerClient />
     </div>
   );
 }
-
-

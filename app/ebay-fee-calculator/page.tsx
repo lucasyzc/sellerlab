@@ -61,7 +61,7 @@ function StructuredData() {
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: `eBay Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/ebay-fee-calculator"),
     applicationCategory: "BusinessApplication",
@@ -644,6 +644,43 @@ export default function EbayFeeCalculatorHubPage() {
         </div>
       </section>
 
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 12 }}>
+          Calculation Logic
+        </h2>
+        <ul style={{ margin: 0, paddingLeft: 20 }}>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Total Fees = Final Value Fee + Per-Order Fee + Optional Processing/Regulatory/Ad Fees.
+          </li>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Net Profit = Revenue − Item Cost − Shipping Cost − Total Fees.
+          </li>
+          <li className="muted" style={{ lineHeight: 1.7 }}>
+            Margin = Net Profit / Revenue.
+          </li>
+        </ul>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 10 }}>
+          Primary Sources
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, lineHeight: 1.7 }}>
+          Recheck category and store-tier details against official eBay documentation before publishing price changes.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <a className="btn" href="https://www.ebay.com/sellercenter/selling/seller-fees" target="_blank" rel="noopener noreferrer">
+            eBay US Fees
+          </a>
+          <a className="btn" href="https://www.ebay.co.uk/help/selling/fees-credits-invoices/selling-fees?id=4364" target="_blank" rel="noopener noreferrer">
+            eBay UK Fees
+          </a>
+          <a className="btn" href="https://www.ebay.de/help/selling/fees-credits-invoices/verkaufsgebuehren?id=4822" target="_blank" rel="noopener noreferrer">
+            eBay DE Fees
+          </a>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="card" style={{ padding: 24, marginTop: 16 }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
@@ -764,5 +801,3 @@ export default function EbayFeeCalculatorHubPage() {
     </div>
   );
 }
-
-

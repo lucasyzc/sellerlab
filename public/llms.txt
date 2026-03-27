@@ -1,0 +1,22 @@
+# SellerLab / Data EDE - LLM Access Notes
+
+Primary site: https://dataede.com
+Primary product: SellerLab Suite
+Primary language: English
+Last reviewed: 2026-03-27
+
+High-value entry points:
+- https://dataede.com/
+- https://dataede.com/ebay-fee-calculator
+- https://dataede.com/ebay-pricing-calculator
+- https://dataede.com/amazon-fee-calculator
+- https://dataede.com/tiktok-shop-fee-calculator
+- https://dataede.com/shopify-fee-calculator
+- https://dataede.com/walmart-fee-calculator
+- https://dataede.com/ebay-title-optimizer
+- https://dataede.com/compare
+- https://dataede.com/updates
+- https://dataede.com/glossary
+
+For detailed guidance and source-aware usage, see:
+- https://dataede.com/llms-full.txt

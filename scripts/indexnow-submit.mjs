@@ -3,7 +3,7 @@
 /**
  * Usage examples:
  * 1) Submit explicit URLs:
- *    node scripts/indexnow-submit.mjs https://sellerlab.tools/updates/a https://sellerlab.tools/compare/b
+ *    node scripts/indexnow-submit.mjs https://dataede.com/updates/a https://dataede.com/compare/b
  *
  * 2) Submit URLs from file (one URL per line):
  *    node scripts/indexnow-submit.mjs --file urls.txt
@@ -12,7 +12,7 @@
  * - INDEXNOW_KEY
  *
  * Optional environment variables:
- * - INDEXNOW_HOST (default: sellerlab.tools)
+ * - INDEXNOW_HOST (default: dataede.com)
  * - INDEXNOW_KEY_LOCATION (default: https://<host>/<key>.txt)
  */
 
@@ -68,7 +68,7 @@ async function main() {
   const key = process.env.INDEXNOW_KEY;
   if (!key) fail("Missing INDEXNOW_KEY environment variable");
 
-  const host = (process.env.INDEXNOW_HOST || "sellerlab.tools").trim();
+  const host = (process.env.INDEXNOW_HOST || "dataede.com").trim();
   const keyLocation =
     process.env.INDEXNOW_KEY_LOCATION || `https://${host}/${key}.txt`;
 
@@ -103,4 +103,3 @@ async function main() {
 main().catch((error) => {
   fail(`Unexpected error: ${error instanceof Error ? error.message : String(error)}`);
 });
-

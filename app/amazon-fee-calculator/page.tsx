@@ -62,7 +62,7 @@ function StructuredData() {
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: `Amazon Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/amazon-fee-calculator"),
     applicationCategory: "BusinessApplication",
@@ -523,6 +523,43 @@ export default function AmazonFeeCalculatorHubPage() {
         </div>
       </section>
 
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 12 }}>
+          Calculation Logic
+        </h2>
+        <ul style={{ margin: 0, paddingLeft: 20 }}>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Total Fees = Referral Fee + Fulfillment Fee + Storage Fee + Optional Ad Fee.
+          </li>
+          <li className="muted" style={{ marginBottom: 8, lineHeight: 1.7 }}>
+            Net Profit = Revenue − Product Cost − Shipping Cost − Total Fees.
+          </li>
+          <li className="muted" style={{ lineHeight: 1.7 }}>
+            Margin = Net Profit / Revenue.
+          </li>
+        </ul>
+      </section>
+
+      <section className="card" style={{ padding: 24, marginTop: 16 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 10 }}>
+          Primary Sources
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, lineHeight: 1.7 }}>
+          Validate category-level decisions against official Amazon seller fee documentation for your target marketplace.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <a className="btn" href="https://sellercentral.amazon.com/help/hub/reference/external/G200336920" target="_blank" rel="noopener noreferrer">
+            Amazon US Selling Fees
+          </a>
+          <a className="btn" href="https://sell.amazon.co.uk/pricing" target="_blank" rel="noopener noreferrer">
+            Amazon UK Selling Fees
+          </a>
+          <a className="btn" href="https://sell.amazon.de/preise" target="_blank" rel="noopener noreferrer">
+            Amazon DE Selling Fees
+          </a>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="card" style={{ padding: 24, marginTop: 16 }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
@@ -677,5 +714,3 @@ export default function AmazonFeeCalculatorHubPage() {
     </div>
   );
 }
-
-
