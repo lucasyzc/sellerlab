@@ -4,13 +4,24 @@ import { MARKET_LIST } from "./market-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
+import {
+  buildFeeMetadata,
+  FEE_SEO_LAST_REVIEWED,
+  FEE_SEO_YEAR,
+  lastReviewedLabel,
+  withSeoYear,
+} from "@/lib/fee-seo";
 
-const TOOL_TITLE = withSuiteBrand("eBay Fee Calculator – All Marketplaces");
+const HUB_LAST_REVIEWED = FEE_SEO_LAST_REVIEWED;
+const TOOL_TITLE = withSuiteBrand(
+  withSeoYear("eBay Fee Calculator – All Marketplaces", FEE_SEO_YEAR),
+);
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildFeeMetadata({
   title: TOOL_TITLE,
   description:
     "Free eBay fee calculator for US, UK, Germany, Australia, Canada, France, and Italy. Compare final value fees, per-order fees, and selling costs across all major eBay marketplaces.",
+  canonicalPath: "/ebay-fee-calculator",
   keywords: [
     "ebay fee calculator",
     "ebay fees",
@@ -20,25 +31,18 @@ export const metadata: Metadata = {
     "ebay selling fees 2026",
     "ebay fee comparison",
   ],
-  openGraph: {
-    title: TOOL_TITLE,
-    description:
-      "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
-    type: "website",
-    siteName: "Data EDE",
-    url: "/ebay-fee-calculator",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary",
-    title: TOOL_TITLE,
-    description:
-      "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
-  },
-  alternates: {
-    canonical: "/ebay-fee-calculator",
-  },
-};
+  yearKeywordPhrases: [
+    "ebay fee calculator 2026",
+    "ebay final value fee 2026",
+    "ebay seller fees 2026",
+  ],
+  lastReviewed: HUB_LAST_REVIEWED,
+  openGraphDescription:
+    "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
+  twitterDescription:
+    "Compare eBay selling fees and calculate profit across 7 major eBay marketplaces worldwide.",
+  twitterCard: "summary",
+});
 
 function StructuredData() {
   const breadcrumb = {
@@ -58,11 +62,12 @@ function StructuredData() {
   const webApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "eBay Fee Calculator",
+    name: `eBay Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/ebay-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    dateModified: HUB_LAST_REVIEWED,
     description:
       "Free eBay fee calculator covering 7 marketplaces. Calculate final value fees, payment processing fees, and net profit for eBay sellers.",
   };
@@ -219,6 +224,10 @@ const FAQ_ITEMS = [
     q: "Does eBay charge fees on shipping?",
     a: "Yes. eBay\u2019s final value fee is calculated on the total sale amount, which includes the shipping amount the buyer pays. This is why offering \u201cfree shipping\u201d by building shipping costs into your item price doesn\u2019t save on fees.",
   },
+  {
+    q: "Is this eBay fee calculator updated for 2026?",
+    a: "Yes. The calculator is maintained for 2026 fee-search intent and reviewed policy context by market. Always validate your category and store tier against official eBay seller updates before final pricing.",
+  },
 ];
 
 export default function EbayFeeCalculatorHubPage() {
@@ -260,7 +269,7 @@ export default function EbayFeeCalculatorHubPage() {
             lineHeight: 1.2,
           }}
         >
-          eBay Fee Calculator
+          eBay Fee Calculator ({FEE_SEO_YEAR})
         </h1>
         <p
           className="muted"
@@ -274,6 +283,9 @@ export default function EbayFeeCalculatorHubPage() {
           Calculate final value fees, selling costs, and net profit across all
           major eBay marketplaces. Choose your marketplace below to get accurate,
           category-specific fee estimates.
+        </p>
+        <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 12 }}>
+          {lastReviewedLabel(HUB_LAST_REVIEWED)}
         </p>
 
         <div
@@ -311,6 +323,26 @@ export default function EbayFeeCalculatorHubPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="card" style={{ padding: 20, marginTop: 16 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, marginTop: 0, marginBottom: 8 }}>
+          2026 eBay Fee Deep Dives
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 10, fontSize: 14, lineHeight: 1.65 }}>
+          Use these update briefings for policy context, then model exact category-level economics in the calculator.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <Link className="btn" href="/updates/ebay-fee-changes-2026-q2">
+            eBay Fee Changes 2026 Q2
+          </Link>
+          <Link className="btn" href="/updates/ebay-store-subscription-break-even-2026">
+            eBay Store Break-even 2026
+          </Link>
+          <Link className="btn" href="/updates/ebay-promoted-listing-margin-update-2026">
+            eBay Promoted Listings 2026
+          </Link>
         </div>
       </section>
 

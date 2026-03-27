@@ -4,13 +4,24 @@ import { TIKTOK_MARKET_LIST } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
+import {
+  buildFeeMetadata,
+  FEE_SEO_LAST_REVIEWED,
+  FEE_SEO_YEAR,
+  lastReviewedLabel,
+  withSeoYear,
+} from "@/lib/fee-seo";
 
-const TOOL_TITLE = withSuiteBrand("TikTok Shop Fee Calculator – Multi-Market");
+const HUB_LAST_REVIEWED = FEE_SEO_LAST_REVIEWED;
+const TOOL_TITLE = withSuiteBrand(
+  withSeoYear("TikTok Shop Fee Calculator – Multi-Market", FEE_SEO_YEAR),
+);
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildFeeMetadata({
   title: TOOL_TITLE,
   description:
     "Free TikTok Shop fee calculator covering UK, US, Vietnam, Thailand, Singapore, Malaysia, Indonesia, and Philippines with market-specific fee models.",
+  canonicalPath: "/tiktok-shop-fee-calculator",
   keywords: [
     "tiktok shop fee calculator",
     "tiktok shop seller fees",
@@ -19,25 +30,18 @@ export const metadata: Metadata = {
     "tiktok shop tax calculator",
     "tiktok shop marketplace fees",
   ],
-  openGraph: {
-    title: TOOL_TITLE,
-    description:
-      "Estimate TikTok Shop marketplace fees, taxes, creator commissions, logistics costs, and profit across supported TikTok Shop markets.",
-    type: "website",
-    siteName: "Data EDE",
-    url: "/tiktok-shop-fee-calculator",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary",
-    title: TOOL_TITLE,
-    description:
-      "Calculate TikTok Shop fees, tax impact, and net profit for multiple markets.",
-  },
-  alternates: {
-    canonical: "/tiktok-shop-fee-calculator",
-  },
-};
+  yearKeywordPhrases: [
+    "tiktok shop fee calculator 2026",
+    "tiktok shop seller fees 2026",
+    "tiktok shop commission 2026",
+  ],
+  lastReviewed: HUB_LAST_REVIEWED,
+  openGraphDescription:
+    "Estimate TikTok Shop marketplace fees, taxes, creator commissions, logistics costs, and profit across supported TikTok Shop markets.",
+  twitterDescription:
+    "Calculate TikTok Shop fees, tax impact, and net profit for multiple markets.",
+  twitterCard: "summary",
+});
 
 const FAQ_ITEMS = [
   {
@@ -55,6 +59,10 @@ const FAQ_ITEMS = [
   {
     q: "Can I override fee rates?",
     a: "Yes. Markets whose official public pages do not expose stable numeric rates let you input your current TikTok Seller Center fee percentages directly.",
+  },
+  {
+    q: "Is this TikTok Shop calculator updated for 2026?",
+    a: "Yes. This hub is reviewed for 2026 keyword intent and market-level freshness signals, while each market page shows source-linked policy dates.",
   },
 ];
 
@@ -76,11 +84,12 @@ function StructuredData() {
   const webApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "TikTok Shop Fee Calculator",
+    name: `TikTok Shop Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/tiktok-shop-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    dateModified: HUB_LAST_REVIEWED,
     description:
       "Free TikTok Shop calculator covering marketplace fees, taxes, creator commissions, and profit analysis across multiple markets.",
   };
@@ -120,12 +129,27 @@ export default function TikTokFeeCalculatorHubPage() {
 
       <section style={{ textAlign: "center", padding: "40px 0 12px" }}>
         <h1 style={{ fontSize: 36, fontWeight: 800, margin: "0 0 14px", letterSpacing: "-0.025em", lineHeight: 1.2 }}>
-          TikTok Shop Fee Calculator
+          TikTok Shop Fee Calculator ({FEE_SEO_YEAR})
         </h1>
         <p className="muted" style={{ fontSize: 17, maxWidth: 720, margin: "0 auto", lineHeight: 1.65 }}>
           Calculate TikTok Shop marketplace fees, tax impact, creator commissions, logistics costs,
           and net profit across supported markets. Each market uses its own fee model and source notes.
         </p>
+        <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 12 }}>
+          {lastReviewedLabel(HUB_LAST_REVIEWED)}
+        </p>
+      </section>
+
+      <section className="card" style={{ padding: 20, marginTop: 16 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, marginTop: 0, marginBottom: 8 }}>
+          Fee Policy Updates
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 10, fontSize: 14, lineHeight: 1.65 }}>
+          Use the updates library for cross-platform policy tracking, then apply your current Seller Center rates in this calculator.
+        </p>
+        <Link href="/updates" className="btn">
+          Open Fee Policy Updates
+        </Link>
       </section>
 
       <section style={{ padding: "20px 0 8px" }}>

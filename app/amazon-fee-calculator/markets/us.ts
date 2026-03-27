@@ -183,7 +183,10 @@ export const US_MARKET: AmazonMarketConfig = {
     title: withSuiteBrand("US Amazon Fee Calculator"),
     description: "Calculate Amazon.com referral fees, FBA fulfillment fees, storage costs, and net profit for US sellers. Accurate rates for 45+ categories.",
     h1: "US Amazon Fee Calculator",
-    subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com. Rates updated as of 2025.",
+    subtitle: "Calculate referral fees, FBA costs & profit when selling on Amazon.com.",
+    lastReviewed: "2026-03-26",
+    effectiveYear: 2026,
+    freshnessNote: "US marketplace model reviewed against public 2026 fee references.",
   },
   notes: [
     "Professional sellers pay a $39.99 monthly subscription but no per-item fee. Individual sellers pay $0.99 per item sold.",

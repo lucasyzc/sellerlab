@@ -111,7 +111,15 @@ export type AmazonMarketConfig = {
     dimensionWidth: number;
     dimensionHeight: number;
   };
-  seo: { title: string; description: string; h1: string; subtitle: string };
+  seo: {
+    title: string;
+    description: string;
+    h1: string;
+    subtitle: string;
+    lastReviewed?: string;
+    effectiveYear?: number;
+    freshnessNote?: string;
+  };
   notes: string[];
   classifySizeTier: (weight: number, length: number, width: number, height: number) => SizeTier;
   calcFbaFulfillmentFee: (sizeTier: SizeTier, shippingWeight: number, isApparel: boolean, isDG: boolean) => number;

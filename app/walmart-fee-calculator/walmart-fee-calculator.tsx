@@ -13,9 +13,20 @@ import {
 } from "./walmart-config";
 import { WALMART_MARKET_LIST, WALMART_MARKETS } from "./markets";
 import { FlagIcon } from "../components/country-flags";
+import {
+  lastReviewedLabel,
+  resolveLastReviewed,
+  resolveSeoYear,
+  withSeoYear,
+} from "@/lib/fee-seo";
 
 export default function WalmartFeeCalculator({ marketId }: { marketId: WalmartMarketId }) {
   const config = WALMART_MARKETS[marketId];
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({
+    lastReviewed: config.seo.lastReviewed,
+    docs: config.docs,
+  });
   const [form, setForm] = useState<WalmartFormState>(() => makeDefaultForm(config));
 
   useEffect(() => {
@@ -40,9 +51,12 @@ export default function WalmartFeeCalculator({ marketId }: { marketId: WalmartMa
   return (
     <div className="grid" style={{ gap: 20 }}>
       <section className="card">
-        <h1 style={{ marginTop: 0, marginBottom: 8 }}>{config.seo.h1}</h1>
+        <h1 style={{ marginTop: 0, marginBottom: 8 }}>{withSeoYear(config.seo.h1, seoYear)}</h1>
         <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
           {config.seo.subtitle}
+        </p>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}>
+          {lastReviewedLabel(lastReviewed)}
         </p>
         <MarketSwitcher current={marketId} />
       </section>

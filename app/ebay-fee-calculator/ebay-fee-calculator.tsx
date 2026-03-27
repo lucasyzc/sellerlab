@@ -17,12 +17,20 @@ import {
 import { FlagIcon } from "../components/country-flags";
 import { trackEvent } from "@/lib/analytics";
 import { BRAND } from "@/lib/brand";
+import {
+  lastReviewedLabel,
+  resolveLastReviewed,
+  resolveSeoYear,
+  withSeoYear,
+} from "@/lib/fee-seo";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
 
 export default function EbayFeeCalculator({ marketId }: { marketId: MarketId }) {
   const config = MARKETS[marketId];
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({ lastReviewed: config.seo.lastReviewed });
 
   const [form, setForm] = useState<FormState>(() => ({
     storeType: config.storeTypes[0].value,
@@ -93,9 +101,12 @@ export default function EbayFeeCalculator({ marketId }: { marketId: MarketId }) 
     <div className="grid" style={{ gap: 20 }}>
       {/* Header */}
       <section className="card">
-        <h1 style={{ marginTop: 0, marginBottom: 8 }}>{config.seo.h1}</h1>
+        <h1 style={{ marginTop: 0, marginBottom: 8 }}>{withSeoYear(config.seo.h1, seoYear)}</h1>
         <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
           {config.seo.subtitle}
+        </p>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}>
+          {lastReviewedLabel(lastReviewed)}
         </p>
         <MarketSwitcher current={marketId} />
       </section>

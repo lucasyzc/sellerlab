@@ -2,6 +2,7 @@ import Link from "next/link";
 import { type TikTokMarketConfig } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { resolveLastReviewed, resolveSeoYear, withSeoYear } from "@/lib/fee-seo";
 
 function feeRateSummary(config: TikTokMarketConfig) {
   const lines = config.feeRules.map(rule => {
@@ -16,6 +17,12 @@ function feeRateSummary(config: TikTokMarketConfig) {
 }
 
 function faqItems(config: TikTokMarketConfig) {
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({
+    lastReviewed: config.seo.lastReviewed,
+    docs: config.docs,
+  });
+
   return [
     {
       q: `What fees are included for TikTok Shop ${config.fullName}?`,
@@ -33,12 +40,21 @@ function faqItems(config: TikTokMarketConfig) {
       q: "Where do these rules come from?",
       a: `The calculator is based on official public TikTok Shop documents for ${config.fullName}. Review the source links on this page before using the numbers operationally.`,
     },
+    {
+      q: `Is this TikTok Shop ${config.fullName} model updated for ${seoYear}?`,
+      a: `Yes. This model is reviewed for ${seoYear}. Last reviewed: ${lastReviewed}. For best accuracy, overwrite manual-rate fields with your current Seller Center values.`,
+    },
   ];
 }
 
 export function MarketStructuredData({ config }: { config: TikTokMarketConfig }) {
   const url = `/tiktok-shop-fee-calculator/${config.id}`;
   const faq = faqItems(config);
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({
+    lastReviewed: config.seo.lastReviewed,
+    docs: config.docs,
+  });
 
   return (
     <script
@@ -57,11 +73,12 @@ export function MarketStructuredData({ config }: { config: TikTokMarketConfig })
           {
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: config.seo.h1,
+            name: withSeoYear(config.seo.h1, seoYear),
             url: absoluteUrl(url),
             applicationCategory: "BusinessApplication",
             operatingSystem: "Any",
             offers: { "@type": "Offer", price: "0", priceCurrency: config.currency.code },
+            dateModified: lastReviewed,
             description: config.seo.description,
           },
           {

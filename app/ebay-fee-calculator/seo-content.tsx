@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { MarketConfig, MarketId } from "./market-config";
 import { absoluteUrl } from "@/lib/site-url";
+import { resolveLastReviewed, resolveSeoYear, withSeoYear } from "@/lib/fee-seo";
 
 // ═══════════════════════════════════════════════════════════════
 // Types
@@ -31,7 +32,9 @@ type ExplanationSection = { title: string; text: string };
 
 export function MarketStructuredData({ config }: { config: MarketConfig }) {
   const url = `/ebay-fee-calculator/${config.id}`;
-  const faqs = MARKET_FAQS[config.id];
+  const faqs = getMarketFaqs(config);
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({ lastReviewed: config.seo.lastReviewed });
 
   const breadcrumb = {
     "@context": "https://schema.org",
@@ -46,11 +49,12 @@ export function MarketStructuredData({ config }: { config: MarketConfig }) {
   const webApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: config.seo.h1,
+    name: withSeoYear(config.seo.h1, seoYear),
     url: absoluteUrl(url),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: config.currency.code },
+    dateModified: lastReviewed,
     description: config.seo.description,
     featureList: [
       "Final value fee calculation",
@@ -233,7 +237,7 @@ export function MarketFeeExplanation({ config }: { config: MarketConfig }) {
 // ═══════════════════════════════════════════════════════════════
 
 export function MarketFAQ({ config }: { config: MarketConfig }) {
-  const faqs = MARKET_FAQS[config.id];
+  const faqs = getMarketFaqs(config);
 
   return (
     <section className="card" style={{ padding: 24 }}>
@@ -283,6 +287,19 @@ export function MarketFAQ({ config }: { config: MarketConfig }) {
       </div>
     </section>
   );
+}
+
+function getMarketFaqs(config: MarketConfig): FAQ[] {
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({ lastReviewed: config.seo.lastReviewed });
+
+  return [
+    ...MARKET_FAQS[config.id],
+    {
+      q: `Is this ${config.siteName} fee model updated for ${seoYear}?`,
+      a: `Yes. This market model is reviewed for ${seoYear}. Last reviewed: ${lastReviewed}. Always verify your live category and store-tier rates on official eBay seller pages before final pricing decisions.`,
+    },
+  ];
 }
 
 // ═══════════════════════════════════════════════════════════════

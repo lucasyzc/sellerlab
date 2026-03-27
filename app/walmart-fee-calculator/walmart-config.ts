@@ -114,6 +114,9 @@ export type WalmartMarketConfig = {
     description: string;
     h1: string;
     subtitle: string;
+    lastReviewed?: string;
+    effectiveYear?: number;
+    freshnessNote?: string;
   };
   summary: {
     shortFeeSummary: string;

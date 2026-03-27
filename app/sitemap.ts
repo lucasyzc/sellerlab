@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
+import { FEE_SEO_LAST_REVIEWED } from "@/lib/fee-seo";
 import { COMPARE_ENTRIES } from "./compare/data";
 import { UPDATE_ENTRIES } from "./updates/data";
 
@@ -14,86 +15,88 @@ const AMAZON_MARKETS = [
 const TIKTOK_MARKETS = ["us", "uk", "vn", "th", "sg", "my", "id", "ph"];
 const SHOPIFY_MARKETS = ["us", "ca", "au", "sg", "jp", "eu", "uk", "ch"];
 const WALMART_MARKETS = ["us", "ca", "mx", "cl"];
+const CORE_LAST_MODIFIED = new Date("2026-03-26");
+const FEE_LAST_MODIFIED = new Date(FEE_SEO_LAST_REVIEWED);
+const CONTENT_LAST_MODIFIED = new Date("2026-03-22");
+const LEGAL_LAST_MODIFIED = new Date("2026-03-18");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
-      lastModified: now,
+      lastModified: CORE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
       url: `${BASE_URL}/ebay-fee-calculator`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/amazon-fee-calculator`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/tiktok-shop-fee-calculator`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/shopify-fee-calculator`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/walmart-fee-calculator`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/ebay-title-optimizer`,
-      lastModified: now,
+      lastModified: CORE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.85,
     },
     {
       url: `${BASE_URL}/compare`,
-      lastModified: now,
+      lastModified: CONTENT_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/updates`,
-      lastModified: now,
+      lastModified: CONTENT_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/about`,
-      lastModified: now,
+      lastModified: CORE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
       url: `${BASE_URL}/contact`,
-      lastModified: now,
+      lastModified: CORE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
       url: `${BASE_URL}/privacy-policy`,
-      lastModified: now,
+      lastModified: LEGAL_LAST_MODIFIED,
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
       url: `${BASE_URL}/terms-of-service`,
-      lastModified: now,
+      lastModified: LEGAL_LAST_MODIFIED,
       changeFrequency: "yearly",
       priority: 0.3,
     },
@@ -102,7 +105,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const ebayMarketPages: MetadataRoute.Sitemap = EBAY_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/ebay-fee-calculator/${market}`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })
@@ -111,7 +114,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const amazonMarketPages: MetadataRoute.Sitemap = AMAZON_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/amazon-fee-calculator/${market}`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })
@@ -120,7 +123,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const tiktokMarketPages: MetadataRoute.Sitemap = TIKTOK_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/tiktok-shop-fee-calculator/${market}`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })
@@ -129,7 +132,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const shopifyMarketPages: MetadataRoute.Sitemap = SHOPIFY_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/shopify-fee-calculator/${market}`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })
@@ -138,7 +141,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const walmartMarketPages: MetadataRoute.Sitemap = WALMART_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/walmart-fee-calculator/${market}`,
-      lastModified: now,
+      lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })

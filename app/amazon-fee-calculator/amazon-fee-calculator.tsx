@@ -15,12 +15,20 @@ import { AMAZON_MARKET_LIST, AMAZON_MARKETS } from "./markets";
 import { FlagIcon } from "../components/country-flags";
 import { trackEvent } from "@/lib/analytics";
 import { BRAND } from "@/lib/brand";
+import {
+  lastReviewedLabel,
+  resolveLastReviewed,
+  resolveSeoYear,
+  withSeoYear,
+} from "@/lib/fee-seo";
 
 const FEEDBACK_ENDPOINT =
   process.env.NEXT_PUBLIC_FEEDBACK_ENDPOINT || "/api/feedback";
 
 export default function AmazonFeeCalculator({ marketId }: { marketId: AmazonMarketId }) {
   const config = AMAZON_MARKETS[marketId];
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({ lastReviewed: config.seo.lastReviewed });
 
   const [form, setForm] = useState<AmazonFormState>(() => ({
     sellerType: config.sellerTypes[0].value,
@@ -87,9 +95,12 @@ export default function AmazonFeeCalculator({ marketId }: { marketId: AmazonMark
   return (
     <div className="grid" style={{ gap: 20 }}>
       <section className="card">
-        <h1 style={{ marginTop: 0, marginBottom: 8 }}>{config.seo.h1}</h1>
+        <h1 style={{ marginTop: 0, marginBottom: 8 }}>{withSeoYear(config.seo.h1, seoYear)}</h1>
         <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
           {config.seo.subtitle}
+        </p>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}>
+          {lastReviewedLabel(lastReviewed)}
         </p>
         <MarketSwitcher current={marketId} />
       </section>

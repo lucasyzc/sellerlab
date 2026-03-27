@@ -5,6 +5,7 @@ import {
 } from "./amazon-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { resolveLastReviewed, resolveSeoYear, withSeoYear } from "@/lib/fee-seo";
 
 // ═══════════════════════════════════════════════════════════════
 // Types
@@ -70,6 +71,8 @@ function generateFAQs(config: AmazonMarketConfig): FAQ[] {
   const d = config.currency.decimals;
   const indFee = `${sym}${config.individualFee.toFixed(d)}`;
   const proLabel = config.sellerTypes.find(s => s.value === "professional")?.label ?? "Professional";
+  const lastReviewed = resolveLastReviewed({ lastReviewed: config.seo.lastReviewed });
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
 
   return [
     {
@@ -95,6 +98,10 @@ function generateFAQs(config: AmazonMarketConfig): FAQ[] {
     {
       q: "How can I reduce my Amazon selling fees?",
       a: `Choose the Professional plan if selling enough items per month to offset the subscription fee. Optimize packaging to qualify for a smaller FBA size tier. Keep inventory lean to reduce storage fees, especially during Q4. Consider FBM for heavy or oversize items where FBA fees are high.`,
+    },
+    {
+      q: `Is this Amazon ${config.fullName} fee model updated for ${seoYear}?`,
+      a: `Yes. This market model is reviewed for ${seoYear}. Last reviewed: ${lastReviewed}. Always verify official Amazon Seller Central announcements before finalizing pricing.`,
     },
   ];
 }
@@ -136,6 +143,8 @@ function generateExplanations(config: AmazonMarketConfig) {
 export function MarketStructuredData({ config }: { config: AmazonMarketConfig }) {
   const url = `/amazon-fee-calculator/${config.id}`;
   const faqs = generateFAQs(config);
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({ lastReviewed: config.seo.lastReviewed });
 
   const breadcrumb = {
     "@context": "https://schema.org",
@@ -150,11 +159,12 @@ export function MarketStructuredData({ config }: { config: AmazonMarketConfig })
   const webApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: config.seo.h1,
+    name: withSeoYear(config.seo.h1, seoYear),
     url: absoluteUrl(url),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: config.currency.code },
+    dateModified: lastReviewed,
     description: config.seo.description,
     featureList: [
       "Referral fee calculation by category",

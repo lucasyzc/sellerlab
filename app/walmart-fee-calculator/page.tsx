@@ -3,13 +3,24 @@ import Link from "next/link";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
+import {
+  buildFeeMetadata,
+  FEE_SEO_LAST_REVIEWED,
+  FEE_SEO_YEAR,
+  lastReviewedLabel,
+  withSeoYear,
+} from "@/lib/fee-seo";
 
-const TOOL_TITLE = withSuiteBrand("Walmart Fee Calculator - Marketplace Hub");
+const HUB_LAST_REVIEWED = FEE_SEO_LAST_REVIEWED;
+const TOOL_TITLE = withSuiteBrand(
+  withSeoYear("Walmart Fee Calculator - Marketplace Hub", FEE_SEO_YEAR),
+);
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildFeeMetadata({
   title: TOOL_TITLE,
   description:
     "Walmart fee calculator hub. Choose Walmart marketplace site pages and model referral fees, WFS fulfillment costs, and net profit with source-backed formulas.",
+  canonicalPath: "/walmart-fee-calculator",
   keywords: [
     "walmart fee calculator",
     "walmart marketplace fees",
@@ -20,25 +31,18 @@ export const metadata: Metadata = {
     "walmart mexico seller fees",
     "walmart chile seller fees",
   ],
-  openGraph: {
-    title: TOOL_TITLE,
-    description:
-      "Walmart marketplace fee calculator hub with site-level navigation across US, Canada, Mexico, and Chile.",
-    type: "website",
-    siteName: "Data EDE",
-    url: "/walmart-fee-calculator",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary",
-    title: TOOL_TITLE,
-    description:
-      "Open Walmart fee calculators by marketplace and model referral fees, WFS costs, and net margin.",
-  },
-  alternates: {
-    canonical: "/walmart-fee-calculator",
-  },
-};
+  yearKeywordPhrases: [
+    "walmart fee calculator 2026",
+    "walmart referral fee 2026",
+    "walmart wfs fee calculator 2026",
+  ],
+  lastReviewed: HUB_LAST_REVIEWED,
+  openGraphDescription:
+    "Walmart marketplace fee calculator hub with site-level navigation across US, Canada, Mexico, and Chile.",
+  twitterDescription:
+    "Open Walmart fee calculators by marketplace and model referral fees, WFS costs, and net margin.",
+  twitterCard: "summary",
+});
 
 type WalmartSiteCard = {
   id: "us" | "ca" | "mx" | "cl";
@@ -112,6 +116,10 @@ const FAQ_ITEMS = [
     q: "Are all WFS models fully automated across sites?",
     a: "US, Canada, and Chile use source-based WFS logic in this release. Mexico uses manual WFS inputs to avoid assumptions where tariff details are not consistently machine-readable.",
   },
+  {
+    q: "Is this Walmart fee calculator hub updated for 2026?",
+    a: "Yes. The hub and market models are reviewed for 2026 fee-search intent, with market-level source notes and as-of dates shown in each calculator.",
+  },
 ];
 
 function StructuredData() {
@@ -132,11 +140,12 @@ function StructuredData() {
   const webApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Walmart Fee Calculator",
+    name: `Walmart Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/walmart-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    dateModified: HUB_LAST_REVIEWED,
     description:
       "Walmart marketplace fee calculator hub with site navigation and source-backed market models.",
   };
@@ -178,11 +187,14 @@ export default function WalmartFeeCalculatorHubPage() {
 
       <section style={{ textAlign: "center", padding: "40px 0 12px" }}>
         <h1 style={{ fontSize: 36, fontWeight: 800, margin: "0 0 14px", letterSpacing: "-0.025em", lineHeight: 1.2 }}>
-          Walmart Fee Calculator
+          Walmart Fee Calculator ({FEE_SEO_YEAR})
         </h1>
         <p className="muted" style={{ fontSize: 17, maxWidth: 700, margin: "0 auto", lineHeight: 1.65 }}>
           Choose your Walmart marketplace first, then run site-specific fee and profit calculations.
           This hub now includes US, Canada, Mexico, and Chile calculators.
+        </p>
+        <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 12 }}>
+          {lastReviewedLabel(HUB_LAST_REVIEWED)}
         </p>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 40, marginTop: 28, flexWrap: "wrap" }}>
@@ -197,6 +209,18 @@ export default function WalmartFeeCalculatorHubPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="card" style={{ padding: 20, marginTop: 16 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, marginTop: 0, marginBottom: 8 }}>
+          Fee Policy Updates
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 10, fontSize: 14, lineHeight: 1.65 }}>
+          For year-based policy context and margin playbooks, review the updates library and map insights back to this calculator.
+        </p>
+        <Link href="/updates" className="btn">
+          Open Fee Policy Updates
+        </Link>
       </section>
 
       <section style={{ padding: "20px 0 8px" }}>

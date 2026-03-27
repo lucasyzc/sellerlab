@@ -1,4 +1,5 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import WalmartFeeCalculator from "../walmart-fee-calculator";
 import type { WalmartMarketId } from "../walmart-config";
@@ -10,6 +11,12 @@ import {
   MarketFeeTable,
   MarketStructuredData,
 } from "../seo-content";
+import {
+  buildFeeMetadata,
+  lastReviewedLabel,
+  resolveLastReviewed,
+  resolveSeoYear,
+} from "@/lib/fee-seo";
 
 export const dynamicParams = false;
 
@@ -28,10 +35,16 @@ export async function generateMetadata({
 
   const title = config.seo.title;
   const description = config.seo.description;
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({
+    lastReviewed: config.seo.lastReviewed,
+    docs: config.docs,
+  });
 
-  return {
+  return buildFeeMetadata({
     title,
     description,
+    canonicalPath: `/walmart-fee-calculator/${config.id}`,
     keywords: [
       `walmart fee calculator ${config.id}`,
       "walmart referral fee calculator",
@@ -42,22 +55,15 @@ export async function generateMetadata({
       "walmart vs amazon fees",
       config.fullName,
     ],
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      siteName: "Data EDE",
-      url: `/walmart-fee-calculator/${config.id}`,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
-    alternates: {
-      canonical: `/walmart-fee-calculator/${config.id}`,
-    },
-  };
+    year: seoYear,
+    lastReviewed,
+    yearKeywordPhrases: [
+      `walmart ${config.fullName} fees ${seoYear}`,
+      `walmart referral fee ${seoYear}`,
+      `walmart wfs fee ${seoYear}`,
+    ],
+    twitterCard: "summary_large_image",
+  });
 }
 
 export default async function WalmartFeeCalculatorMarketPage({
@@ -69,10 +75,22 @@ export default async function WalmartFeeCalculatorMarketPage({
   const config = getWalmartMarket(market);
   if (!config) notFound();
 
+  const lastReviewed = resolveLastReviewed({
+    lastReviewed: config.seo.lastReviewed,
+    docs: config.docs,
+  });
+
   return (
     <div className="container">
       <MarketStructuredData config={config} />
       <MarketBreadcrumb config={config} />
+
+      <section className="card" style={{ padding: "10px 14px", marginBottom: 12 }}>
+        <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+          {lastReviewedLabel(lastReviewed)}. For cross-platform policy tracking{" "}
+          <Link href="/updates">browse fee policy updates</Link>.
+        </p>
+      </section>
 
       <WalmartFeeCalculator marketId={market as WalmartMarketId} />
 

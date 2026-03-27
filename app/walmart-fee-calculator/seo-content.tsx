@@ -10,6 +10,7 @@ import {
 } from "./walmart-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { resolveLastReviewed, resolveSeoYear, withSeoYear } from "@/lib/fee-seo";
 
 type FAQ = { q: string; a: string };
 
@@ -73,6 +74,11 @@ function faqItems(config: WalmartMarketConfig): FAQ[] {
   const wfsAnswer = config.wfs.mode === "manual"
     ? "This market uses manual WFS inputs in the calculator. Copy fulfillment, shipping recovery, and storage amounts from your active seller tariff card."
     : "WFS calculations use this market's published public formulas for fulfillment and optional storage. Enter weight and dimensions to estimate chargeable logistics fees.";
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({
+    lastReviewed: config.seo.lastReviewed,
+    docs: config.docs,
+  });
 
   return [
     {
@@ -90,6 +96,10 @@ function faqItems(config: WalmartMarketConfig): FAQ[] {
     {
       q: "Is this calculator suitable for real pricing decisions?",
       a: config.summary.disclaimer,
+    },
+    {
+      q: `Is this Walmart ${config.fullName} fee model updated for ${seoYear}?`,
+      a: `Yes. This market model is reviewed for ${seoYear}. Last reviewed: ${lastReviewed}. Confirm live rates in Walmart Seller Center before publishing final prices.`,
     },
   ];
 }
@@ -204,6 +214,11 @@ function ExampleBreakdown({ config }: { config: WalmartMarketConfig }) {
 export function MarketStructuredData({ config }: { config: WalmartMarketConfig }) {
   const url = `/walmart-fee-calculator/${config.id}`;
   const faqs = faqItems(config);
+  const seoYear = resolveSeoYear(config.seo.effectiveYear);
+  const lastReviewed = resolveLastReviewed({
+    lastReviewed: config.seo.lastReviewed,
+    docs: config.docs,
+  });
 
   const breadcrumb = {
     "@context": "https://schema.org",
@@ -218,11 +233,12 @@ export function MarketStructuredData({ config }: { config: WalmartMarketConfig }
   const webApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: config.seo.h1,
+    name: withSeoYear(config.seo.h1, seoYear),
     url: absoluteUrl(url),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: config.currency.code },
+    dateModified: lastReviewed,
     description: config.seo.description,
     featureList: [
       `Walmart ${config.fullName} referral fee by category`,

@@ -4,13 +4,24 @@ import { AMAZON_MARKET_LIST } from "./markets";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
+import {
+  buildFeeMetadata,
+  FEE_SEO_LAST_REVIEWED,
+  FEE_SEO_YEAR,
+  lastReviewedLabel,
+  withSeoYear,
+} from "@/lib/fee-seo";
 
-const TOOL_TITLE = withSuiteBrand("Amazon Fee Calculator – All Marketplaces");
+const HUB_LAST_REVIEWED = FEE_SEO_LAST_REVIEWED;
+const TOOL_TITLE = withSuiteBrand(
+  withSeoYear("Amazon Fee Calculator – All Marketplaces", FEE_SEO_YEAR),
+);
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildFeeMetadata({
   title: TOOL_TITLE,
   description:
     "Free Amazon fee calculator for 17 global marketplaces. Calculate referral fees, FBA fulfillment costs, storage fees, and net profit across 45+ product categories.",
+  canonicalPath: "/amazon-fee-calculator",
   keywords: [
     "amazon fee calculator",
     "amazon seller fees",
@@ -21,25 +32,18 @@ export const metadata: Metadata = {
     "amazon selling fees",
     "amazon global selling",
   ],
-  openGraph: {
-    title: TOOL_TITLE,
-    description:
-      "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces. Covers 45+ categories with referral fee rates, fulfillment fees, and storage costs.",
-    type: "website",
-    siteName: "Data EDE",
-    url: "/amazon-fee-calculator",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary",
-    title: TOOL_TITLE,
-    description:
-      "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces.",
-  },
-  alternates: {
-    canonical: "/amazon-fee-calculator",
-  },
-};
+  yearKeywordPhrases: [
+    "amazon fee calculator 2026",
+    "amazon seller fees 2026",
+    "amazon fba fees 2026",
+  ],
+  lastReviewed: HUB_LAST_REVIEWED,
+  openGraphDescription:
+    "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces. Covers 45+ categories with referral fee rates, fulfillment fees, and storage costs.",
+  twitterDescription:
+    "Calculate Amazon selling fees, FBA costs, and profit across 17 global marketplaces.",
+  twitterCard: "summary",
+});
 
 function StructuredData() {
   const breadcrumb = {
@@ -59,11 +63,12 @@ function StructuredData() {
   const webApp = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Amazon Fee Calculator",
+    name: `Amazon Fee Calculator ${FEE_SEO_YEAR}`,
     url: absoluteUrl("/amazon-fee-calculator"),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Any",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    dateModified: HUB_LAST_REVIEWED,
     description:
       "Free Amazon fee calculator covering referral fees, FBA fulfillment costs, storage fees, and profit analysis for 17 global marketplaces.",
   };
@@ -125,6 +130,10 @@ const FAQ_ITEMS = [
     q: "Does Amazon charge fees on shipping?",
     a: "Yes. Amazon\u2019s referral fee is calculated on the total sales price, which includes the item price, any shipping charges, and gift wrap charges. FBA sellers don\u2019t set shipping charges \u2014 Amazon handles shipping and charges a fulfillment fee instead.",
   },
+  {
+    q: "Is this Amazon fee calculator updated for 2026?",
+    a: "Yes. This fee model is reviewed for 2026 search intent and policy context. Always verify your exact market and category against the official Amazon seller pricing pages before final pricing decisions.",
+  },
 ];
 
 const MARKET_REGIONS: { label: string; ids: string[] }[] = [
@@ -172,7 +181,7 @@ export default function AmazonFeeCalculatorHubPage() {
             lineHeight: 1.2,
           }}
         >
-          Amazon Fee Calculator
+          Amazon Fee Calculator ({FEE_SEO_YEAR})
         </h1>
         <p
           className="muted"
@@ -186,6 +195,9 @@ export default function AmazonFeeCalculatorHubPage() {
           Calculate referral fees, FBA fulfillment costs, storage fees, and net
           profit for Amazon sellers. Choose your marketplace below for accurate,
           category-specific fee estimates.
+        </p>
+        <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 12 }}>
+          {lastReviewedLabel(HUB_LAST_REVIEWED)}
         </p>
 
         <div
@@ -223,6 +235,26 @@ export default function AmazonFeeCalculatorHubPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="card" style={{ padding: 20, marginTop: 16 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 700, marginTop: 0, marginBottom: 8 }}>
+          2026 Amazon Fee Deep Dives
+        </h2>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 10, fontSize: 14, lineHeight: 1.65 }}>
+          Review policy changes and margin impact playbooks, then return to this calculator for SKU-level modeling.
+        </p>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <Link className="btn" href="/updates/amazon-fee-changes-2026-q2">
+            Amazon Fee Changes 2026 Q2
+          </Link>
+          <Link className="btn" href="/updates/amazon-break-even-price-playbook-2026">
+            Amazon Break-even Playbook 2026
+          </Link>
+          <Link className="btn" href="/updates/amazon-fba-vs-fbm-margin-update-2026">
+            Amazon FBA vs FBM 2026
+          </Link>
         </div>
       </section>
 

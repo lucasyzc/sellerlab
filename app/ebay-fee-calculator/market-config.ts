@@ -39,7 +39,15 @@ export type MarketConfig = {
   perOrderFeeByAmount?: { threshold: number; below: number };
   fvfCap?: (storeType: string) => number | null;
   defaults: { soldPrice: number; shippingCharged: number; itemCost: number; shippingCost: number };
-  seo: { title: string; description: string; h1: string; subtitle: string };
+  seo: {
+    title: string;
+    description: string;
+    h1: string;
+    subtitle: string;
+    lastReviewed?: string;
+    effectiveYear?: number;
+    freshnessNote?: string;
+  };
   notes: string[];
 };
 
@@ -540,9 +548,12 @@ const US: MarketConfig = {
   defaults: { soldPrice: 39.99, shippingCharged: 5, itemCost: 12, shippingCost: 4.5 },
   seo: {
     title: withSuiteBrand("US eBay Fee Calculator"),
-    description: "Calculate eBay.com final value fees, managed payments, and net profit for US sellers. Accurate rates updated for 2025.",
+    description: "Calculate eBay.com final value fees, managed payments, and net profit for US sellers. Accurate category-based rates reviewed for 2026.",
     h1: "US eBay Fee Calculator",
-    subtitle: "Calculate final value fees & profit when selling on eBay.com. Rates updated as of Mar 2025.",
+    subtitle: "Calculate final value fees & profit when selling on eBay.com.",
+    lastReviewed: "2026-03-26",
+    effectiveYear: 2026,
+    freshnessNote: "US eBay model reviewed using public 2026 policy context.",
   },
   notes: [
     "Sales tax is collected by eBay and remitted to the state — it does not affect your profit directly, but it is included in the Managed Payments and Promoted Listing fee basis.",
@@ -625,7 +636,10 @@ const UK: MarketConfig = {
     title: withSuiteBrand("UK eBay Fee Calculator"),
     description: "Calculate eBay.co.uk final value fees, regulatory fees, and net profit for UK sellers. Rates effective 12 February 2026.",
     h1: "UK eBay Fee Calculator",
-    subtitle: "Calculate final value fees & profit when selling on eBay.co.uk. Rates updated as of Feb 2026.",
+    subtitle: "Calculate final value fees & profit when selling on eBay.co.uk.",
+    lastReviewed: "2026-02-12",
+    effectiveYear: 2026,
+    freshnessNote: "UK model aligned to the 2026 public business seller update window.",
   },
   notes: [
     "UK-based private sellers pay no final value fees or regulatory operating fees on domestic sales.",
@@ -682,6 +696,8 @@ const DE: MarketConfig = {
     description: "Calculate eBay.de final value fees and net profit for German sellers. Accurate category-based rates.",
     h1: "Germany eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.de.",
+    lastReviewed: "2026-03-26",
+    effectiveYear: 2026,
   },
   notes: [
     "Private sellers within Germany/EEA selling domestically pay no final value fees.",
@@ -728,9 +744,11 @@ const AU: MarketConfig = {
   defaults: { soldPrice: 49.99, shippingCharged: 8.95, itemCost: 20, shippingCost: 8 },
   seo: {
     title: withSuiteBrand("Australia eBay Fee Calculator"),
-    description: "Calculate eBay.com.au final value fees and net profit for Australian sellers. Updated rates for 2025.",
+    description: "Calculate eBay.com.au final value fees and net profit for Australian sellers. Category-based rates reviewed for 2026.",
     h1: "Australia eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.com.au.",
+    lastReviewed: "2026-03-26",
+    effectiveYear: 2026,
   },
   notes: [
     "Payment processing fees are included in the final value fee.",
@@ -795,9 +813,12 @@ const CA: MarketConfig = {
   defaults: { soldPrice: 39.99, shippingCharged: 7, itemCost: 15, shippingCost: 6 },
   seo: {
     title: withSuiteBrand("Canada eBay Fee Calculator"),
-    description: "Calculate eBay.ca final value fees, managed payments, and net profit for Canadian sellers. Updated rates for 2025.",
+    description: "Calculate eBay.ca final value fees, managed payments, and net profit for Canadian sellers. Category-based rates reviewed for 2026.",
     h1: "Canada eBay Fee Calculator",
-    subtitle: "Calculate final value fees & profit when selling on eBay.ca. Rates updated as of Mar 2025.",
+    subtitle: "Calculate final value fees & profit when selling on eBay.ca.",
+    lastReviewed: "2026-03-26",
+    effectiveYear: 2026,
+    freshnessNote: "Canada fee model includes post-2025 schedule changes and 2026 review.",
   },
   notes: [
     "Rates increased up to 0.35% starting March 3, 2025.",
@@ -851,6 +872,8 @@ const FR: MarketConfig = {
     description: "Calculate eBay.fr final value fees and net profit for French sellers. Category-based rates for private and business sellers.",
     h1: "France eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.fr.",
+    lastReviewed: "2026-03-26",
+    effectiveYear: 2026,
   },
   notes: [
     "Private sellers: flat 8% on all categories (capped at \u20AC200 per item).",
@@ -904,6 +927,8 @@ const IT: MarketConfig = {
     description: "Calculate eBay.it final value fees and net profit for Italian sellers. Category-based rates for private and business sellers.",
     h1: "Italy eBay Fee Calculator",
     subtitle: "Calculate final value fees & profit when selling on eBay.it.",
+    lastReviewed: "2026-03-26",
+    effectiveYear: 2026,
   },
   notes: [
     "Private sellers: flat 8% on all categories (capped at \u20AC200 per item).",
