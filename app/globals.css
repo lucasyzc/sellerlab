@@ -9,7 +9,7 @@
   --color-primary: #2563eb;
   --color-primary-hover: #1d4ed8;
   --color-primary-light: #eff6ff;
-  --color-accent: #7c3aed;
+  --color-accent: #0ea5e9;
   --radius: 14px;
   --radius-sm: 10px;
   --radius-full: 9999px;
@@ -112,8 +112,30 @@ a {
 }
 .site-brand {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   flex-shrink: 0;
+  min-width: 0;
+}
+.site-brand-logo {
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.site-brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.site-brand-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 .site-brand-name {
   font-weight: 800;
@@ -123,6 +145,17 @@ a {
 .site-brand-tagline {
   font-size: 12px;
   color: var(--color-text-tertiary);
+  line-height: 1.2;
+}
+.site-brand-product {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(79, 209, 232, 0.12);
+  color: #0d5f79;
+  font-size: 11px;
+  font-weight: 700;
   line-height: 1.2;
 }
 
@@ -772,7 +805,7 @@ a {
 
 /* ─── CTA Banner ─── */
 .cta-banner {
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #0d2e58 0%, #126f8b 100%);
   border-radius: var(--radius);
   padding: 48px 32px;
   text-align: center;
@@ -896,6 +929,26 @@ details[open] .faq-chevron {
   margin: 8px 0 0;
   max-width: 300px;
 }
+.footer-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+}
+.footer-brand-subline {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0d5f79;
+  margin: 10px 0 0;
+}
+.footer-brand-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+}
 .footer-col h4 {
   font-size: 13px;
   font-weight: 700;
@@ -1014,6 +1067,13 @@ details[open] .faq-chevron {
   }
   .site-brand-tagline {
     display: none;
+  }
+  .site-brand-meta {
+    gap: 6px;
+  }
+  .site-brand-product {
+    font-size: 10px;
+    padding: 2px 7px;
   }
   .site-nav {
     display: none;

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
@@ -163,10 +164,24 @@ export function SiteHeader() {
       <header className="site-header">
         <div className="container site-header-inner">
           <div className="site-brand">
-            <Link href="/" className="site-brand-name">
-              {BRAND.masterName}
+            <Link href="/" className="site-brand-logo" aria-label={`${BRAND.masterName} home`}>
+              <Image
+                src="/logo.svg"
+                alt={`${BRAND.masterName} logo`}
+                width={38}
+                height={38}
+                priority
+              />
             </Link>
-            <span className="site-brand-tagline">{BRAND.masterTagline}</span>
+            <div className="site-brand-text">
+              <Link href="/" className="site-brand-name">
+                {BRAND.masterName}
+              </Link>
+              <div className="site-brand-meta">
+                <span className="site-brand-tagline">{BRAND.masterTagline}</span>
+                <span className="site-brand-product">{BRAND.suiteLabel}</span>
+              </div>
+            </div>
           </div>
 
           <nav className="site-nav" aria-label="Primary">

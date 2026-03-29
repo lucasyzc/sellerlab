@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="260" viewBox="0 0 960 260" role="img" aria-label="SellerLab by Data EDE logo lockup">
+  <defs>
+    <linearGradient id="suite-bg" x1="20" y1="20" x2="184" y2="196" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#081a33"/>
+      <stop offset="0.56" stop-color="#0d2e58"/>
+      <stop offset="1" stop-color="#126f8b"/>
+    </linearGradient>
+    <linearGradient id="suite-accent" x1="74" y1="166" x2="150" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4fd1e8"/>
+      <stop offset="1" stop-color="#d8fbff"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="260" fill="#ffffff"/>
+  <rect x="24" y="24" width="168" height="168" rx="38" fill="url(#suite-bg)"/>
+  <path d="M58 54h30c56 0 98 34 98 80s-42 80-98 80h-30z" fill="#effbff"/>
+  <path d="M80 88h12c24 0 44 21 44 46s-20 46-44 46h-12z" fill="url(#suite-bg)"/>
+  <rect x="90" y="78" width="70" height="12" rx="6" fill="url(#suite-accent)"/>
+  <rect x="90" y="128" width="54" height="12" rx="6" fill="url(#suite-accent)"/>
+  <rect x="90" y="178" width="70" height="12" rx="6" fill="url(#suite-accent)"/>
+  <path d="M70 180l26-24 24 12 38-46" fill="none" stroke="url(#suite-accent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="70" cy="180" r="5" fill="#4fd1e8"/>
+  <circle cx="96" cy="156" r="5" fill="#71e3f4"/>
+  <circle cx="120" cy="168" r="5" fill="#97f2fb"/>
+  <circle cx="158" cy="122" r="5" fill="#d8fbff"/>
+  <text x="236" y="102" fill="#0b1f3a" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="-1.2">SellerLab</text>
+  <text x="240" y="148" fill="#48627d" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="25" font-weight="600" letter-spacing="0.3">by Data EDE</text>
+  <text x="240" y="188" fill="#688098" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="500">Marketplace calculators and optimization tools</text>
+</svg>

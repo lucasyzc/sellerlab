@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { BRAND } from "@/lib/brand";
 
 export function Footer() {
@@ -9,9 +10,17 @@ export function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <Link href="/" style={{ fontWeight: 700, fontSize: 18 }}>
-              {BRAND.masterName}
+            <Link href="/" className="footer-brand-link">
+              <Image
+                src="/logo.svg"
+                alt={`${BRAND.masterName} logo`}
+                width={30}
+                height={30}
+                className="footer-brand-logo"
+              />
+              <span>{BRAND.masterName}</span>
             </Link>
+            <p className="footer-brand-subline">{BRAND.suiteDisplay}</p>
             <p>
               {BRAND.masterTagline}. {BRAND.suiteLabel} provides free fee calculators and
               seller tools for cross-border e-commerce.
