@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { Footer } from "./components/footer";
 import { CookieConsent } from "./components/cookie-consent";
 import { GoogleAnalytics } from "./components/google-analytics";
-import { AdSense } from "./components/adsense";
 import { SiteHeader } from "./components/site-header";
 import { SITE_URL } from "@/lib/site-url";
 import { BRAND, withMasterBrand } from "@/lib/brand";
 import "./globals.css";
+
+const ADSENSE_CLIENT_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ?? "ca-pub-7041759041192365";
 
 export const metadata: Metadata = {
   title: withMasterBrand("Ecommerce Data Engine for Cross-border Sellers"),
@@ -50,9 +52,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <GoogleAnalytics />
-        <AdSense />
         <SiteHeader />
         <main style={{ padding: "24px 0 40px" }}>{children}</main>
         <Footer />
