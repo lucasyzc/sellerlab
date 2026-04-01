@@ -4,7 +4,8 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import { getConsentState } from "./cookie-consent";
 
-const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+const ADSENSE_CLIENT_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ?? "ca-pub-7041759041192365";
 
 export function AdSense() {
   const [enabled, setEnabled] = useState(false);
