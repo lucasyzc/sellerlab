@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FlagIcon } from "../components/country-flags";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
 import {
@@ -106,19 +107,27 @@ const WALMART_SITE_CARDS: WalmartSiteCard[] = [
 const FAQ_ITEMS = [
   {
     q: "Do I need to go through this Walmart landing page first?",
-    a: "Yes. This is the marketplace hub, aligned with other calculators. Select your site here, then open the specific calculator page.",
+    a: "This hub page serves as the marketplace selector, aligned with how our other platform calculators (Amazon, eBay, Shopify) work. Select your Walmart site from the cards above to open the dedicated calculator with that market\u2019s fee model, referral rates, WFS fulfillment logic, and tax handling. Each market page also includes source links and last-reviewed dates for the fee data used.",
   },
   {
     q: "Which Walmart sites are currently live?",
-    a: "US, Canada, Mexico, and Chile are live with market-specific calculator pages.",
+    a: {
+      intro: "Four Walmart marketplace sites are live with dedicated calculator pages.",
+      points: [
+        "Walmart US (walmart.com) \u2014 full referral fee schedule, WFS fulfillment model, and US tax handling.",
+        "Walmart Canada (walmart.ca) \u2014 category-based referral rates with CAD currency and GST/HST/PST support.",
+        "Walmart Mexico (walmart.com.mx) \u2014 referral rates in MXN with IVA tax model and manual WFS inputs.",
+        "Walmart Chile (lider.cl) \u2014 referral rates in CLP with IVA and source-based WFS logic.",
+      ],
+    },
   },
   {
     q: "Are all WFS models fully automated across sites?",
-    a: "US, Canada, and Chile use source-based WFS logic in this release. Mexico uses manual WFS inputs to avoid assumptions where tariff details are not consistently machine-readable.",
+    a: "Not yet. US, Canada, and Chile use source-based WFS (Walmart Fulfillment Services) logic with automated fee calculations based on product dimensions and weight. Mexico uses manual WFS input fields because tariff details and fulfillment tier definitions are not consistently machine-readable from Walmart\u2019s public documentation. For the Mexico market, enter your WFS fees directly from your Walmart Seller Center dashboard to ensure accuracy.",
   },
   {
     q: "Is this Walmart fee calculator hub updated for 2026?",
-    a: "Yes. The hub and market models are reviewed for 2026 fee-search intent, with market-level source notes and as-of dates shown in each calculator.",
+    a: "Yes. The hub and all market models are reviewed for 2026 fee schedules. Each market calculator page displays source notes, official documentation links, and as-of dates so you can verify the recency of the referral rates and WFS pricing used in calculations. When Walmart publishes fee schedule updates, we update the affected market models promptly.",
   },
 ];
 
@@ -156,7 +165,7 @@ function StructuredData() {
     mainEntity: FAQ_ITEMS.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -387,42 +396,9 @@ export default function WalmartFeeCalculatorHubPage() {
         </div>
       </section>
 
-      <section className="card" style={{ padding: 24, marginTop: 16 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-          Frequently Asked Questions
-        </h2>
-        <div style={{ display: "grid", gap: 0 }}>
-          {FAQ_ITEMS.map((item, i) => (
-            <details
-              key={item.q}
-              style={{
-                borderBottom: i < FAQ_ITEMS.length - 1 ? "1px solid var(--color-border)" : "none",
-                padding: "14px 0",
-              }}
-            >
-              <summary
-                style={{
-                  fontWeight: 600,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  padding: "2px 0",
-                  listStyle: "none",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {item.q}
-                <span style={{ fontSize: 18, color: "var(--color-text-tertiary)", flexShrink: 0 }}>+</span>
-              </summary>
-              <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 14, lineHeight: 1.7 }}>
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <div style={{ marginTop: 16 }}>
+        <FAQSection items={FAQ_ITEMS} />
+      </div>
 
       <p className="muted" style={{ fontSize: 12, textAlign: "center", margin: "12px 0 0", lineHeight: 1.6 }}>
         Fee models are based on public Walmart documentation and should be revalidated before final pricing decisions.

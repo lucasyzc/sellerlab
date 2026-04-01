@@ -8,6 +8,7 @@ import {
   formatCurrency,
   makeDefaultForm,
 } from "./walmart-config";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
 import { resolveLastReviewed, resolveSeoYear, withSeoYear } from "@/lib/fee-seo";
@@ -254,7 +255,7 @@ export function MarketStructuredData({ config }: { config: WalmartMarketConfig }
     mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -470,46 +471,10 @@ export function MarketFeeExplanation({ config }: { config: WalmartMarketConfig }
 
 export function MarketFAQ({ config }: { config: WalmartMarketConfig }) {
   const faqs = faqItems(config);
-
   return (
     <>
       <ExampleBreakdown config={config} />
-      <section className="card" style={{ padding: 24 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-          Frequently Asked Questions
-        </h2>
-        <div style={{ display: "grid", gap: 0 }}>
-          {faqs.map((item, index) => (
-            <details
-              key={item.q}
-              style={{
-                borderBottom: index < faqs.length - 1 ? "1px solid var(--color-border)" : "none",
-                padding: "14px 0",
-              }}
-            >
-              <summary
-                style={{
-                  fontWeight: 600,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  padding: "2px 0",
-                  listStyle: "none",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {item.q}
-                <span style={{ fontSize: 18, color: "var(--color-text-tertiary)", flexShrink: 0 }}>+</span>
-              </summary>
-              <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 14, lineHeight: 1.7 }}>
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <FAQSection items={faqs} />
     </>
   );
 }

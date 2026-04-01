@@ -23,7 +23,7 @@ const PLATFORMS = [
     bg: "#fffaf0",
     description: "The world's largest e-commerce platform with FBA/FBM fulfillment across major markets",
     countries: ["US", "UK", "DE", "FR", "IT", "ES", "JP", "CA", "AU"],
-    toolCount: 1,
+    toolCount: 2,
   },
   {
     id: "tiktok",
@@ -142,6 +142,15 @@ const TOOLS: Tool[] = [
     countries: ["US", "UK", "DE", "JP", "CA", "IT", "ES", "AU", "AE", "BR", "SG", "MX", "NL", "BE", "SE", "PL", "TR"],
     status: "live",
     href: "/amazon-fee-calculator",
+  },
+  {
+    id: "amazon-pricing-calc",
+    name: "Amazon Pricing Calculator",
+    description: "Back-solve the minimum listing price from cost, target profit, and FBA fees including referral, fulfillment, and storage",
+    platform: "amazon",
+    countries: ["US"],
+    status: "live",
+    href: "/amazon-pricing-calculator",
   },
   {
     id: "tiktok-profit-calc",

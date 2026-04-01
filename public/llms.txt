@@ -10,6 +10,7 @@ High-value entry points:
 - https://dataede.com/ebay-fee-calculator
 - https://dataede.com/ebay-pricing-calculator
 - https://dataede.com/amazon-fee-calculator
+- https://dataede.com/amazon-pricing-calculator
 - https://dataede.com/tiktok-shop-fee-calculator
 - https://dataede.com/shopify-fee-calculator
 - https://dataede.com/walmart-fee-calculator

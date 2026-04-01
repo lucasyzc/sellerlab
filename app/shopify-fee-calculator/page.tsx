@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SHOPIFY_MARKET_GROUPS } from "./shopify-config";
 import { FlagIcon } from "../components/country-flags";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
 import { FEE_SEO_LAST_REVIEWED, lastReviewedLabel } from "@/lib/fee-seo";
@@ -44,15 +45,24 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "What costs does this Shopify calculator include?",
-    a: "It includes Shopify subscription allocation, Shopify Payments card fees, third-party transaction fees when applicable, optional app costs, operational overhead, product costs, and profit margin.",
+    a: {
+      intro: "The calculator models the full cost stack for a Shopify order, giving you a realistic per-order profit view.",
+      points: [
+        "Shopify subscription cost, allocated per order based on your monthly volume.",
+        "Shopify Payments card processing fees (or third-party gateway fees if applicable).",
+        "Plan-based transaction fees that apply when using an external payment gateway.",
+        "Optional app costs and operational overhead, entered as per-order amounts.",
+        "Product cost and shipping cost to calculate true net profit and margin.",
+      ],
+    },
   },
   {
     q: "Does the calculator include third-party payment gateways?",
-    a: "Yes. If you disable Shopify Payments, you can enter your third-party gateway processing rate and fixed fee, and Shopify's plan-based transaction fee is added automatically.",
+    a: "Yes. If you disable Shopify Payments, you can enter your third-party gateway\u2019s processing rate and fixed fee directly. Shopify\u2019s plan-based transaction fee (0.5\u20132% depending on your plan) is then added automatically on top of the gateway charges. This lets you accurately compare the total payment processing cost of Shopify Payments versus an external provider like Stripe or PayPal, which is one of the most significant cost decisions for Shopify merchants.",
   },
   {
     q: "Can I model tax-inclusive and tax-exclusive pricing?",
-    a: "Yes. Each market includes default tax settings and lets you switch between price-includes-tax and tax-exclusive modes, with manual tax remittance adjustment if needed.",
+    a: "Yes. Each market includes default tax settings relevant to its jurisdiction (e.g. VAT for UK/EU, GST for Australia). You can toggle between price-includes-tax and tax-exclusive modes to see how each approach affects your per-order margin. If your business handles tax remittance manually rather than through Shopify\u2019s automatic collection, you can adjust that setting to reflect your actual tax cost accurately.",
   },
 ];
 
@@ -90,7 +100,7 @@ function StructuredData() {
     mainEntity: FAQ_ITEMS.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -243,42 +253,9 @@ export default function ShopifyFeeCalculatorHubPage() {
         </div>
       </section>
 
-      <section className="card" style={{ padding: 24, marginTop: 16 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-          Frequently Asked Questions
-        </h2>
-        <div style={{ display: "grid", gap: 0 }}>
-          {FAQ_ITEMS.map((item, i) => (
-            <details
-              key={i}
-              style={{
-                borderBottom: i < FAQ_ITEMS.length - 1 ? "1px solid var(--color-border)" : "none",
-                padding: "14px 0",
-              }}
-            >
-              <summary
-                style={{
-                  fontWeight: 600,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  padding: "2px 0",
-                  listStyle: "none",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {item.q}
-                <span style={{ fontSize: 18, color: "var(--color-text-tertiary)", flexShrink: 0 }}>+</span>
-              </summary>
-              <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 14, lineHeight: 1.7 }}>
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <div style={{ marginTop: 16 }}>
+        <FAQSection items={FAQ_ITEMS} />
+      </div>
 
       <section style={{ background: "linear-gradient(135deg, #95BF47 0%, #5E8E3E 100%)", borderRadius: "var(--radius)", padding: "40px 24px", textAlign: "center", color: "#fff", marginTop: 16, marginBottom: 8 }}>
         <h2 style={{ fontSize: 24, fontWeight: 800, margin: "0 0 10px" }}>

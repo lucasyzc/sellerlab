@@ -28,6 +28,7 @@ pnpm-debug.log*
 
 # Cloudflare dev vars
 .dev.vars
+.wrangler/
 
 # local claude workspace files
 /.claude/

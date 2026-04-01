@@ -1,6 +1,6 @@
 # SEO + GEO Extreme Spec (Single Source of Truth)
 
-Last updated: 2026-03-27 (Asia/Shanghai)
+Last updated: 2026-04-01 (Asia/Shanghai)
 Applies to: this repository only
 Default language strategy: English-first
 
@@ -36,7 +36,7 @@ Failure conditions (blocking):
 
 ## Structured Data Contract
 
-### Calculator pages (`/amazon-fee-calculator`, `/ebay-fee-calculator`, `/ebay-pricing-calculator`, `/tiktok-shop-fee-calculator`, `/shopify-fee-calculator`, `/walmart-fee-calculator`)
+### Calculator pages (`/amazon-fee-calculator`, `/amazon-pricing-calculator`, `/ebay-fee-calculator`, `/ebay-pricing-calculator`, `/tiktok-shop-fee-calculator`, `/shopify-fee-calculator`, `/walmart-fee-calculator`)
 MUST include:
 - `BreadcrumbList`
 - `SoftwareApplication`
@@ -98,6 +98,14 @@ MUST include:
 
 3. Title optimization pages.
 - SHOULD include before/after examples and practical rationale.
+
+4. FAQ answer quality standard.
+- MUST target 80–200 words per answer.
+- MUST lead with a core conclusion in the first sentence; do not bury the answer.
+- MUST preserve all critical data points (rates, amounts, thresholds) — never drop key numbers to meet word count.
+- MUST remove redundant modifiers and repeated explanations; keep actionable advice.
+- If essential information genuinely requires exceeding 200 words, the answer MUST use the `{ intro, points, conclusion }` structured format to maintain readability.
+- MUST NOT pad answers with filler text to reach the minimum word count.
 
 ## Metadata / Canonical Contract
 

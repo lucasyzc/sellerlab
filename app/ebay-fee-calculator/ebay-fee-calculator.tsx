@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { SectionLabel } from "../components/section-label";
 import {
   type CalcResult,
   type Cat,
@@ -648,18 +649,6 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
       {children}
     </label>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em",
-      color: "var(--color-text-tertiary)", borderBottom: "1px solid var(--color-border)",
-      paddingBottom: 6, marginTop: 4,
-    }}>
-      {children}
-    </div>
   );
 }
 

@@ -848,6 +848,35 @@ details[open] .faq-chevron {
   transform: rotate(45deg);
 }
 
+.faq-answer {
+  margin-top: 10px;
+  padding-left: 14px;
+  border-left: 3px solid var(--color-border);
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}
+.faq-answer p {
+  margin: 0 0 8px;
+}
+.faq-answer p:last-child {
+  margin-bottom: 0;
+}
+.faq-answer ul {
+  margin: 8px 0;
+  padding-left: 18px;
+}
+.faq-answer ul li {
+  margin-bottom: 6px;
+}
+.faq-answer ul li:last-child {
+  margin-bottom: 0;
+}
+.faq-answer strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
 /* ─── Legal Pages ─── */
 .legal-page {
   max-width: 740px;

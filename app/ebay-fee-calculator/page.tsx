@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MARKET_LIST } from "./market-config";
 import { FlagIcon } from "../components/country-flags";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
 import {
@@ -78,7 +79,7 @@ function StructuredData() {
     mainEntity: FAQ_ITEMS.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -202,31 +203,59 @@ const FEE_TABLE_ROWS = [
 const FAQ_ITEMS = [
   {
     q: "How much does eBay charge in fees?",
-    a: "eBay charges a final value fee (typically 12\u201313% for most categories) plus a per-order fee ($0.30 in the US). Store subscribers get lower rates. Additional fees may apply for payment processing, international sales, and promoted listings.",
+    a: {
+      intro: "eBay sellers pay several fee components that combine to a total effective rate of roughly 15\u201317% on most US sales.",
+      points: [
+        "Final value fee (FVF): typically 12\u201313.25% of the total sale amount for most categories, varying by marketplace and store subscription.",
+        "Per-order fee: a fixed charge per sale (e.g. $0.30 in the US, \u00a30.30\u2013\u00a30.40 in the UK).",
+        "Managed Payments processing: 2.7% + $0.25 per transaction on US sales (included in FVF on some non-US markets).",
+        "Optional extras: international selling fees (1\u20133%), promoted listings ad rates, and regulatory operating fees (UK).",
+      ],
+      conclusion: "Store subscribers and Top Rated Sellers qualify for reduced FVF rates, making these programs worth evaluating for regular sellers.",
+    },
   },
   {
     q: "What is eBay\u2019s final value fee?",
-    a: "The final value fee is a percentage of the total sale amount (item price + shipping). Rates vary by category, seller type, and marketplace. For US sellers without a store, the default rate is 13.25% on the first $7,500 and 2.35% above that.",
+    a: "The final value fee (FVF) is a percentage of the total sale amount, including both the item price and buyer-paid shipping. Rates vary by category, seller type, and marketplace. For US sellers without a store, the default rate is 13.25% on the first $7,500 per sale, dropping to 2.35% on amounts above that threshold. Store subscribers pay 12.35% with a $2,500 threshold. Certain categories carry different rates \u2014 Books and Music charge 14.95%, while Guitars and Heavy Equipment are lower. Use the calculator above to model your exact category and store configuration.",
   },
   {
     q: "Do eBay fees differ by country?",
-    a: "Yes. Each eBay marketplace (US, UK, Germany, Australia, etc.) has its own fee structure with different final value fee rates, per-order fees, and additional charges like regulatory fees (UK) or payment processing fees.",
+    a: {
+      intro: "Yes. Each eBay marketplace operates its own fee schedule with distinct rates and fee types.",
+      points: [
+        "US: FVF + per-order fee + separate Managed Payments processing charge.",
+        "UK: business seller FVF + regulatory operating fee (0.35%); private sellers pay 0% FVF on domestic sales.",
+        "Germany: private domestic sellers pay 0% FVF; business sellers face category-based rates from 3\u201311%.",
+        "Australia: FVF includes payment processing \u2014 no separate charge.",
+        "Canada: structure mirrors US with slightly higher default FVF rates.",
+      ],
+      conclusion: "Select your marketplace in the cards above to see the exact fee model for each country.",
+    },
   },
   {
     q: "How can I reduce my eBay selling fees?",
-    a: "You can reduce fees by subscribing to an eBay Store (lower final value fee rates), achieving Top Rated Seller status (10% FVF discount), and listing in categories with lower fee rates. Use our calculator to compare costs across different configurations.",
+    a: {
+      intro: "There are several proven strategies to lower your eBay fee burden.",
+      points: [
+        "Subscribe to an eBay Store to unlock lower FVF rates (e.g. 12.35% vs 13.25% on US).",
+        "Achieve Top Rated Seller status for a 10% discount on final value fees.",
+        "List products in categories with naturally lower fee rates, such as Electronics or Computers.",
+        "Sell higher-value items to benefit from tiered rates that drop above the per-item threshold.",
+        "Avoid unnecessary promoted listings when organic visibility is sufficient.",
+      ],
+    },
   },
   {
     q: "Which eBay marketplace has the lowest fees?",
-    a: "European marketplaces like eBay.fr and eBay.it generally have lower fees for private sellers (around 8%), while eBay.de offers 0% fees for domestic private sellers. Among English-speaking markets, eBay US and UK have similar rates around 13%, with store subscriptions bringing rates down to ~12%.",
+    a: "For private (non-business) sellers, eBay Germany and several EU markets offer 0% final value fees on domestic sales, making them the cheapest option. eBay France and Italy charge around 8% for private sellers. Among English-speaking markets, eBay US and UK have similar default rates around 12\u201313%, with store subscriptions bringing rates closer to 12%. For business sellers, Australia\u2019s all-inclusive FVF (no separate payment fee) can result in competitive total costs. The best market depends on your seller type, sales volume, and whether you sell domestically or cross-border.",
   },
   {
     q: "Does eBay charge fees on shipping?",
-    a: "Yes. eBay\u2019s final value fee is calculated on the total sale amount, which includes the shipping amount the buyer pays. This is why offering \u201cfree shipping\u201d by building shipping costs into your item price doesn\u2019t save on fees.",
+    a: "Yes. eBay\u2019s final value fee is calculated on the total sale amount, which includes the shipping charge paid by the buyer. Offering \u201cfree shipping\u201d by building costs into a higher item price does not reduce fees \u2014 the percentage applies to the total either way. The Managed Payments processing fee (US: 2.7% + $0.25) is also calculated on the full transaction amount including any applicable tax. Factor shipping into your margin model to avoid underpricing.",
   },
   {
     q: "Is this eBay fee calculator updated for 2026?",
-    a: "Yes. The calculator is maintained for 2026 fee-search intent and reviewed policy context by market. Always validate your category and store tier against official eBay seller updates before final pricing.",
+    a: "Yes. The calculator reflects 2026 eBay fee schedules across all supported marketplaces, including the March 2025 rate increases on eBay Canada and 2026 UK business seller updates. Always verify your specific category and store tier against official eBay seller fee pages before making final pricing decisions, as mid-year adjustments can occur.",
   },
 ];
 
@@ -682,63 +711,9 @@ export default function EbayFeeCalculatorHubPage() {
       </section>
 
       {/* FAQ */}
-      <section className="card" style={{ padding: 24, marginTop: 16 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-          Frequently Asked Questions
-        </h2>
-        <div style={{ display: "grid", gap: 0 }}>
-          {FAQ_ITEMS.map((item, i) => (
-            <details
-              key={i}
-              style={{
-                borderBottom:
-                  i < FAQ_ITEMS.length - 1
-                    ? "1px solid var(--color-border)"
-                    : "none",
-                padding: "14px 0",
-              }}
-            >
-              <summary
-                style={{
-                  fontWeight: 600,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  padding: "2px 0",
-                  listStyle: "none",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {item.q}
-                <span
-                  style={{
-                    fontSize: 18,
-                    color: "var(--color-text-tertiary)",
-                    flexShrink: 0,
-                    transition: "transform 0.2s ease",
-                  }}
-                  className="faq-chevron"
-                >
-                  +
-                </span>
-              </summary>
-              <p
-                className="muted"
-                style={{
-                  marginTop: 10,
-                  marginBottom: 0,
-                  fontSize: 14,
-                  lineHeight: 1.7,
-                }}
-              >
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <div style={{ marginTop: 16 }}>
+        <FAQSection items={FAQ_ITEMS} />
+      </div>
 
       {/* CTA */}
       <section

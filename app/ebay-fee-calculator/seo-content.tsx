@@ -2,12 +2,13 @@ import Link from "next/link";
 import type { MarketConfig, MarketId } from "./market-config";
 import { absoluteUrl } from "@/lib/site-url";
 import { resolveLastReviewed, resolveSeoYear, withSeoYear } from "@/lib/fee-seo";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 
 // ═══════════════════════════════════════════════════════════════
 // Types
 // ═══════════════════════════════════════════════════════════════
 
-type FAQ = { q: string; a: string };
+type FAQ = { q: string; a: import("../components/faq-section").FAQAnswer };
 
 type FeeTableRow = {
   category: string;
@@ -71,7 +72,7 @@ export function MarketStructuredData({ config }: { config: MarketConfig }) {
     mainEntity: faqs.map(item => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -238,55 +239,7 @@ export function MarketFeeExplanation({ config }: { config: MarketConfig }) {
 
 export function MarketFAQ({ config }: { config: MarketConfig }) {
   const faqs = getMarketFaqs(config);
-
-  return (
-    <section className="card" style={{ padding: 24 }}>
-      <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-        Frequently Asked Questions
-      </h2>
-      <div style={{ display: "grid", gap: 0 }}>
-        {faqs.map((item, i) => (
-          <details
-            key={i}
-            style={{
-              borderBottom: i < faqs.length - 1 ? "1px solid var(--color-border)" : "none",
-              padding: "14px 0",
-            }}
-          >
-            <summary
-              style={{
-                fontWeight: 600,
-                fontSize: 15,
-                cursor: "pointer",
-                padding: "2px 0",
-                listStyle: "none",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              {item.q}
-              <span
-                style={{
-                  fontSize: 18,
-                  color: "var(--color-text-tertiary)",
-                  flexShrink: 0,
-                  transition: "transform 0.2s ease",
-                }}
-                className="faq-chevron"
-              >
-                +
-              </span>
-            </summary>
-            <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 14, lineHeight: 1.7 }}>
-              {item.a}
-            </p>
-          </details>
-        ))}
-      </div>
-    </section>
-  );
+  return <FAQSection items={faqs} />;
 }
 
 function getMarketFaqs(config: MarketConfig): FAQ[] {
@@ -310,155 +263,353 @@ const MARKET_FAQS: Record<MarketId, FAQ[]> = {
   us: [
     {
       q: "How much does eBay charge US sellers in fees?",
-      a: "eBay US charges a final value fee (typically 13.25% for most categories) plus a $0.30 per-order fee for sellers without a store. Store subscribers pay a lower rate of 12.35%. On top of that, Managed Payments processing adds 2.7% + $0.25 per transaction. The total effective fee rate ranges from about 15\u201317% depending on your configuration.",
+      a: {
+        intro: "eBay US sellers face several fee layers that combine to a total effective rate of roughly 15\u201317%.",
+        points: [
+          "Final value fee (FVF): 13.25% for most categories without a store, or 12.35% with a store subscription.",
+          "Per-order fee: $0.30 on every transaction.",
+          "Managed Payments processing: 2.7% of the total amount (including tax) plus $0.25 per order.",
+        ],
+        conclusion: "Store subscribers and Top Rated Sellers qualify for reduced FVF rates that can meaningfully lower total costs.",
+      },
     },
     {
       q: "What are eBay Managed Payments fees on eBay.com?",
-      a: "eBay Managed Payments charges 2.7% of the total transaction amount plus a $0.25 fixed fee per order. This is calculated on the total sale amount including any applicable sales tax. All US sellers are required to use Managed Payments \u2014 PayPal is no longer an option for processing eBay sales.",
+      a: "eBay Managed Payments charges 2.7% of the total transaction amount plus a $0.25 fixed fee per order. The fee is calculated on the full sale amount including any applicable sales tax collected from the buyer. All US sellers are required to use Managed Payments \u2014 PayPal and other external processors are no longer available for eBay transactions. This processing fee applies on top of the final value fee and per-order charge.",
     },
     {
       q: "How does the final value fee work on eBay US?",
-      a: "The final value fee is calculated as a percentage of the total sale amount, which includes both the item price and the shipping amount charged to the buyer. Most categories charge 13.25% on the first $7,500 (or $2,500 for store sellers) and 2.35% on the amount above that threshold. Some categories like Books, Movies, and Music have higher rates (14.95%), while others like Guitars and Heavy Equipment have lower rates.",
+      a: {
+        intro: "The final value fee is a percentage of the total sale amount (item price + buyer-paid shipping), charged using a tiered structure.",
+        points: [
+          "Non-store sellers: 13.25% on the first $7,500 per sale, then 2.35% on amounts above that threshold.",
+          "Store subscribers: 12.35% on the first $2,500, then 2.35% above.",
+          "Higher-fee categories: Books, Movies & Music at 14.95%; Women\u2019s Bags and Jewelry at 15%.",
+          "Lower-fee categories: Guitars & Basses at 6.35%; Heavy Equipment at 3% (non-store) or 2.5% (store).",
+        ],
+        conclusion: "Use the calculator above to model your exact category and store configuration.",
+      },
     },
     {
       q: "How can I reduce my eBay US selling fees?",
-      a: "There are several ways to lower your fees: subscribe to an eBay Store to get reduced final value fee rates (e.g., 12.35% vs 13.25% for most categories); achieve Top Rated Seller status for a 10% discount on final value fees; list items in categories with lower fee rates; and sell higher-value items to benefit from tiered rate reductions above the threshold amount.",
+      a: {
+        intro: "Several strategies can meaningfully lower your eBay US fee burden.",
+        points: [
+          "Subscribe to an eBay Store to unlock lower FVF rates (12.35% vs 13.25% for most categories) and category-specific discounts.",
+          "Achieve Top Rated Seller status for a 10% discount on final value fees.",
+          "List in categories with lower rates \u2014 Computers drop from 13.25% to 7% for store sellers.",
+          "Sell higher-value items to benefit from tiered rate reductions above the $7,500 or $2,500 threshold.",
+        ],
+      },
     },
     {
       q: "Does eBay US charge fees on shipping?",
-      a: "Yes. eBay's final value fee applies to the total sale amount, which includes the shipping charge paid by the buyer. Offering \u201cfree shipping\u201d by building the cost into your item price doesn't save on fees \u2014 the fee percentage applies to the total either way. The Managed Payments fee (2.7% + $0.25) is also calculated on the total transaction including tax.",
+      a: "Yes. eBay\u2019s final value fee is calculated on the total sale amount, which includes the shipping charge paid by the buyer. Offering \u201cfree shipping\u201d by building costs into a higher item price does not reduce fees \u2014 the percentage applies to the total either way. The Managed Payments fee (2.7% + $0.25) is also calculated on the full transaction amount including tax. Factor this into your margin model when deciding between charged shipping and free-shipping strategies.",
     },
   ],
   uk: [
     {
       q: "How much does eBay charge UK sellers in fees?",
-      a: "eBay UK fees depend on your seller type. Private sellers pay no final value fees on domestic sales. Business sellers without a shop pay 12.9% FVF on most categories plus a \u00a30.40 per-order fee. Additional charges include the regulatory operating fee (0.35%) and international selling fees (1.05\u20132.0% depending on destination).",
+      a: {
+        intro: "eBay UK fees vary significantly by seller type, making it one of the most seller-type-sensitive marketplaces.",
+        points: [
+          "Private sellers: 0% FVF on domestic sales, but 3% on all international sales.",
+          "Business sellers: 12.9% FVF on most categories, plus a \u00a30.30\u2013\u00a30.40 per-order fee.",
+          "Regulatory operating fee: 0.35% on all business seller sales (private sellers exempt).",
+          "International fees: 1.05\u20132.0% depending on destination for business sellers.",
+        ],
+      },
     },
     {
       q: "What is the eBay UK regulatory operating fee?",
-      a: "The regulatory operating fee is 0.35% of the total sale amount (excluding VAT), charged on all business seller sales on eBay.co.uk. This fee was introduced to cover eBay's regulatory compliance costs. Private sellers are exempt from this fee.",
+      a: "The regulatory operating fee is 0.35% of the total sale amount (excluding VAT), charged on all business seller transactions on eBay.co.uk. This fee covers eBay\u2019s UK regulatory compliance costs and applies in addition to the final value fee and per-order charge. Private sellers are fully exempt from this fee. While 0.35% sounds small, it adds up at scale \u2014 on \u00a310,000 in monthly sales, that\u2019s an extra \u00a335 in fees.",
     },
     {
       q: "Do private sellers pay fees on eBay UK?",
-      a: "UK-based private sellers pay no final value fees and no regulatory operating fees on domestic sales within the UK. However, private sellers do pay an international fee of 3% on all cross-border sales. This makes eBay UK one of the most cost-effective marketplaces for occasional domestic sellers.",
+      a: "UK-based private sellers pay no final value fees, no regulatory operating fees, and no per-order fees on domestic sales. This makes eBay UK one of the most cost-effective marketplaces for occasional or casual sellers. The only fee private sellers face is a flat 3% international selling fee on cross-border sales. This zero-domestic-fee policy is a significant advantage over eBay US, where all sellers pay FVF regardless of account type.",
     },
     {
       q: "What are the international selling fees on eBay UK?",
-      a: "eBay UK international fees vary by destination: 1.05% for sales to Eurozone and Northern Europe, 1.8% for the US and Canada, and 2.0% for all other countries. Private sellers pay a flat 3% on all international sales regardless of destination. These fees are in addition to the standard final value fee.",
+      a: {
+        intro: "eBay UK charges international fees that vary by destination and seller type.",
+        points: [
+          "Business sellers to Eurozone/Northern Europe: 1.05%.",
+          "Business sellers to US and Canada: 1.8%.",
+          "Business sellers to all other countries: 2.0%.",
+          "Private sellers: a flat 3% on all international sales regardless of destination.",
+        ],
+        conclusion: "These fees apply on top of the standard final value fee, so factor them into margin calculations for cross-border listings.",
+      },
     },
     {
       q: "Which categories have the lowest fees on eBay UK?",
-      a: "Categories with the lowest business seller rates on eBay UK include Cameras & Photography (core items at 6.9%), Computers (core items at 6.9%), Sound & Vision (core items at 6.9%), Mobile Phones (6.9%), and DIY Tools (6.9%). These rates apply up to category-specific thresholds, after which a lower rate (typically 3%) applies to the amount above.",
+      a: {
+        intro: "Several categories offer business sellers significantly lower rates than the 12.9% default.",
+        points: [
+          "Cameras & Photography, Computers, Sound & Vision, Mobile Phones, and DIY Tools: all at 6.9%, dropping to 3% above \u00a31,000.",
+          "Video Game Consoles: 6.9%, dropping to 2% above \u00a3400.",
+          "Vehicle Parts: 9.5%, dropping to 3% above \u00a3750.",
+          "Books & Magazines: 9.9%.",
+        ],
+        conclusion: "These tiered rates make eBay UK particularly competitive for high-value electronics and computing items.",
+      },
     },
   ],
   de: [
     {
       q: "How much does eBay charge sellers in Germany?",
-      a: "eBay Germany fees depend on your seller type. Private sellers within Germany/EEA pay no final value fees on domestic sales. Business (commercial) sellers pay category-based rates ranging from 3% (electronics, tires) to 11% (catch-all) plus a \u20ac0.35 per-order fee. The default rate for most common categories is 6.5%.",
+      a: {
+        intro: "eBay Germany offers one of Europe\u2019s most competitive fee structures, especially for private sellers.",
+        points: [
+          "Private sellers in Germany/EEA: 0% FVF on domestic sales.",
+          "Business sellers: category-based flat rates from 3% (Electronics, Tires) to 11% (catch-all), plus a \u20ac0.35 per-order fee.",
+          "Default business rate for most common categories: 6.5%.",
+        ],
+        conclusion: "Unlike US/UK markets, most German categories use flat rates rather than tiered pricing, simplifying fee estimation.",
+      },
     },
     {
       q: "Do private sellers pay fees on eBay.de?",
-      a: "Private sellers based in Germany or the European Economic Area pay zero final value fees on domestic sales within eBay.de. This makes eBay Germany particularly attractive for casual sellers. However, an international fee of 1.91% applies to cross-border sales.",
+      a: "Private sellers based in Germany or the European Economic Area pay zero final value fees on domestic eBay.de sales \u2014 no FVF, no per-order fee, no regulatory charge. This makes eBay Germany one of the most attractive platforms for casual sellers in Europe. The only fee private sellers face is a 1.91% international selling fee on cross-border sales to EU, US, and Canada destinations, or 3.93% to other countries.",
     },
     {
       q: "What are the business seller fee rates on eBay Germany?",
-      a: "eBay.de business seller rates vary by category: Electronics and Tires at 3%, Electronic Accessories and Motor Parts at 5.7%, most mid-range categories (Books, Computers, Instruments, Toys, etc.) at 6.5%, Home and Baby at 7%, and Clothing and Beauty at 8%. The catch-all rate for unlisted categories is 11% up to \u20ac1,990, then 2% above.",
+      a: {
+        intro: "eBay.de business seller rates are organized by category with flat rates (no tiered thresholds for most).",
+        points: [
+          "Lowest: Consumer Electronics and Tires at 3%.",
+          "Mid-low: Electronic Accessories, Motorcycle Parts, Vehicle Parts at 5.7%.",
+          "Standard: Books, Computers, Instruments, Toys, Art at 6.5%.",
+          "Mid-high: Home, Baby, and Pet Supplies at 7%.",
+          "Higher: Clothing and Beauty at 8%.",
+          "Catch-all: 11% up to \u20ac1,990, then 2% above.",
+        ],
+      },
     },
     {
       q: "What is the per-order fee on eBay.de?",
-      a: "The per-order fee on eBay Germany is \u20ac0.35 for orders of \u20ac10 or more, and \u20ac0.05 for orders under \u20ac10. This fee applies to all business seller transactions. Private sellers do not pay a per-order fee on domestic sales.",
+      a: "The per-order fee on eBay Germany is \u20ac0.35 for orders of \u20ac10 or more, and \u20ac0.05 for orders under \u20ac10. This fee applies to all business seller transactions. Private sellers do not pay a per-order fee on domestic sales. The reduced \u20ac0.05 rate for small orders prevents the fixed charge from disproportionately impacting low-priced items, which is an advantage over markets with a single fixed per-order fee.",
     },
     {
       q: "How do international selling fees work on eBay Germany?",
-      a: "eBay.de charges international fees that vary by destination: 1.91% for sales to the EU, US, and Canada; 1.43% for the UK; and 3.93% for all other countries. These fees apply to both private and business sellers when selling to buyers outside Germany.",
+      a: {
+        intro: "eBay.de charges destination-based international fees that apply to both private and business sellers selling to buyers outside Germany.",
+        points: [
+          "EU, US, and Canada: 1.91%.",
+          "UK: 1.43% (slightly lower due to trade agreements).",
+          "All other countries: 3.93%.",
+        ],
+        conclusion: "These fees are in addition to the standard final value fee. Cross-border sellers should model destination-specific margins before scaling international listings.",
+      },
     },
   ],
   au: [
     {
       q: "How much does eBay charge in fees for Australian sellers?",
-      a: "eBay Australia charges a final value fee of 13.4% for most categories for sellers without a store, plus a A$0.30 per-order fee. Store subscribers benefit from a reduced rate of 10.4%. Payment processing fees are included in the final value fee \u2014 there is no separate payment processing charge on eBay.com.au.",
+      a: {
+        intro: "eBay Australia charges a tiered final value fee with payment processing included \u2014 no separate payment charge.",
+        points: [
+          "Non-store sellers: 13.4% FVF for most categories, plus A$0.30 per-order fee.",
+          "Store subscribers: reduced rate of 10.4%, plus A$0.30 per-order fee.",
+          "Payment processing: included in the FVF (unlike eBay US/Canada where Managed Payments is separate).",
+        ],
+        conclusion: "The all-inclusive FVF structure makes fee estimation simpler on eBay Australia compared to markets with separate payment processing charges.",
+      },
     },
     {
       q: "Is there a maximum fee cap on eBay Australia?",
-      a: "Yes. eBay Australia has a per-item FVF cap: A$440 for sellers without a store and A$400 for store subscribers. This means the final value fee will never exceed this amount on a single sale, making it especially beneficial for high-value items.",
+      a: "Yes. eBay Australia caps the final value fee per item: A$440 for sellers without a store and A$400 for store subscribers. Once the calculated FVF reaches this cap, no additional FVF is charged on that sale regardless of the sale price. This makes eBay Australia especially cost-effective for high-value items. For example, on a A$5,000 item, the effective fee rate drops to just 8\u20138.8% instead of the full 10.4\u201313.4%.",
     },
     {
       q: "How does the final value fee work on eBay.com.au?",
-      a: "The final value fee on eBay Australia is tiered. For non-store sellers, most categories charge 13.4% on the first A$4,000 and 2.5% on the amount above. Store subscribers pay 10.4% on the first A$4,000 and 2.5% above. The fee is calculated on the total sale amount (item price + shipping charged to the buyer).",
+      a: {
+        intro: "The final value fee on eBay Australia uses a tiered structure based on sale amount.",
+        points: [
+          "Non-store: 13.4% on the first A$4,000, then 2.5% on amounts above.",
+          "Store: 10.4% on the first A$4,000, then 2.5% above.",
+          "Per-item FVF cap: A$440 (no store) or A$400 (store).",
+        ],
+        conclusion: "The fee applies to the total sale amount including buyer-paid shipping. The cap and tiered structure both benefit sellers of higher-priced items.",
+      },
     },
     {
       q: "What categories have lower fees on eBay Australia?",
-      a: "Store subscribers benefit from reduced rates in several categories: Computers & Tablets (core items at 7%), Consumer Electronics (9%), Video Game Consoles (7%), eBay Motors (9.5%), and Jewelry & Watches (12%/4%/3% tiered). These lower rates make a store subscription particularly worthwhile for sellers in these categories.",
+      a: {
+        intro: "Store subscribers benefit from significantly reduced rates in several popular categories.",
+        points: [
+          "Computers & Tablets (core items): 7% store rate vs 13.4% non-store.",
+          "Consumer Electronics: 9% store rate.",
+          "Video Game Consoles: 7% store rate.",
+          "eBay Motors (Parts): 9.5% store rate, dropping to 3% above A$1,000.",
+          "Jewelry & Watches: tiered at 12%/4%/3% for store sellers.",
+        ],
+        conclusion: "These category discounts make an eBay Store subscription especially worthwhile for electronics and computing sellers in Australia.",
+      },
     },
     {
       q: "How can I reduce my eBay Australia selling fees?",
-      a: "Subscribe to an eBay Store to reduce your default FVF from 13.4% to 10.4%. Achieve Top Rated Seller status for an additional 10% discount on the final value fee. List items in categories with lower store rates (like Computers or Electronics). For high-value items, the FVF cap (A$400\u2013440) automatically limits your maximum fee.",
+      a: {
+        intro: "Four key strategies can lower your eBay Australia fees.",
+        points: [
+          "Subscribe to an eBay Store to drop the default FVF from 13.4% to 10.4% and access category-specific discounts.",
+          "Achieve Top Rated Seller status for an additional 10% FVF discount.",
+          "List in categories with lower store rates (Computers at 7%, Electronics at 9%).",
+          "Leverage the FVF cap (A$400\u2013440) on high-value items to limit maximum fee exposure.",
+        ],
+      },
     },
   ],
   ca: [
     {
       q: "How much does eBay charge Canadian sellers in fees?",
-      a: "eBay Canada charges a final value fee of 13.6% for most categories for sellers without a store, plus a C$0.30 per-order fee. Store subscribers pay a lower rate of 12.7%. Additionally, Managed Payments processing adds 2.7% + C$0.25 per transaction, bringing the total effective fee to approximately 16\u201317%.",
+      a: {
+        intro: "eBay Canada charges a final value fee plus separate payment processing, bringing total effective fees to approximately 16\u201317%.",
+        points: [
+          "Non-store FVF: 13.6% for most categories, plus C$0.30 per-order fee.",
+          "Store FVF: 12.7%, plus C$0.30 per-order fee.",
+          "Managed Payments: 2.7% of total transaction (including taxes) plus C$0.25 per order.",
+        ],
+        conclusion: "Following the March 2025 rate increase, Canadian FVF rates are slightly higher than eBay US.",
+      },
     },
     {
       q: "What are eBay Canada's Managed Payments fees?",
-      a: "eBay Canada's Managed Payments charges 2.7% of the total transaction amount (including applicable taxes) plus a fixed C$0.25 per order. All Canadian sellers are required to use eBay's Managed Payments system for processing sales.",
+      a: "eBay Canada\u2019s Managed Payments charges 2.7% of the total transaction amount (including applicable GST, HST, or PST taxes) plus a fixed C$0.25 per order. All Canadian sellers are required to use eBay\u2019s Managed Payments system \u2014 external payment processors are no longer available. This processing fee applies on top of the final value fee and per-order charge, so it must be factored into your margin model.",
     },
     {
       q: "How does the final value fee work on eBay.ca?",
-      a: "The final value fee on eBay Canada is tiered: 13.6% on the first C$7,500 for non-store sellers (or C$2,500 for store sellers), then 2.35% on the amount above. The fee applies to the total sale amount including shipping. Some categories have different rates \u2014 Books, Movies, and Music are charged at 15.3%, while Computers (core items) get a lower 7% store rate.",
+      a: {
+        intro: "The final value fee on eBay Canada is tiered, with different rates and thresholds for store vs non-store sellers.",
+        points: [
+          "Non-store: 13.6% on the first C$7,500, then 2.35% above.",
+          "Store: 12.7% on the first C$2,500, then 2.35% above.",
+          "Higher-fee categories: Books, Movies & Music at 15.3%.",
+          "Lower-fee categories: Computers (core) at 7% for store sellers.",
+        ],
+        conclusion: "The fee applies to the total sale amount including buyer-paid shipping.",
+      },
     },
     {
       q: "How can I reduce my eBay Canada selling fees?",
-      a: "Reduce your fees by subscribing to an eBay Store (12.7% vs 13.6% for most categories), qualifying for Top Rated Seller status (10% FVF discount), and listing in categories with lower rates. For high-value items, the tiered structure means amounts above C$7,500 (or C$2,500 for stores) are charged at only 2.35%.",
+      a: {
+        intro: "Several approaches can reduce your total eBay Canada fee burden.",
+        points: [
+          "Subscribe to an eBay Store: 12.7% vs 13.6% for most categories.",
+          "Qualify for Top Rated Seller status: 10% FVF discount.",
+          "List in lower-rate categories: Computers at 7%, Electronics at 9% for store sellers.",
+          "Benefit from tiered pricing on high-value items: only 2.35% above C$7,500 (or C$2,500 for stores).",
+        ],
+      },
     },
     {
       q: "What changed in eBay Canada fees in 2025?",
-      a: "Starting March 3, 2025, eBay Canada increased final value fee rates by up to 0.35% across most categories. The default non-store rate went from approximately 13.25% to 13.6%, and store rates increased to 12.7%. Tax handling varies by Canadian province, with different GST, HST, and PST rules applying.",
+      a: "Starting March 3, 2025, eBay Canada increased final value fee rates by up to 0.35% across most categories. The default non-store rate rose from approximately 13.25% to 13.6%, and store rates increased to 12.7%. These changes apply to all categories uniformly. Tax handling continues to vary by Canadian province, with different GST, HST, and PST rules affecting the Managed Payments fee base. Sellers should update their pricing models to reflect these higher rates.",
     },
   ],
   fr: [
     {
       q: "How much does eBay charge sellers in France?",
-      a: "eBay France fees depend on your seller type. Private sellers pay a flat 8% final value fee on all categories, capped at \u20ac200 per item. Business (professional) sellers pay category-based rates ranging from 3% to 8%, plus a \u20ac0.35 per-order fee.",
+      a: {
+        intro: "eBay France uses a two-tier system based on seller type, with a notably seller-friendly cap for private accounts.",
+        points: [
+          "Private sellers: flat 8% FVF across all categories, capped at \u20ac200 per item.",
+          "Business sellers: category-based rates from 3% to 8%, plus a \u20ac0.35 per-order fee.",
+          "Payment processing: included in the FVF \u2014 no separate charge.",
+        ],
+      },
     },
     {
       q: "What is the difference between private and business seller fees on eBay.fr?",
-      a: "Private sellers pay a simple flat rate of 8% across all categories with a \u20ac200 per-item FVF cap. Business sellers pay lower, category-specific rates: Electronics and Tires at 3%, Motor Parts at 5.7%, most categories at 6.5%, Home and Baby at 7%, and Clothing and Beauty at 8%. Business sellers have no per-item cap.",
+      a: {
+        intro: "The two seller types face very different fee structures on eBay France.",
+        points: [
+          "Private sellers: flat 8% on all categories with a \u20ac200 per-item FVF cap. Simple and predictable.",
+          "Business sellers: lower category-specific rates (Electronics at 3%, Motor Parts at 5.7%, most categories at 6.5%, Clothing/Beauty at 8%) but no per-item cap.",
+        ],
+        conclusion: "For items under ~\u20ac2,500, business sellers often pay less. For high-value items above \u20ac2,500, private sellers benefit significantly from the \u20ac200 cap.",
+      },
     },
     {
       q: "Is there a maximum fee cap for private sellers on eBay France?",
-      a: "Yes. Private sellers on eBay.fr benefit from a \u20ac200 per-item cap on the final value fee. This means that no matter how expensive your item is, the FVF will never exceed \u20ac200. This makes eBay France particularly attractive for private sellers listing high-value items.",
+      a: "Yes. Private sellers on eBay.fr benefit from a \u20ac200 per-item cap on the final value fee. No matter how high the sale price, the FVF never exceeds \u20ac200. For example, on a \u20ac5,000 item, the effective fee rate drops to just 4% instead of the standard 8%. This makes eBay France particularly attractive for private sellers listing luxury goods, electronics, or collectibles with high unit values.",
     },
     {
       q: "What are the category-based fees for business sellers on eBay.fr?",
-      a: "Business seller rates on eBay France vary by category: Electronics and Tires at 3%, Electronic Accessories, Motorcycle Parts, and Vehicle Parts at 5.7%, Books, Computers, Musical Instruments, Toys, and Art at 6.5%, Baby, Home, and Pet Supplies at 7%, and Clothing and Beauty at 8%.",
+      a: {
+        intro: "Business seller rates on eBay France vary by category.",
+        points: [
+          "Lowest: Electronics and Tires at 3%.",
+          "Mid-low: Electronic Accessories, Motorcycle Parts, Vehicle Parts at 5.7%.",
+          "Standard: Books, Computers, Musical Instruments, Toys, Art at 6.5%.",
+          "Mid-high: Baby, Home, Pet Supplies at 7%.",
+          "Highest: Clothing and Beauty at 8%.",
+        ],
+        conclusion: "A \u20ac0.35 per-order fee applies to all business seller transactions in addition to these rates.",
+      },
     },
     {
       q: "How can I reduce my eBay France selling fees?",
-      a: "If you're a private seller, the 8% flat rate with \u20ac200 cap is already competitive for high-value items. Business sellers can minimize costs by listing in lower-fee categories (Electronics at 3%, Motor Parts at 5.7%). All sellers can earn a 10% FVF discount by achieving Top Rated Seller status.",
+      a: {
+        intro: "Fee reduction strategies depend on your seller type.",
+        points: [
+          "Private sellers: the 8% flat rate with \u20ac200 cap is already competitive for high-value items. Focus on listing higher-priced goods to maximize the cap advantage.",
+          "Business sellers: list in lower-fee categories when possible (Electronics at 3%, Motor Parts at 5.7%).",
+          "All sellers: achieve Top Rated Seller status for a 10% FVF discount.",
+        ],
+      },
     },
   ],
   it: [
     {
       q: "How much does eBay charge sellers in Italy?",
-      a: "eBay Italy fees depend on your seller type. Private sellers pay a flat 8% final value fee on all categories, capped at \u20ac200 per item. Business (professional) sellers pay category-based rates ranging from 3% to 8%, plus a \u20ac0.35 per-order fee. The fee structure is identical to eBay France.",
+      a: {
+        intro: "eBay Italy mirrors eBay France\u2019s fee structure, using the same two-tier system for private and business sellers.",
+        points: [
+          "Private sellers: flat 8% FVF across all categories, capped at \u20ac200 per item.",
+          "Business sellers: category-based rates from 3% to 8%, plus a \u20ac0.35 per-order fee.",
+          "Payment processing: included in the FVF \u2014 no separate charge.",
+        ],
+      },
     },
     {
       q: "What is the difference between private and business seller fees on eBay.it?",
-      a: "Private sellers pay a simple flat rate of 8% across all categories with a \u20ac200 per-item FVF cap. Business sellers pay lower, category-specific rates: Electronics and Tires at 3%, Motor Parts at 5.7%, most categories at 6.5%, Home and Baby at 7%, and Clothing and Beauty at 8%.",
+      a: {
+        intro: "Private and business sellers face different fee structures on eBay Italy.",
+        points: [
+          "Private sellers: flat 8% on all categories with a \u20ac200 per-item FVF cap. Straightforward and predictable.",
+          "Business sellers: lower category-specific rates (Electronics at 3%, Motor Parts at 5.7%, most at 6.5%, Clothing/Beauty at 8%) with no per-item cap.",
+        ],
+        conclusion: "The trade-off is the same as eBay France: private sellers win on high-value items (above ~\u20ac2,500), while business sellers pay less on standard-priced goods.",
+      },
     },
     {
       q: "Is there a maximum fee cap for private sellers on eBay Italy?",
-      a: "Yes. Private sellers on eBay.it benefit from a \u20ac200 per-item cap on the final value fee. This cap ensures your fee never exceeds \u20ac200 regardless of the sale price, making eBay Italy cost-effective for selling high-value items as a private seller.",
+      a: "Yes. Private sellers on eBay.it benefit from a \u20ac200 per-item cap on the final value fee, identical to eBay France. The FVF never exceeds \u20ac200 regardless of the sale price. On a \u20ac5,000 item, the effective fee rate drops to just 4%. This cap makes eBay Italy cost-effective for private sellers of high-value items such as luxury fashion, electronics, or collectibles.",
     },
     {
       q: "What are the category-based fees for business sellers on eBay.it?",
-      a: "Business seller rates on eBay Italy vary by category: Consumer Electronics and Tires at 3%, Electronic Accessories, Motorcycle Parts, and Vehicle Parts at 5.7%, Books, Computers, Musical Instruments, Toys, and Art at 6.5%, Baby, Home, and Pet Supplies at 7%, and Clothing and Beauty at 8%.",
+      a: {
+        intro: "Business seller rates on eBay Italy are identical to eBay France and vary by category.",
+        points: [
+          "Lowest: Consumer Electronics and Tires at 3%.",
+          "Mid-low: Electronic Accessories, Motorcycle Parts, Vehicle Parts at 5.7%.",
+          "Standard: Books, Computers, Musical Instruments, Toys, Art at 6.5%.",
+          "Mid-high: Baby, Home, Pet Supplies at 7%.",
+          "Highest: Clothing and Beauty at 8%.",
+        ],
+        conclusion: "A \u20ac0.35 per-order fee applies to all business seller transactions.",
+      },
     },
     {
       q: "How can I reduce my eBay Italy selling fees?",
-      a: "If you're a private seller, the 8% flat rate with \u20ac200 cap is already competitive for high-value items. Business sellers can list in lower-fee categories to save \u2014 Electronics at 3% is the lowest available rate. Achieving Top Rated Seller status earns a 10% discount on the final value fee.",
+      a: {
+        intro: "Fee reduction strategies depend on your seller type.",
+        points: [
+          "Private sellers: leverage the \u20ac200 FVF cap by focusing on higher-value items where the effective rate drops well below 8%.",
+          "Business sellers: list in lower-fee categories when possible \u2014 Electronics at 3% is the lowest available rate.",
+          "All sellers: achieve Top Rated Seller status for a 10% discount on the final value fee.",
+        ],
+      },
     },
   ],
 };

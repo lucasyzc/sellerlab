@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { TIKTOK_MARKET_LIST } from "./tiktok-config";
 import { FlagIcon } from "../components/country-flags";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
 import {
@@ -46,23 +47,30 @@ export const metadata: Metadata = buildFeeMetadata({
 const FAQ_ITEMS = [
   {
     q: "Which TikTok Shop markets are supported?",
-    a: "This calculator currently supports United States, United Kingdom, Vietnam, Thailand, Singapore, Malaysia, Indonesia, and Philippines. Some markets have fully public fee schedules, while others require manual entry of Seller Center rates.",
+    a: {
+      intro: "This calculator supports eight TikTok Shop markets, each with its own fee model and tax treatment.",
+      points: [
+        "Full public fee data: United States, United Kingdom, Vietnam, and Thailand \u2014 rates are sourced directly from official TikTok Shop documentation.",
+        "Manual-input markets: Singapore, Malaysia, Indonesia, and Philippines \u2014 fee categories are known but live numeric rates are only visible inside Seller Center, so you enter your current rates directly.",
+      ],
+      conclusion: "Select any market from the cards above to open its dedicated calculator with localized fee rules and tax handling.",
+    },
   },
   {
     q: "Are all markets equally precise?",
-    a: "No. UK, US, Vietnam, and Thailand have stronger official public documentation. Singapore, Malaysia, Indonesia, and Philippines often expose fee categories publicly but keep live numeric rates inside Seller Center, so those markets use manual fee inputs for accuracy.",
+    a: "No. US, UK, Vietnam, and Thailand have the strongest official public documentation, so the calculator uses source-backed rate tables for these markets. Singapore, Malaysia, Indonesia, and Philippines publish fee category structures publicly but keep live numeric rates inside Seller Center dashboards. For those markets, the calculator provides manual fee input fields so you can enter your actual Seller Center rates and get an accurate profit breakdown rather than relying on potentially outdated published numbers.",
   },
   {
     q: "Does the calculator include tax?",
-    a: "Yes. Each market includes a tax model such as VAT, GST, SST, or sales-tax assumptions, and you can change whether your selling price includes tax.",
+    a: "Yes. Each market includes a tax model matched to its jurisdiction \u2014 VAT for the UK, state sales tax assumptions for the US, GST for Singapore, SST for Malaysia, VAT for Thailand and Vietnam, PPN for Indonesia, and VAT for Philippines. You can toggle whether your selling price includes or excludes tax, and the calculator adjusts the fee base accordingly. This prevents the common error of overlooking how tax treatment affects your net margin.",
   },
   {
     q: "Can I override fee rates?",
-    a: "Yes. Markets whose official public pages do not expose stable numeric rates let you input your current TikTok Seller Center fee percentages directly.",
+    a: "Yes. Markets where official public pages do not expose stable numeric rates (such as Southeast Asian markets) provide manual fee input fields. You can enter your current TikTok Seller Center fee percentages directly, ensuring the profit calculation reflects your actual rates rather than generic estimates. This is also useful if you have negotiated custom fee rates with TikTok Shop for high-volume accounts.",
   },
   {
     q: "Is this TikTok Shop calculator updated for 2026?",
-    a: "Yes. This hub is reviewed for 2026 keyword intent and market-level freshness signals, while each market page shows source-linked policy dates.",
+    a: "Yes. This hub is reviewed for 2026 fee schedules and market-level freshness signals. Each market page displays source-linked policy dates and last-reviewed timestamps so you can verify the recency of the fee data. When TikTok Shop announces fee changes, we update the affected market models and note the effective date.",
   },
 ];
 
@@ -100,7 +108,7 @@ function StructuredData() {
     mainEntity: FAQ_ITEMS.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -256,42 +264,9 @@ export default function TikTokFeeCalculatorHubPage() {
         </div>
       </section>
 
-      <section className="card" style={{ padding: 24, marginTop: 16 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-          Frequently Asked Questions
-        </h2>
-        <div style={{ display: "grid", gap: 0 }}>
-          {FAQ_ITEMS.map((item, i) => (
-            <details
-              key={i}
-              style={{
-                borderBottom: i < FAQ_ITEMS.length - 1 ? "1px solid var(--color-border)" : "none",
-                padding: "14px 0",
-              }}
-            >
-              <summary
-                style={{
-                  fontWeight: 600,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  padding: "2px 0",
-                  listStyle: "none",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {item.q}
-                <span style={{ fontSize: 18, color: "var(--color-text-tertiary)", flexShrink: 0 }}>+</span>
-              </summary>
-              <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 14, lineHeight: 1.7 }}>
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <div style={{ marginTop: 16 }}>
+        <FAQSection items={FAQ_ITEMS} />
+      </div>
 
       <section style={{ background: "linear-gradient(135deg, #010101 0%, #333333 100%)", borderRadius: "var(--radius)", padding: "40px 24px", textAlign: "center", color: "#fff", marginTop: 16, marginBottom: 8 }}>
         <h2 style={{ fontSize: 24, fontWeight: 800, margin: "0 0 10px" }}>

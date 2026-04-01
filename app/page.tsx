@@ -90,18 +90,24 @@ function HomeStructuredData() {
       {
         "@type": "ListItem",
         position: 4,
+        name: "Amazon Pricing Calculator",
+        url: absoluteUrl("/amazon-pricing-calculator"),
+      },
+      {
+        "@type": "ListItem",
+        position: 5,
         name: "TikTok Shop Fee Calculator",
         url: absoluteUrl("/tiktok-shop-fee-calculator"),
       },
       {
         "@type": "ListItem",
-        position: 5,
+        position: 6,
         name: "Shopify Cost Calculator",
         url: absoluteUrl("/shopify-fee-calculator"),
       },
       {
         "@type": "ListItem",
-        position: 6,
+        position: 7,
         name: "eBay Title Optimizer",
         url: absoluteUrl("/ebay-title-optimizer"),
       },

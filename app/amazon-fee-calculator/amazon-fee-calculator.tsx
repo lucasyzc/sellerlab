@@ -13,6 +13,7 @@ import {
 } from "./amazon-config";
 import { AMAZON_MARKET_LIST, AMAZON_MARKETS } from "./markets";
 import { FlagIcon } from "../components/country-flags";
+import { SectionLabel } from "../components/section-label";
 import { trackEvent } from "@/lib/analytics";
 import { BRAND } from "@/lib/brand";
 import {
@@ -668,18 +669,6 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
       {children}
     </label>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em",
-      color: "var(--color-text-tertiary)", borderBottom: "1px solid var(--color-border)",
-      paddingBottom: 6, marginTop: 4,
-    }}>
-      {children}
-    </div>
   );
 }
 

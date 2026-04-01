@@ -42,6 +42,12 @@ const TOOLS_NAV: ToolNavItem[] = [
     description: "Model referral, fulfillment, and storage costs by market.",
   },
   {
+    label: "Amazon Pricing Calculator",
+    href: "/amazon-pricing-calculator",
+    group: "fee",
+    description: "Back-solve Amazon listing price from your target profit and costs.",
+  },
+  {
     label: "TikTok Shop Fee Calculator",
     href: "/tiktok-shop-fee-calculator",
     group: "fee",

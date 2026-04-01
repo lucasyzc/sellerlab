@@ -1,54 +1,53 @@
 {
-    "name":  "sellerlab",
-    "version":  "0.1.0",
-    "private":  true,
-    "scripts":  {
-                    "dev":  "next dev",
-                    "build":  "next build",
-                    "start":  "next start",
-                    "lint":  "eslint .",
-                    "guardrails:seo-geo":  "node scripts/check-seo-geo-guardrails.mjs",
-                    "indexnow:submit":  "node scripts/indexnow-submit.mjs",
-                    "preview:static":  "npx serve -s out",
-                    "preview:pages":  "npx wrangler pages dev out --port 8788",
-                    "preview:pages:build":  "npm run build && npm run preview:pages"
-                },
-    "dependencies":  {
-                         "@supabase/supabase-js":  "^2.99.2",
-                         "axios":  "^1.13.6",
-                         "country-flag-icons":  "^1.6.15",
-                         "express":  "^5.2.1",
-                         "fs":  "^0.0.1-security",
-                         "fs-extra":  "^11.3.4",
-                         "next":  "latest",
-                         "react":  "latest",
-                         "react-dom":  "latest"
-                     },
-    "devDependencies":  {
-                            "@types/node":  "latest",
-                            "@types/react":  "latest",
-                            "@types/react-dom":  "latest",
-                            "eslint":  "latest",
-                            "eslint-config-next":  "latest",
-                            "typescript":  "latest"
-                        },
-    "description":  "",
-    "main":  "index.js",
-    "directories":  {
-                        "doc":  "docs",
-                        "lib":  "lib"
-                    },
-    "repository":  {
-                       "type":  "git",
-                       "url":  "git+https://github.com/lucasyzc/sellerlab.git"
-                   },
-    "keywords":  [
-
-                 ],
-    "author":  "",
-    "license":  "ISC",
-    "bugs":  {
-                 "url":  "https://github.com/lucasyzc/sellerlab/issues"
-             },
-    "homepage":  "https://github.com/lucasyzc/sellerlab#readme"
+    "name": "sellerlab",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "eslint .",
+        "guardrails:seo-geo": "node scripts/check-seo-geo-guardrails.mjs",
+        "indexnow:submit": "node scripts/indexnow-submit.mjs",
+        "preview:static": "npx serve -s out",
+        "preview:pages": "npx wrangler pages dev out --port 8788",
+        "preview:pages:build": "npm run build && npm run preview:pages"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.99.2",
+        "axios": "^1.13.6",
+        "country-flag-icons": "^1.6.15",
+        "express": "^5.2.1",
+        "fs": "^0.0.1-security",
+        "fs-extra": "^11.3.4",
+        "lucide-react": "^1.7.0",
+        "next": "latest",
+        "react": "latest",
+        "react-dom": "latest"
+    },
+    "devDependencies": {
+        "@types/node": "latest",
+        "@types/react": "latest",
+        "@types/react-dom": "latest",
+        "eslint": "latest",
+        "eslint-config-next": "latest",
+        "typescript": "latest"
+    },
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs",
+        "lib": "lib"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lucasyzc/sellerlab.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/lucasyzc/sellerlab/issues"
+    },
+    "homepage": "https://github.com/lucasyzc/sellerlab#readme"
 }

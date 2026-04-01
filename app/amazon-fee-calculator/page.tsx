@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AMAZON_MARKET_LIST } from "./markets";
 import { FlagIcon } from "../components/country-flags";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
 import {
@@ -79,7 +80,7 @@ function StructuredData() {
     mainEntity: FAQ_ITEMS.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -108,31 +109,65 @@ const FEE_TABLE_ROWS = [
 const FAQ_ITEMS = [
   {
     q: "How much does Amazon charge sellers in fees?",
-    a: "Amazon charges a referral fee on every sale (typically 15% for most categories), ranging from 7% to 45% depending on the product category and marketplace. Professional sellers pay a monthly subscription, while Individual sellers pay a per-item fee. FBA sellers also pay fulfillment and monthly storage fees.",
+    a: {
+      intro: "Amazon sellers face several fee layers that vary by selling plan, fulfillment method, and product category.",
+      points: [
+        "Referral fee: a percentage of the total sale price, typically 15% for most categories but ranging from 7% to 45%.",
+        "Selling plan fee: Professional sellers pay $39.99/month, while Individual sellers pay $0.99 per item sold.",
+        "FBA fees: if using Fulfilled by Amazon, you pay per-unit fulfillment fees (based on size and weight) plus monthly and long-term storage fees.",
+        "Payment processing is included in the referral fee \u2014 no separate charge.",
+      ],
+      conclusion: "Total effective fees usually fall between 20\u201335% of the sale price for FBA sellers, depending on category and product dimensions.",
+    },
   },
   {
     q: "What is Amazon\u2019s referral fee?",
-    a: "The referral fee is a percentage of the total sales price (item price + shipping + gift wrap) that Amazon charges on every sale. Most categories charge 15%, but rates vary by category and marketplace. Some categories use tiered rates, like Jewelry (20% up to $250, 5% above).",
+    a: {
+      intro: "The referral fee is a percentage of the total sales price (item price + shipping + gift wrap) charged on every sale. Most categories default to 15%, but rates vary significantly.",
+      points: [
+        "Low-fee categories: Consumer Electronics and Computers at 8%.",
+        "Standard categories: Home, Kitchen, Toys, and most others at 15%.",
+        "High-fee categories: Jewelry at 20% on the first $250 and 5% above; Amazon Device Accessories at 45%.",
+      ],
+      conclusion: "Rates also differ between marketplaces. Always verify your specific category rate using a marketplace-specific calculator.",
+    },
   },
   {
     q: "What are FBA fees and how are they calculated?",
-    a: "FBA (Fulfilled by Amazon) fees include a per-unit fulfillment fee based on the product\u2019s size tier and weight, plus monthly storage fees. The size tier is determined by the product\u2019s dimensions and weight. Fees vary by marketplace.",
+    a: {
+      intro: "FBA (Fulfilled by Amazon) fees cover the cost of Amazon storing, picking, packing, and shipping your products. The two main components are fulfillment fees and storage fees.",
+      points: [
+        "Fulfillment fee: a per-unit charge based on the product\u2019s size tier (standard vs oversize) and shipping weight. Small standard items start around $3.22; large oversize items can exceed $10.",
+        "Monthly storage fee: $0.87/cubic ft from January\u2013September, rising to $2.40/cubic ft during Q4 (October\u2013December).",
+        "Long-term storage surcharges apply to inventory stored over 181 days.",
+      ],
+      conclusion: "Optimize packaging dimensions and maintain lean inventory to keep FBA costs manageable.",
+    },
   },
   {
     q: "Are Amazon fees the same across all marketplaces?",
-    a: "No. While the fee structure is similar (referral fees, FBA fees, storage), the specific rates, categories, and currencies differ by marketplace. For example, US uses USD with imperial units, while EU marketplaces use EUR with metric units. Use our marketplace-specific calculators for accurate rates.",
+    a: "No. While the fee structure follows a similar pattern (referral fees, FBA fees, storage), the specific rates, category definitions, currencies, and size tier thresholds differ by marketplace. For example, US uses USD with imperial weight units, while EU marketplaces use EUR with metric units. Japan has unique category splits, and some smaller marketplaces have fewer categories. Use our marketplace-specific calculators linked above to model fees with accurate local rates.",
   },
   {
     q: "How can I reduce my Amazon selling fees?",
-    a: "Choose the Professional plan if selling enough items/month. Optimize packaging to qualify for a smaller FBA size tier. Keep inventory lean to minimize storage fees, especially during Q4. Consider FBM for heavy or oversize items. Ensure your product is in the correct category.",
+    a: {
+      intro: "Several strategies can meaningfully lower your Amazon selling costs.",
+      points: [
+        "Use the Professional selling plan ($39.99/month) \u2014 it eliminates the $0.99 per-item fee and pays for itself at around 40 sales per month.",
+        "Optimize product packaging to fit a smaller FBA size tier. Even a small dimensional reduction can drop your fulfillment fee by $1\u20132 per unit.",
+        "Keep inventory lean to avoid long-term storage surcharges, especially during Q4 when monthly rates nearly triple.",
+        "Consider FBM (Fulfilled by Merchant) for heavy, oversize, or slow-moving items where FBA costs erode margin.",
+        "Verify your product is listed in the correct category \u2014 miscategorization can result in a higher referral fee rate.",
+      ],
+    },
   },
   {
     q: "Does Amazon charge fees on shipping?",
-    a: "Yes. Amazon\u2019s referral fee is calculated on the total sales price, which includes the item price, any shipping charges, and gift wrap charges. FBA sellers don\u2019t set shipping charges \u2014 Amazon handles shipping and charges a fulfillment fee instead.",
+    a: "Yes. Amazon\u2019s referral fee is calculated on the total sales price, which includes the item price, shipping charges, and gift wrap charges. For FBA sellers, you don\u2019t set shipping charges directly \u2014 Amazon handles delivery and charges a per-unit fulfillment fee instead. For FBM sellers, the buyer-paid shipping amount is included in the referral fee base. This means offering \u201cfree shipping\u201d by increasing the item price does not reduce your referral fee \u2014 the total charged to the buyer remains the same either way.",
   },
   {
     q: "Is this Amazon fee calculator updated for 2026?",
-    a: "Yes. This fee model is reviewed for 2026 search intent and policy context. Always verify your exact market and category against the official Amazon seller pricing pages before final pricing decisions.",
+    a: "Yes. This fee model is aligned to the 2026 Amazon seller fee schedules. Fee rates, FBA fulfillment tiers, and storage pricing reflect the latest published changes. Always cross-check your specific market and product category against the official Amazon Seller Central pricing pages before making final listing decisions, as category-level adjustments can occur mid-year.",
   },
 ];
 
@@ -561,63 +596,9 @@ export default function AmazonFeeCalculatorHubPage() {
       </section>
 
       {/* FAQ */}
-      <section className="card" style={{ padding: 24, marginTop: 16 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-          Frequently Asked Questions
-        </h2>
-        <div style={{ display: "grid", gap: 0 }}>
-          {FAQ_ITEMS.map((item, i) => (
-            <details
-              key={i}
-              style={{
-                borderBottom:
-                  i < FAQ_ITEMS.length - 1
-                    ? "1px solid var(--color-border)"
-                    : "none",
-                padding: "14px 0",
-              }}
-            >
-              <summary
-                style={{
-                  fontWeight: 600,
-                  fontSize: 15,
-                  cursor: "pointer",
-                  padding: "2px 0",
-                  listStyle: "none",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {item.q}
-                <span
-                  style={{
-                    fontSize: 18,
-                    color: "var(--color-text-tertiary)",
-                    flexShrink: 0,
-                    transition: "transform 0.2s ease",
-                  }}
-                  className="faq-chevron"
-                >
-                  +
-                </span>
-              </summary>
-              <p
-                className="muted"
-                style={{
-                  marginTop: 10,
-                  marginBottom: 0,
-                  fontSize: 14,
-                  lineHeight: 1.7,
-                }}
-              >
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <div style={{ marginTop: 16 }}>
+        <FAQSection items={FAQ_ITEMS} />
+      </div>
 
       {/* CTA */}
       <section

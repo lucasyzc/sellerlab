@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { absoluteUrl } from "@/lib/site-url";
 import { BRAND, withSuiteBrand } from "@/lib/brand";
 import { getUpdateEntry, UPDATE_ENTRIES, type UpdateSource } from "../data";
+import { FAQSection, faqAnswerToText } from "../../components/faq-section";
 
 export const dynamicParams = false;
 
@@ -57,7 +58,7 @@ function StructuredData({ slug }: { slug: string }) {
     mainEntity: entry.faq.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
     })),
   };
 
@@ -408,19 +409,9 @@ export default async function UpdateDetailPage({
         </ul>
       </section>
 
-      <section className="card" style={{ marginTop: 12 }}>
-        <h2 style={{ marginTop: 0, marginBottom: 12, fontSize: 20 }}>FAQ</h2>
-        <div style={{ display: "grid", gap: 10 }}>
-          {entry.faq.map((item) => (
-            <details key={item.q} style={{ borderBottom: "1px solid var(--color-border)", paddingBottom: 10 }}>
-              <summary style={{ fontWeight: 600, cursor: "pointer" }}>{item.q}</summary>
-              <p className="muted" style={{ marginBottom: 0, lineHeight: 1.7 }}>
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <div style={{ marginTop: 12 }}>
+        <FAQSection items={entry.faq} title="FAQ" />
+      </div>
 
       <section className="card" style={{ marginTop: 12 }}>
         <h2 style={{ marginTop: 0, marginBottom: 10, fontSize: 20 }}>References</h2>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { type ShopifyMarketConfig } from "./shopify-config";
 import { FlagIcon } from "../components/country-flags";
 import { absoluteUrl } from "@/lib/site-url";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 
 function faqItems(config: ShopifyMarketConfig) {
   return [
@@ -65,7 +66,7 @@ export function MarketStructuredData({ config }: { config: ShopifyMarketConfig }
             mainEntity: faq.map((item) => ({
               "@type": "Question",
               name: item.q,
-              acceptedAnswer: { "@type": "Answer", text: item.a },
+              acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
             })),
           },
         ]),
@@ -189,43 +190,5 @@ export function MarketFeeExplanation({ config }: { config: ShopifyMarketConfig }
 
 export function MarketFAQ({ config }: { config: ShopifyMarketConfig }) {
   const faqs = faqItems(config);
-
-  return (
-    <section className="card" style={{ padding: 24 }}>
-      <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 0, marginBottom: 20 }}>
-        Frequently Asked Questions
-      </h2>
-      <div style={{ display: "grid", gap: 0 }}>
-        {faqs.map((item, i) => (
-          <details
-            key={i}
-            style={{
-              borderBottom: i < faqs.length - 1 ? "1px solid var(--color-border)" : "none",
-              padding: "14px 0",
-            }}
-          >
-            <summary
-              style={{
-                fontWeight: 600,
-                fontSize: 15,
-                cursor: "pointer",
-                padding: "2px 0",
-                listStyle: "none",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              {item.q}
-              <span style={{ fontSize: 18, color: "var(--color-text-tertiary)", flexShrink: 0 }}>+</span>
-            </summary>
-            <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 14, lineHeight: 1.7 }}>
-              {item.a}
-            </p>
-          </details>
-        ))}
-      </div>
-    </section>
-  );
+  return <FAQSection items={faqs} />;
 }

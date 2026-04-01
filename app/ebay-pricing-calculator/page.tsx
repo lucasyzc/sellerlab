@@ -1,6 +1,7 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { FlagIcon } from "../components/country-flags";
+import { FAQSection, faqAnswerToText } from "../components/faq-section";
 import { MARKET_LIST } from "../ebay-fee-calculator/market-config";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
@@ -16,6 +17,38 @@ const HUB_LAST_REVIEWED = FEE_SEO_LAST_REVIEWED;
 const TOOL_TITLE = withSuiteBrand(
   withSeoYear("eBay Pricing Calculator - All Marketplaces", FEE_SEO_YEAR),
 );
+
+const HUB_FAQ_ITEMS = [
+  {
+    q: "How do I set a safe floor listing price?",
+    a: {
+      intro: "Enter your actual costs and let the solver find the minimum viable price.",
+      points: [
+        "Input your item cost, shipping expenses, and any other fixed costs.",
+        "Choose target profit amount or margin mode and set a conservative figure that covers overhead.",
+        "If you accept Best Offers or run promotions, set the discount rate to your expected average markdown \u2014 the solver accounts for selling below the listing price.",
+        "Include your promoted listing ad rate if you use eBay advertising.",
+      ],
+      conclusion: "The calculator outputs the minimum listing price that meets your target after all eBay fees. We recommend adding a 2\u20135% buffer above this floor to handle unexpected cost variations.",
+    },
+  },
+  {
+    q: "Can I compare markets with the same product cost?",
+    a: {
+      intro: "Yes. Keep your item cost, shipping, and profit target fixed, then switch between marketplace cards above to compare results.",
+      points: [
+        "Each market applies its own fee model \u2014 different FVF rates, per-order fees, payment processing, and regulatory charges.",
+        "The recommended listing price changes per market, revealing where margin pressure is lowest.",
+        "Inputs are preserved within a session, making side-by-side comparison fast.",
+      ],
+      conclusion: "This is especially useful for cross-border sellers deciding where to prioritize inventory and listings.",
+    },
+  },
+  {
+    q: "Is this calculator updated for 2026 market conditions?",
+    a: `Yes. This eBay pricing calculator hub is aligned to 2026 fee structures and was last reviewed on ${HUB_LAST_REVIEWED}. Each marketplace model reflects the latest publicly available fee schedules, including the March 2025 rate increases on eBay Canada and the 2026 UK business seller update. For the most current category-level rates, cross-reference with eBay\u2019s official seller fee pages linked in the Primary Sources section below.`,
+  },
+];
 
 export const metadata: Metadata = buildFeeMetadata({
   title: TOOL_TITLE,
@@ -71,35 +104,16 @@ function StructuredData() {
       "eBay listing price calculator to back-solve target profit and margin with market-specific fee models.",
   };
 
+  const faqItems = HUB_FAQ_ITEMS;
+
   const faq = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How is the required listing price calculated?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The calculator back-solves listing price from your target profit rule, discount rate, shipping, and market-specific eBay fee model.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does this include promoted listing and tax inputs?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. You can include ad rate and tax assumptions to model practical profitability before publishing a listing.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this updated for 2026?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Yes. This pricing hub is aligned to 2026 fee-search intent and last reviewed on ${HUB_LAST_REVIEWED}.`,
-        },
-      },
-    ],
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: faqAnswerToText(item.a) },
+    })),
   };
 
   return (
@@ -213,34 +227,9 @@ export default function EbayPricingCalculatorHubPage() {
         </div>
       </section>
 
-      <section className="card" style={{ padding: 20, marginTop: 12 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 700, marginTop: 0, marginBottom: 8 }}>
-          FAQ
-        </h2>
-        <div style={{ display: "grid", gap: 10 }}>
-          {[
-            {
-              q: "How do I set a safe floor listing price?",
-              a: "Use target profit mode with conservative ad and discount assumptions, then add a buffer before live listing.",
-            },
-            {
-              q: "Can I compare markets with the same product cost?",
-              a: "Yes. Keep costs fixed and switch marketplace cards to compare required listing prices and margin pressure.",
-            },
-            {
-              q: "Is this calculator updated for 2026 market conditions?",
-              a: `Yes. Updated for 2026, last reviewed on ${HUB_LAST_REVIEWED}.`,
-            },
-          ].map((item, i, list) => (
-            <details key={item.q} style={{ borderBottom: i < list.length - 1 ? "1px solid var(--color-border)" : "none", paddingBottom: 10 }}>
-              <summary style={{ fontWeight: 600, cursor: "pointer" }}>{item.q}</summary>
-              <p className="muted" style={{ marginBottom: 0, lineHeight: 1.7 }}>
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
+      <div style={{ marginTop: 12 }}>
+        <FAQSection items={HUB_FAQ_ITEMS} />
+      </div>
 
     </div>
   );

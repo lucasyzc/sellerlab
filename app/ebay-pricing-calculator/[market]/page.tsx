@@ -4,6 +4,11 @@ import { notFound } from "next/navigation";
 import EbayPricingCalculator from "../ebay-pricing-calculator";
 import { type MarketId, MARKET_LIST, getMarket } from "../../ebay-fee-calculator/market-config";
 import {
+  MarketFeeTable,
+  PricingMarketFAQ,
+  PricingMarketStructuredData,
+} from "../seo-content";
+import {
   buildFeeMetadata,
   lastReviewedLabel,
   resolveLastReviewed,
@@ -63,6 +68,8 @@ export default async function EbayPricingCalculatorMarketPage({
 
   return (
     <div className="container">
+      <PricingMarketStructuredData config={config} />
+
       <nav style={{ fontSize: 13, color: "var(--color-text-tertiary)", padding: "8px 0 0" }}>
         <Link href="/" style={{ color: "var(--color-text-tertiary)", textDecoration: "none" }}>
           Home
@@ -86,6 +93,11 @@ export default async function EbayPricingCalculatorMarketPage({
       </section>
 
       <EbayPricingCalculator marketId={market as MarketId} />
+
+      <div className="grid" style={{ gap: 16, marginTop: 24 }}>
+        <MarketFeeTable config={config} />
+        <PricingMarketFAQ config={config} />
+      </div>
     </div>
   );
 }

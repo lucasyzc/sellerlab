@@ -9,6 +9,7 @@ const BASE_URL = SITE_URL;
 
 const EBAY_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];
 const EBAY_PRICING_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];
+const AMAZON_PRICING_MARKETS = ["us"];
 const AMAZON_MARKETS = [
   "us", "uk", "de", "jp", "ca", "it", "es", "au",
   "ae", "br", "sg", "mx", "nl", "be", "se", "pl", "tr",
@@ -44,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/amazon-fee-calculator`,
+      lastModified: FEE_LAST_MODIFIED,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/amazon-pricing-calculator`,
       lastModified: FEE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -134,6 +141,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
+  const amazonPricingMarketPages: MetadataRoute.Sitemap = AMAZON_PRICING_MARKETS.map(
+    (market) => ({
+      url: `${BASE_URL}/amazon-pricing-calculator/${market}`,
+      lastModified: FEE_LAST_MODIFIED,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })
+  );
+
   const amazonMarketPages: MetadataRoute.Sitemap = AMAZON_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/amazon-fee-calculator/${market}`,
@@ -188,6 +204,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPages,
     ...ebayMarketPages,
     ...ebayPricingMarketPages,
+    ...amazonPricingMarketPages,
     ...amazonMarketPages,
     ...tiktokMarketPages,
     ...shopifyMarketPages,
