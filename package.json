@@ -3,7 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
+        "generate:sitemap-dates": "node scripts/generate-sitemap-dates.mjs",
+        "predev": "npm run generate:sitemap-dates",
         "dev": "next dev",
+        "prebuild": "npm run generate:sitemap-dates",
         "build": "next build",
         "start": "next start",
         "lint": "eslint .",

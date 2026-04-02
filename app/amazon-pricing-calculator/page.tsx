@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FlagIcon } from "../components/country-flags";
 import { FAQSection, faqAnswerToText } from "../components/faq-section";
-import { AMAZON_MARKETS } from "../amazon-fee-calculator/markets";
+import { AMAZON_MARKET_LIST } from "../amazon-fee-calculator/markets";
 import { absoluteUrl } from "@/lib/site-url";
 import { withSuiteBrand } from "@/lib/brand";
 import {
@@ -44,8 +44,6 @@ export const metadata: Metadata = buildFeeMetadata({
     "Find the minimum Amazon listing price that meets your target profit after all fees.",
   twitterCard: "summary",
 });
-
-const US_CONFIG = AMAZON_MARKETS["us"];
 
 const FEE_TABLE_ROWS = [
   { category: "Most Categories", rate: "15%", minFee: "$0.30", notes: "Default rate" },
@@ -263,7 +261,7 @@ export default function AmazonPricingCalculatorHubPage() {
           style={{
             fontSize: 20,
             fontWeight: 700,
-            margin: "0 0 14px",
+            margin: "0 0 16px",
             textAlign: "center",
           }}
         >
@@ -272,92 +270,60 @@ export default function AmazonPricingCalculatorHubPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
             gap: 14,
-            maxWidth: 640,
-            margin: "0 auto",
           }}
         >
-          <Link
-            href="/amazon-pricing-calculator/us"
-            className="card"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              textDecoration: "none",
-              border: "1px solid var(--color-border)",
-              transition: "all 0.15s ease",
-            }}
-          >
-            <div
+          {AMAZON_MARKET_LIST.map((market) => (
+            <Link
+              key={market.id}
+              href={`/amazon-pricing-calculator/${market.id}`}
+              className="card"
               style={{
-                flexShrink: 0,
-                borderRadius: 6,
-                overflow: "hidden",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
-                lineHeight: 0,
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                textDecoration: "none",
+                border: "1px solid var(--color-border)",
+                transition: "all 0.15s ease",
               }}
             >
-              <FlagIcon code="us" size={52} />
-            </div>
-            <div style={{ minWidth: 0, flex: 1 }}>
-              <div
-                style={{ fontSize: 16, fontWeight: 700, marginBottom: 3 }}
-              >
-                Amazon {US_CONFIG.fullName}
-              </div>
-              <div
-                className="muted"
-                style={{ fontSize: 13, lineHeight: 1.5 }}
-              >
-                {US_CONFIG.domain} · {US_CONFIG.currency.code}
-              </div>
               <div
                 style={{
-                  display: "flex",
-                  gap: 4,
-                  flexWrap: "wrap",
-                  marginTop: 6,
+                  flexShrink: 0,
+                  borderRadius: 6,
+                  overflow: "hidden",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
+                  lineHeight: 0,
                 }}
               >
-                <span
+                <FlagIcon code={market.id} size={52} />
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <div
+                  style={{ fontSize: 16, fontWeight: 700, marginBottom: 3 }}
+                >
+                  Amazon {market.fullName}
+                </div>
+                <div
+                  className="muted"
+                  style={{ fontSize: 13, lineHeight: 1.5 }}
+                >
+                  {market.domain} · {market.currency.code}
+                </div>
+                <div
                   style={{
-                    fontSize: 10,
-                    fontWeight: 600,
-                    padding: "1px 6px",
-                    borderRadius: "var(--radius-full)",
-                    background: "var(--color-primary-light)",
+                    marginTop: 8,
+                    fontSize: 13,
+                    fontWeight: 700,
                     color: "var(--color-primary)",
                   }}
                 >
-                  FBA + FBM
-                </span>
-                <span
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 600,
-                    padding: "1px 6px",
-                    borderRadius: "var(--radius-full)",
-                    background: "#f1f5f9",
-                    color: "var(--color-text-secondary)",
-                  }}
-                >
-                  {US_CONFIG.categories.length}+ Categories
-                </span>
+                  Open Calculator →
+                </div>
               </div>
-              <div
-                style={{
-                  marginTop: 8,
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: "var(--color-primary)",
-                }}
-              >
-                Open Calculator →
-              </div>
-            </div>
-          </Link>
+            </Link>
+          ))}
         </div>
         <p
           className="muted"
@@ -368,11 +334,169 @@ export default function AmazonPricingCalculatorHubPage() {
             marginBottom: 0,
           }}
         >
-          More marketplaces coming soon. Need fee-only calculations?{" "}
+          Need fee-only calculations?{" "}
           <Link href="/amazon-fee-calculator">
             Use the Amazon fee calculator
           </Link>{" "}
           for all 17 markets.
+        </p>
+      </section>
+
+      {/* Market comparison table */}
+      <section
+        className="card"
+        style={{ padding: 24, overflowX: "auto", marginTop: 16 }}
+      >
+        <h2
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            marginTop: 0,
+            marginBottom: 4,
+          }}
+        >
+          Amazon Fee Comparison Across Markets
+        </h2>
+        <p
+          className="muted"
+          style={{ fontSize: 14, marginTop: 0, marginBottom: 20 }}
+        >
+          Key fee parameters that affect your minimum listing price in
+          each marketplace. The same product can require very different
+          listing prices across markets due to currency, referral rates,
+          and seller plan costs.
+        </p>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            fontSize: 13,
+          }}
+        >
+          <thead>
+            <tr style={{ borderBottom: "2px solid var(--color-border)" }}>
+              <th
+                style={{
+                  textAlign: "left",
+                  padding: "10px 12px",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Market
+              </th>
+              <th
+                style={{
+                  textAlign: "left",
+                  padding: "10px 12px",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Currency
+              </th>
+              <th
+                style={{
+                  textAlign: "left",
+                  padding: "10px 12px",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Default Referral
+              </th>
+              <th
+                style={{
+                  textAlign: "left",
+                  padding: "10px 12px",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Per-Item Fee
+              </th>
+              <th
+                style={{
+                  textAlign: "left",
+                  padding: "10px 12px",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Categories
+              </th>
+              <th
+                style={{
+                  textAlign: "left",
+                  padding: "10px 12px",
+                  fontWeight: 600,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Units
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {AMAZON_MARKET_LIST.map((m) => {
+              const defaultRule = m.referralRules["default"];
+              const defaultRate =
+                defaultRule?.tiers.length === 1
+                  ? `${defaultRule.tiers[0].rate}%`
+                  : "Varies";
+              const indFee = `${m.currency.symbol}${m.individualFee.toFixed(m.currency.decimals)}`;
+              return (
+                <tr
+                  key={m.id}
+                  style={{
+                    borderBottom: "1px solid var(--color-border)",
+                  }}
+                >
+                  <td style={{ padding: "10px 12px", fontWeight: 500 }}>
+                    <Link
+                      href={`/amazon-pricing-calculator/${m.id}`}
+                      style={{
+                        color: "var(--color-primary)",
+                        textDecoration: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                      }}
+                    >
+                      <FlagIcon code={m.id} size={18} />
+                      {m.name}
+                    </Link>
+                  </td>
+                  <td style={{ padding: "10px 12px" }}>
+                    {m.currency.code}
+                  </td>
+                  <td style={{ padding: "10px 12px" }}>
+                    {defaultRate}
+                  </td>
+                  <td style={{ padding: "10px 12px" }}>{indFee}</td>
+                  <td style={{ padding: "10px 12px" }}>
+                    {m.categories.length}
+                  </td>
+                  <td
+                    className="muted"
+                    style={{ padding: "10px 12px", fontSize: 12 }}
+                  >
+                    {m.units.dimLabel === "in"
+                      ? "lb / in"
+                      : "kg / cm"}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p
+          className="muted"
+          style={{ fontSize: 12, marginBottom: 0, marginTop: 14 }}
+        >
+          Default referral rate applies to &ldquo;Everything Else&rdquo;
+          and most general categories. Individual categories may charge
+          different rates.
         </p>
       </section>
 
@@ -844,7 +968,7 @@ export default function AmazonPricingCalculatorHubPage() {
             <FlagIcon code="US" /> US Pricing Calculator
           </Link>
           <Link
-            href="/amazon-fee-calculator"
+            href="/amazon-pricing-calculator/uk"
             className="btn"
             style={{
               background: "rgba(255,255,255,0.2)",
@@ -857,7 +981,23 @@ export default function AmazonPricingCalculatorHubPage() {
               border: "1px solid rgba(255,255,255,0.3)",
             }}
           >
-            Fee Calculator (17 Markets)
+            <FlagIcon code="UK" /> UK Pricing Calculator
+          </Link>
+          <Link
+            href="/amazon-pricing-calculator/de"
+            className="btn"
+            style={{
+              background: "rgba(255,255,255,0.2)",
+              color: "#fff",
+              fontWeight: 700,
+              padding: "12px 28px",
+              fontSize: 15,
+              borderRadius: "var(--radius-sm)",
+              textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.3)",
+            }}
+          >
+            <FlagIcon code="DE" /> DE Pricing Calculator
           </Link>
         </div>
       </section>

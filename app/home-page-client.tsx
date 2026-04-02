@@ -148,7 +148,7 @@ const TOOLS: Tool[] = [
     name: "Amazon Pricing Calculator",
     description: "Back-solve the minimum listing price from cost, target profit, and FBA fees including referral, fulfillment, and storage",
     platform: "amazon",
-    countries: ["US"],
+    countries: ["US", "UK", "DE", "JP", "CA", "IT", "ES", "AU", "AE", "BR", "SG", "MX", "NL", "BE", "SE", "PL", "TR"],
     status: "live",
     href: "/amazon-pricing-calculator",
   },

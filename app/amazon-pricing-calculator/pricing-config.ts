@@ -6,7 +6,26 @@ import {
   type AmazonMarketId,
 } from "../amazon-fee-calculator/amazon-config";
 
-export const AMAZON_PRICING_MARKET_IDS: AmazonMarketId[] = ["us"];
+export const AMAZON_PRICING_MARKET_IDS: AmazonMarketId[] = [
+  "us", "uk", "de", "jp", "ca", "it", "es", "au",
+  "ae", "br", "sg", "mx", "nl", "be", "se", "pl", "tr",
+];
+
+export type PricingMarketTier = 1 | 2 | 3;
+
+const TIER_1: AmazonMarketId[] = ["us", "uk", "de", "jp", "ca"];
+const TIER_2: AmazonMarketId[] = ["it", "es", "au", "mx", "br"];
+const TIER_3: AmazonMarketId[] = ["ae", "sg", "nl", "be", "se", "pl", "tr"];
+
+export function getPricingMarketTier(id: AmazonMarketId): PricingMarketTier {
+  if (TIER_1.includes(id)) return 1;
+  if (TIER_2.includes(id)) return 2;
+  return 3;
+}
+
+export function shouldIndexPricingMarket(id: AmazonMarketId): boolean {
+  return getPricingMarketTier(id) <= 2;
+}
 
 export type AmazonPricingTargetMode = "profit_amount" | "profit_margin";
 
