@@ -58,6 +58,11 @@ export default function RootLayout({
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
           crossOrigin="anonymous"
         />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="313116cf-9d6a-48b7-8c64-cc05270c644a"
+        />
       </head>
       <body>
         <GoogleAnalytics />

@@ -49,7 +49,13 @@ function checkDomainConsistency(primaryHost) {
     "scripts/indexnow-submit.mjs",
   ];
 
-  const allowedHosts = new Set([primaryHost, "api.indexnow.org", "schema.org", "www.schema.org"]);
+  const allowedHosts = new Set([
+    primaryHost,
+    "api.indexnow.org",
+    "schema.org",
+    "www.schema.org",
+    "cloud.umami.is",
+  ]);
 
   for (const relPath of siteLevelFiles) {
     const content = readFile(relPath);
