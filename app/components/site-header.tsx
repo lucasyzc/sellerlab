@@ -54,6 +54,12 @@ const TOOLS_NAV: ToolNavItem[] = [
     description: "Calculate platform fees, affiliate cuts, and payout impact.",
   },
   {
+    label: "TikTok Shop Pricing Calculator",
+    href: "/tiktok-shop-pricing-calculator",
+    group: "fee",
+    description: "Back-solve listing price from target profit and TikTok Shop fees.",
+  },
+  {
     label: "Shopify Cost Calculator",
     href: "/shopify-fee-calculator",
     group: "fee",
