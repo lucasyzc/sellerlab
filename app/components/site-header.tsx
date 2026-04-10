@@ -349,30 +349,6 @@ export function SiteHeader() {
             >
               Home
             </Link>
-            <Link
-              href="/compare"
-              className={`mobile-nav-link ${isPathActive(pathname, "/compare") ? "is-active" : ""}`}
-              onClick={closeAllMenus}
-            >
-              Compare
-            </Link>
-            <Link
-              href="/updates"
-              className={`mobile-nav-link ${isPathActive(pathname, "/updates") ? "is-active" : ""}`}
-              onClick={closeAllMenus}
-            >
-              Updates
-            </Link>
-            <Link
-              href="/glossary"
-              className={`mobile-nav-link ${isPathActive(pathname, "/glossary") ? "is-active" : ""}`}
-              onClick={closeAllMenus}
-            >
-              Glossary
-            </Link>
-          </div>
-
-          <div className="mobile-nav-group">
             <button
               type="button"
               className={`mobile-tools-toggle ${toolsActive || isMobileToolsOpen ? "is-active" : ""}`}
@@ -418,6 +394,27 @@ export function SiteHeader() {
                 View all tools
               </Link>
             </div>
+            <Link
+              href="/compare"
+              className={`mobile-nav-link ${isPathActive(pathname, "/compare") ? "is-active" : ""}`}
+              onClick={closeAllMenus}
+            >
+              Compare
+            </Link>
+            <Link
+              href="/updates"
+              className={`mobile-nav-link ${isPathActive(pathname, "/updates") ? "is-active" : ""}`}
+              onClick={closeAllMenus}
+            >
+              Updates
+            </Link>
+            <Link
+              href="/glossary"
+              className={`mobile-nav-link ${isPathActive(pathname, "/glossary") ? "is-active" : ""}`}
+              onClick={closeAllMenus}
+            >
+              Glossary
+            </Link>
           </div>
 
           <div className="mobile-nav-group">
