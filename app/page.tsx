@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     "ebay pricing calculator",
     "amazon fee calculator",
     "tiktok shop fee calculator",
+    "tiktok shop pricing calculator",
     "shopify fee calculator",
     "ebay title optimizer",
     "ecommerce profit calculator",
@@ -102,12 +103,18 @@ function HomeStructuredData() {
       {
         "@type": "ListItem",
         position: 6,
+        name: "TikTok Shop Pricing Calculator",
+        url: absoluteUrl("/tiktok-shop-pricing-calculator"),
+      },
+      {
+        "@type": "ListItem",
+        position: 7,
         name: "Shopify Cost Calculator",
         url: absoluteUrl("/shopify-fee-calculator"),
       },
       {
         "@type": "ListItem",
-        position: 7,
+        position: 8,
         name: "eBay Title Optimizer",
         url: absoluteUrl("/ebay-title-optimizer"),
       },

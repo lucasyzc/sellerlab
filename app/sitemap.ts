@@ -60,6 +60,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/tiktok-shop-pricing-calculator`,
+      lastModified: sitemapDate("tiktok-shop-fee-calculator"),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${BASE_URL}/shopify-fee-calculator`,
       lastModified: sitemapDate("shopify-fee-calculator"),
       changeFrequency: "weekly",
@@ -166,6 +172,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
+  const tiktokPricingMarketPages: MetadataRoute.Sitemap = TIKTOK_MARKETS.map(
+    (market) => ({
+      url: `${BASE_URL}/tiktok-shop-pricing-calculator/${market}`,
+      lastModified: sitemapDate("tiktok-shop-fee-calculator"),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })
+  );
+
   const shopifyMarketPages: MetadataRoute.Sitemap = SHOPIFY_MARKETS.map(
     (market) => ({
       url: `${BASE_URL}/shopify-fee-calculator/${market}`,
@@ -205,6 +220,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...amazonPricingMarketPages,
     ...amazonMarketPages,
     ...tiktokMarketPages,
+    ...tiktokPricingMarketPages,
     ...shopifyMarketPages,
     ...walmartMarketPages,
     ...comparePages,

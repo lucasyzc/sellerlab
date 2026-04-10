@@ -1,0 +1,510 @@
+.tiktokPage {
+  display: grid;
+  gap: 16px;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  padding-top: 8px;
+}
+
+.breadcrumbLink {
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+}
+
+.heroCard {
+  padding: 28px;
+  background: linear-gradient(145deg, #ffffff 0%, #f5f8ff 100%);
+  border: 1px solid #dbe7ff;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.heroSubtitle {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 780px;
+}
+
+.heroStats {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.statCard {
+  border: 1px solid #dbe7ff;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.statValue {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f4cbc;
+}
+
+.statLabel {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.marketGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.marketCard {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+}
+
+.marketCard:hover {
+  border-color: #93c5fd;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.marketName {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.marketMeta {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.marketHint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.marketOpen {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.compareTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.compareTable th,
+.compareTable td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.compareTable th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-tertiary);
+}
+
+.logicList {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.logicList li {
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.logicList li:last-child {
+  margin-bottom: 0;
+}
+
+.dualGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 14px;
+}
+
+.dualCard {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}
+
+.dualCardTitle {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dualCardList {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.dualCardList li {
+  margin-bottom: 7px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  font-size: 13px;
+}
+
+.dualCardList li:last-child {
+  margin-bottom: 0;
+}
+
+.cta {
+  background: linear-gradient(135deg, #051f45 0%, #0b4ea2 55%, #1788c9 100%);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.ctaTitle {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.ctaText {
+  margin: 10px auto 0;
+  max-width: 640px;
+  font-size: 15px;
+  line-height: 1.65;
+  opacity: 0.95;
+}
+
+.ctaActions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.marketLead {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.spotlight {
+  border: 1px solid #c8dcff;
+  background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.spotlightTitle {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.spotlightText {
+  margin: 8px 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.calculatorStage {
+  display: block;
+}
+
+.calculatorShell {
+  display: grid;
+  gap: 14px;
+}
+
+.calculatorHeader {
+  border: 1px solid #dbe7ff;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.calcTitle {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.calcSubtitle {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+.switcher {
+  margin-top: 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.switchPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.switchPillActive {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.calcGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.formCard {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.formCard :global(.input) {
+  min-height: 44px;
+}
+
+.resultCard {
+  border: 2px solid #c8dcff;
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px;
+  position: sticky;
+  top: 20px;
+}
+
+.groupLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--color-text-tertiary);
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.rowLabel {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.rowValue {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 10px 0;
+}
+
+@media (max-width: 960px) {
+  .calcGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .resultCard {
+    position: static;
+  }
+
+  .heroStats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .tiktokPage {
+    gap: 12px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow-x: auto;
+    padding-top: 4px;
+    font-size: 12px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .breadcrumb::-webkit-scrollbar {
+    display: none;
+  }
+
+  .heroCard {
+    padding: 18px 16px;
+  }
+
+  .heroTitle {
+    font-size: clamp(28px, 8vw, 34px);
+    line-height: 1.16;
+  }
+
+  .heroSubtitle {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.62;
+  }
+
+  .spotlight {
+    padding: 14px;
+  }
+
+  .spotlightTitle {
+    font-size: 20px;
+  }
+
+  .spotlightText {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .calculatorHeader,
+  .formCard,
+  .resultCard {
+    padding: 14px;
+  }
+
+  .calcTitle {
+    font-size: 18px;
+  }
+
+  .calcSubtitle {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .switcher {
+    margin-top: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .switcher::-webkit-scrollbar {
+    display: none;
+  }
+
+  .switchPill {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+  }
+
+  .fieldLabel {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .heroCard {
+    padding: 16px 14px;
+  }
+
+  .heroTitle {
+    font-size: clamp(24px, 9vw, 30px);
+  }
+
+  .spotlightTitle {
+    font-size: 18px;
+  }
+
+  .spotlightText {
+    font-size: 12px;
+  }
+
+  .calcTitle {
+    font-size: 17px;
+  }
+
+  .calcSubtitle {
+    font-size: 12px;
+  }
+
+  .groupLabel {
+    font-size: 11px;
+  }
+
+  .rowLabel,
+  .rowValue {
+    font-size: 13px;
+  }
+
+  .switchPill {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}

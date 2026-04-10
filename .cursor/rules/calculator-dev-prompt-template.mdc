@@ -1,0 +1,313 @@
+---
+description: SEO/GEO content standard for building new pricing/fee calculators — enforces indexable, citation-ready output
+alwaysApply: false
+---
+
+# Calculator SEO/GEO Content Production Standard
+
+当你只收到一个平台名称（如 "Shopify"、"Walmart"）时，按以下标准生成所有 SEO/GEO 内容层。
+计算器逻辑参照 amazon-pricing-calculator 的代码架构即可，本规范只约束**内容质量**。
+
+必须先阅读 `docs/standards/seo-geo-extreme-spec.md`，它是 SEO/GEO 行为的唯一真理来源。
+
+---
+
+## 一、Hub 页内容清单（page.tsx）
+
+Hub 页是搜索引擎对整个工具集的第一入口。每一个 section 都服务于一个明确的 SEO/GEO 目的。
+
+### 1.1 Hero Section
+
+| 元素 | 规范 | 目的 |
+|---|---|---|
+| H1 | `{Platform} Pricing Calculator ({YEAR})` | 年份入标题，Google 新鲜度信号 |
+| 副标题 | 1-2 句话，说清楚这个工具做什么（反向求解），包含核心关键词 | 搜索引擎 snippet 候选 |
+| Last reviewed | `Last reviewed: YYYY-MM-DD` 可见文本 | spec 强制要求的新鲜度信号 |
+| 统计徽章 | 3 个，突出工具差异化卖点（如 "Reverse Price Solving"、"Free"、"X Markets"） | 视觉锚点 + schema 信号 |
+
+**副标题内容公式**：
+> Stop guessing your listing price. Enter your product costs, choose your [平台特有的选项], set a profit target, and this calculator works backward to find the exact minimum price that keeps you profitable after every {Platform} fee.
+
+### 1.2 跨市场对比表
+
+**存在理由**：这是 Hub 页区别于市场子页的独有内容，Google 判定为有价值的聚合信息。
+
+必须包含的列：
+- Market (带国旗 + 链接)
+- Currency
+- Default Commission/Referral Rate
+- Per-item / Subscription Fee
+- Number of Categories
+- Unit System (imperial / metric)
+
+### 1.3 "Why Reverse-Pricing Matters" 编辑板块
+
+3 个独立小节，每个 60-100 词。
+每个小节必须回答一个"为什么卖家需要反向定价"的具体角度：
+
+**固定三角度**：
+1. **费率差异**：不同品类的佣金差距如何影响定价底线
+2. **履约成本**：产品尺寸/重量如何改变每单成本
+3. **隐性成本**：仓储/支付/退货等容易被忽略的成本如何侵蚀利润
+
+每个小节必须包含至少一个具体数字（费率、金额、百分比），数字必须来自该平台的官方费率文档。
+
+### 1.4 平台特有对比板块
+
+每个平台有一个独特的二元对比，例如：
+- Amazon: FBA vs FBM
+- eBay: Auction vs Fixed-Price
+- Shopify: Basic vs Advanced Plan
+- TikTok: Managed vs Self-ship
+- Walmart: WFS vs Seller-fulfilled
+
+格式：两栏卡片，每栏 4-5 个要点，总结句说明对定价底线的影响方向。
+
+### 1.5 费率速查表
+
+取该平台最重要的 6-10 个品类，列出：Category / Rate / Min Fee / Notes。
+数据必须来自官方文档，表格下方标注来源。
+
+### 1.6 Calculation Logic Section（spec 强制）
+
+用纯文字列出完整公式链：
+```
+Sold Price = Listing Price × (1 − Discount Rate)
+Total Sales Price = Sold Price + Shipping + ...
+Total Fees = Commission + Fulfillment + Payment + Storage + ...
+Net Profit = Revenue − Costs − Fees
+Solver: find minimum Listing Price where target ≥ threshold
+```
+
+### 1.7 Primary Sources Section（spec 强制）
+
+2-4 个按钮，链接到该平台的官方费率文档页面。
+每个链接必须是可验证的真实 URL。
+
+### 1.8 Hub FAQ（6-8 条）
+
+FAQ 是搜索引擎和 AI 引用的最高价值内容。质量标准：
+
+**问题设计规则**：
+- 第 1 条：这个计算器和费用计算器有什么区别？（定位问题）
+- 第 2 条：平台特有的二元选择如何影响定价？（如 FBA vs FBM）
+- 第 3 条：折扣率/促销输入如何工作？（功能问题）
+- 第 4 条：为什么品类选择会改变推荐价格？（费率教育）
+- 第 5 条：是否包含隐性费用 X？（常见疑虑）
+- 第 6 条：Individual vs Professional 计划费用是否包含？（计划对比）
+- 第 7 条：这个计算器是否更新到 {YEAR}？（新鲜度）
+
+**答案质量标准（来自 spec）**：
+- 80-200 词
+- 第一句话直接给出结论，禁止绕弯
+- 必须保留所有关键数字（费率、金额、阈值），不得为了控制字数而删除
+- 禁止填充废话来凑字数
+- 超过 200 词时必须使用 `{ intro, points, conclusion }` 结构化格式
+- 每个答案结尾必须将话题拉回计算器的使用场景
+
+### 1.9 CTA Banner
+
+渐变色背景，包含：
+- H2：行动导向的标题
+- 1 句话描述
+- 2-3 个按钮链接到 Tier 1 市场的计算器页
+
+---
+
+## 二、市场页内容清单（[market]/page.tsx）
+
+市场页是每个市场独立收录的关键页面。**所有市场页共享模板结构，但内容必须 100% 独特。**
+
+### 2.1 Overview（概述段落）
+
+**字数**：Tier 1/2 市场 ≥ 150 词，Tier 3 可省略（noindex）
+
+**内容公式（每句话覆盖一个信息点，按以下顺序）**：
+1. 该市场在平台中的定位和规模（如 "largest"、"fastest-growing"）
+2. 货币 + 计量单位（imperial/metric）
+3. 税制关键参数（VAT/GST/Sales Tax 税率 + 简要说明）
+4. 卖家计划费用（Individual 的每单费 vs Professional 的月费，必须用当地货币）
+5. 注意事项/时效提醒（费率变更日期 或 "verify against current pages"）
+
+**禁止**：
+- 不同市场使用相同的句式结构只替换数字
+- 使用模糊表述代替具体费率
+- 遗漏当地货币符号
+
+**正例**（US 市场）：
+> Amazon.com is the largest Amazon storefront globally, often cited with on the order of $600 billion or more in annual gross merchandise volume... The marketplace runs entirely in U.S. dollars and uses imperial weights and inches for FBA size tiers... Unlike the European model, the United States has no VAT; instead, state and local sales tax varies... Selling-plan fees are $0.99 per item for Individual sellers and $39.99 per month for Professional sellers.
+
+**正例**（UK 市场 — 注意句式完全不同）：
+> Amazon.co.uk is a mature, high-trust marketplace priced in British pounds with metric weights and centimetres driving FBA size logic... Value-added tax is set at 20% for the standard rate, and storing goods in the United Kingdom commonly triggers UK VAT registration... Selling-plan fees are published as £0.75 per item for Individual sellers and £25 per month for Professional sellers.
+
+### 2.2 Insights（洞察卡片）
+
+**数量**：4-5 条
+
+**五大固定主题（可按市场特点调整标题和内容）**：
+
+| # | 主题 | 内容要求 |
+|---|---|---|
+| 1 | 税制 | 具体税率 + 卖家合规义务 + 该国独有的税务规则 |
+| 2 | 货币与单位 | 结算货币 + FBA 使用的度量体系 + 转换注意事项 |
+| 3 | 卖家计划 | Individual vs Professional 的当地费用 + 选择建议 |
+| 4 | 物流 | 国内 FBA 配送特点 + 跨境卖家注意事项 |
+| 5 | 消费者/品类 | 该市场强势品类 + 买家行为特征 + 对定价的影响 |
+
+每条 40-80 词。
+
+**关键差异化规则**：
+- 每个市场的 Insight 标题措辞必须不同（不能 17 个市场都叫 "VAT compliance"）
+- 内容必须包含该市场独有的信息点（如德国的 VerpackG、巴西的 ICMS、日本的 JCT）
+- 禁止复制其他市场的 insight 只替换税率数字
+
+### 2.3 FAQ（市场级，≥ 3 条 Tier 1/2，≥ 3 条 Tier 3 如有内容）
+
+**问题设计规则**：
+
+每个市场的 FAQ 必须覆盖以下 3-5 个角度：
+
+1. **税制问题**：该市场的税如何影响定价？与其他市场相比如何？
+2. **平台特有问题**：该市场有什么独特的品类规则/合规要求/物流特点？
+3. **计划对比问题**：Individual vs Professional 在该市场的 break-even 是多少单？
+4. （可选）**单位/货币问题**：为什么必须用该市场的度量/货币体系？
+5. （可选）**市场定位问题**：该市场的规模/竞争程度如何影响定价策略？
+
+**问题句式规则**：
+- 必须包含市场名称/域名（如 "Amazon.co.uk"、"eBay.com.au"）
+- 必须包含至少一个具体数字（税率、费用金额）
+- 禁止使用泛化问题（如 "How do fees work?"），必须足够具体以区别于其他市场
+- 问题本身要像一个真实用户会在 Google 搜索的 long-tail query
+
+**答案规则（继承 spec Q&A Contract）**：
+- 80-200 词
+- 第一句给结论
+- 保留所有关键数字
+- 最后一句将话题拉回计算器工具本身（如 "This calculator models..."、"Use this tool with..."）
+- 禁止市场之间复制粘贴答案只替换数字和国名
+
+---
+
+## 三、结构化数据（Schema.org）
+
+### 3.1 Hub 页必须包含
+
+```json
+[BreadcrumbList, SoftwareApplication, FAQPage]
+```
+
+- `SoftwareApplication.name`：必须含年份
+- `SoftwareApplication.dateModified`：= lastReviewed
+- `SoftwareApplication.offers.price`：`"0"`
+- `FAQPage.mainEntity`：必须与页面可见 FAQ 1:1 对应
+
+### 3.2 Market 页必须包含
+
+```json
+[BreadcrumbList, SoftwareApplication, FAQPage]
+```
+
+- BreadcrumbList 必须 3 级：Home → Tool Hub → Market
+- FAQPage 条目必须与 market-content.ts 中的 FAQ 完全一致
+- 没有 FAQ 内容的市场不输出 FAQPage schema
+
+### 3.3 验证红线
+
+以下任一失败 = PR 不可合并：
+- Schema 中的 FAQ 条目与页面可见 FAQ 数量不一致
+- SoftwareApplication 缺少 dateModified
+- BreadcrumbList URL 与 canonical 不同源
+
+---
+
+## 四、Metadata 模板
+
+### 4.1 Hub 页
+
+```
+title: "{Platform} Pricing Calculator ({YEAR})"
+description: "Free {platform} pricing calculator that back-solves the minimum listing price needed to reach your profit target. Accounts for {费用类型1}, {费用类型2}, {费用类型3}. Updated for {YEAR}. Last reviewed: {DATE}."
+canonical: "/{slug}-pricing-calculator"
+keywords: ["{platform} pricing calculator", "{platform} listing price calculator", ...]
+```
+
+### 4.2 Market 页
+
+```
+title: "{Platform} Pricing Calculator – {MarketFullName} ({YEAR})"
+description: "Back-solve {platform} listing price for {MarketFullName}. Enter product cost, {平台特有输入}, and target profit to find the minimum profitable listing price after all {platform} fees. Updated for {YEAR}. Last reviewed: {DATE}."
+canonical: "/{slug}-pricing-calculator/{marketId}"
+```
+
+### 4.3 Tier 3 市场追加
+
+```
+robots: { index: false, follow: true }
+```
+
+---
+
+## 五、市场分层策略
+
+| Tier | 收录策略 | 内容要求 | 判定标准 |
+|---|---|---|---|
+| 1 | index, follow | 完整 overview + 5 insights + 5 FAQs | 该平台 GMV 前 30% 的市场 |
+| 2 | index, follow | 完整 overview + 4 insights + 3 FAQs | 中等规模市场 |
+| 3 | noindex, follow | 可省略 market-content | 小众/新兴市场，待内容补充后升级 |
+
+**升级条件**：Tier 3 → Tier 2 需要补充 ≥ 150 词 overview + ≥ 3 FAQ + ≥ 3 insights。
+
+---
+
+## 六、内容唯一性检查清单
+
+Google 对程序化生成的多市场页面会做 thin content 检测。以下规则防止触发：
+
+- [ ] 任意两个市场的 overview 段落，去除数字后的文本相似度 < 40%
+- [ ] 任意两个市场的 FAQ 答案，不存在整句复制（允许共享计算器引导语，如 "This calculator models..."）
+- [ ] 每个市场至少有 1 个其他市场完全没有的信息点（如德国的 VerpackG、日本的 JCT qualified invoice、巴西的 ICMS stacking）
+- [ ] Insight 标题在 17 个市场中无重复（允许语义相近但措辞必须不同）
+- [ ] Hub 页有跨市场对比表和编辑板块，这是 Hub 区别于子页的独有内容
+
+---
+
+## 七、GEO（AI 引用优化）检查清单
+
+让 AI 系统（ChatGPT、Perplexity、Gemini）在回答卖家问题时引用你的页面：
+
+- [ ] 每个 FAQ 答案的第一句话可以独立作为一个完整的事实陈述
+- [ ] 关键数字（费率、金额、阈值）出现在答案前 50 词内
+- [ ] overview 段落包含可被 AI 直接引用的事实密集句（如 "VAT is 20%"、"GST at 10%"、"Individual fee is $0.99"）
+- [ ] Calculation Logic section 的公式可以被 AI 直接提取和复述
+- [ ] Primary Sources 链接指向可验证的官方页面
+- [ ] `Last reviewed: YYYY-MM-DD` 出现在页面可见文本中（不仅仅在 meta 里）
+- [ ] `llms.txt` 和 `llms-full.txt` 已更新，包含新工具的 URL
+
+---
+
+## 八、Sitemap + 交叉链接
+
+- Hub 页 priority: 0.9
+- Market 页 priority: 0.8
+- 每个 market 页必须有 ≥ 1 个指向同平台 fee calculator 的链接
+- 每个 market 页必须有 "Compare with other markets" 板块，链接到 ≥ 6 个其他市场
+- Hub 页必须有指向 fee calculator hub 的链接
+
+---
+
+## 九、验收命令
+
+```bash
+npm run guardrails:seo-geo
+```
+
+通过后在 PR 中附上 SEO/GEO Self-Check：
+```
+SEO/GEO Self-Check:
+- Affected contracts: [列出]
+- Schema present: BreadcrumbList ✓ / SoftwareApplication ✓ / FAQPage ✓
+- Last reviewed visible: ✓
+- Canonical/OG/Sitemap consistent: ✓
+- FAQ UI ↔ Schema aligned: ✓
+- Guardrails passed: ✓
+```

@@ -1,0 +1,46 @@
+---
+description: Multi-market pricing calculator SEO differentiation plan
+globs: app/amazon-pricing-calculator/**
+alwaysApply: false
+---
+
+# Multi-Market Pricing Calculator SEO Plan
+
+## Problem
+
+17 Amazon pricing calculator market pages share highly templated content.
+Google flags these as programmatic thin content and selectively deindexes.
+
+## Tiered Indexing Strategy
+
+| Tier | Markets | Index |
+|------|---------|-------|
+| 1 | US, UK, DE, JP, CA | Yes — full unique content |
+| 2 | IT, ES, AU, MX, BR | Yes — medium unique content |
+| 3 | AE, SG, NL, BE, SE, PL, TR | `noindex, follow` until content added |
+
+## Execution Order
+
+1. **方案 2** — Tier 3 markets get `noindex, follow` in metadata.
+2. **方案 1 + 3** — Each market gets unique editorial content and market-specific FAQs in `market-content.ts`.
+3. **方案 5** — Hub page gets a cross-market fee comparison summary table.
+4. **方案 4** — Each market page gets a "Compare with other markets" link module.
+
+## Content Requirements Per Market
+
+Each Tier 1/2 market page must have ≥ 300 words of original text covering:
+- Tax / VAT / GST implications
+- Local logistics and fulfillment context
+- Consumer behavior and popular categories
+- Regulatory or compliance notes
+- Cross-border seller tips
+
+Each market must have ≥ 3 unique FAQ questions (not shared with other markets).
+
+## Files Affected
+
+- `app/amazon-pricing-calculator/pricing-config.ts` — tier definitions
+- `app/amazon-pricing-calculator/market-content.ts` — unique content per market
+- `app/amazon-pricing-calculator/[market]/page.tsx` — renders unique content
+- `app/amazon-pricing-calculator/page.tsx` — hub comparison table
+- `app/amazon-fee-calculator/seo-content.tsx` — shared structured data

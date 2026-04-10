@@ -32,7 +32,7 @@ const PLATFORMS = [
     bg: "#f5f5f5",
     description: "Fast-growing social commerce platform powered by short videos and livestream shopping",
     countries: ["US", "UK", "ID", "TH", "MY", "VN", "PH"],
-    toolCount: 1,
+    toolCount: 2,
   },
   {
     id: "shopify",
@@ -160,6 +160,15 @@ const TOOLS: Tool[] = [
     countries: ["US", "UK", "VN", "TH", "SG", "MY", "ID", "PH"],
     status: "live",
     href: "/tiktok-shop-fee-calculator",
+  },
+  {
+    id: "tiktok-pricing-calc",
+    name: "TikTok Shop Pricing Calculator",
+    description: "Back-solve the minimum listing price from cost, target profit, and TikTok Shop fees including fulfillment and tax",
+    platform: "tiktok",
+    countries: ["US", "UK", "VN", "TH", "SG", "MY", "ID", "PH"],
+    status: "live",
+    href: "/tiktok-shop-pricing-calculator",
   },
   {
     id: "shopify-cost-calc",
