@@ -35,7 +35,7 @@ export default function CompareIndexPage() {
             <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
               {entry.description}
             </p>
-            <div style={{ fontSize: 12, color: "var(--color-text-tertiary)" }}>
+            <div style={{ fontSize: "var(--fs-content-meta)", color: "var(--color-text-tertiary)" }}>
               Updated: {entry.updatedAt}
             </div>
           </Link>

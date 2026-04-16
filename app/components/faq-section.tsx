@@ -97,7 +97,7 @@ export function FAQSection({
             <summary
               style={{
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: 16,
                 cursor: "pointer",
                 padding: "2px 0",
                 listStyle: "none",

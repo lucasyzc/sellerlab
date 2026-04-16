@@ -88,7 +88,7 @@ export default async function WalmartFeeCalculatorMarketPage({
       <section className="card" style={{ padding: "10px 14px", marginBottom: 12 }}>
         <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
           {lastReviewedLabel(lastReviewed)}. For cross-platform policy tracking{" "}
-          <Link href="/updates">browse fee policy updates</Link>.
+          <Link href="/updates">browse the Seller blog</Link>.
         </p>
       </section>
 

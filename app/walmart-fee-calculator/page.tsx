@@ -222,13 +222,13 @@ export default function WalmartFeeCalculatorHubPage() {
 
       <section className="card" style={{ padding: 20, marginTop: 16 }}>
         <h2 style={{ fontSize: 18, fontWeight: 700, marginTop: 0, marginBottom: 8 }}>
-          Fee Policy Updates
+          Seller Blog
         </h2>
         <p className="muted" style={{ marginTop: 0, marginBottom: 10, fontSize: 14, lineHeight: 1.65 }}>
-          For year-based policy context and margin playbooks, review the updates library and map insights back to this calculator.
+          For policy context and margin playbooks, review the blog library and map the guidance back to this calculator.
         </p>
         <Link href="/updates" className="btn">
-          Open Fee Policy Updates
+          Open the Blog
         </Link>
       </section>
 

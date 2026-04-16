@@ -113,7 +113,7 @@ export default function ShopifyFeeCalculator({ marketId }: { marketId: ShopifyMa
             href={doc.url}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "var(--color-primary)", fontSize: 13, textDecoration: "none" }}
+            style={{ color: "var(--color-primary)", fontSize: "var(--fs-content-body-sm)", textDecoration: "none" }}
           >
             {doc.title}
             {doc.scope ? ` · ${doc.scope}` : ""}
@@ -126,7 +126,7 @@ export default function ShopifyFeeCalculator({ marketId }: { marketId: ShopifyMa
           <h3 style={{ marginTop: 0, marginBottom: 8, fontSize: 15 }}>Notes</h3>
           <ul style={{ margin: 0, paddingLeft: 20 }}>
             {config.notes.map((note, i) => (
-              <li key={i} className="muted" style={{ fontSize: 13, lineHeight: 1.65, marginBottom: 4 }}>
+              <li key={i} className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)", marginBottom: 4 }}>
                 {note}
               </li>
             ))}
@@ -144,7 +144,7 @@ function MarketSwitcher({ current }: { current: ShopifyMarketId }) {
         <div key={group.region} style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
           <span
             style={{
-              fontSize: 11,
+              fontSize: "var(--fs-content-meta)",
               fontWeight: 700,
               textTransform: "uppercase",
               color: "var(--color-text-tertiary)",
@@ -172,7 +172,7 @@ function MarketSwitcher({ current }: { current: ShopifyMarketId }) {
                 gap: 5,
                 padding: "5px 12px",
                 borderRadius: "var(--radius-full)",
-                fontSize: 13,
+                fontSize: "var(--fs-content-meta)",
                 fontWeight: 600,
                 background: market.id === current ? "var(--color-primary)" : "transparent",
                 color: market.id === current ? "#fff" : "var(--color-text-secondary)",
@@ -257,10 +257,10 @@ function CalculatorForm({
           onChange={(event) => onPatch({ usesShopifyPayments: event.target.checked })}
           style={{ width: 16, height: 16, cursor: "pointer" }}
         />
-        <span style={{ fontSize: 14 }}>Use Shopify Payments</span>
+        <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Use Shopify Payments</span>
       </label>
 
-      <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+      <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
         {form.usesShopifyPayments
           ? `${planLabel}: ${selectedPlan.shopifyPaymentsRate.toFixed(2)}% + ${sym}${selectedPlan.shopifyPaymentsFixedFee.toFixed(config.currency.decimals)} per order.`
           : `${planLabel}: Shopify transaction fee ${selectedPlan.thirdPartyTransactionRate.toFixed(2)}% when using a third-party processor.`}
@@ -287,7 +287,7 @@ function CalculatorForm({
           onChange={(event) => onPatch({ priceIncludesTax: event.target.checked })}
           style={{ width: 16, height: 16, cursor: "pointer" }}
         />
-        <span style={{ fontSize: 14 }}>Price includes {config.tax.name}</span>
+        <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Price includes {config.tax.name}</span>
       </label>
 
       <Field label={`${config.tax.name} Rate (%)`}>
@@ -300,7 +300,7 @@ function CalculatorForm({
           onChange={(event) => onSetNum("salesTaxPerOrder", event.target.value)} />
       </Field>
 
-      <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+      <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
         {config.tax.helpText}
       </p>
 
@@ -352,7 +352,7 @@ function CalculatorForm({
               onChange={(event) => onSetNum("thirdPartyProcessorFixedFee", event.target.value)} />
           </Field>
 
-          <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+          <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
             Enter your provider rates (for example PayPal or Stripe). Shopify transaction fee is still applied separately.
           </p>
         </>
@@ -459,7 +459,7 @@ function ShareButtons({ config }: { config: ShopifyMarketConfig }) {
 
   return (
     <div>
-      <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+      <div style={{ fontSize: "var(--fs-content-body-sm)", fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>
         Share this calculator
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -474,7 +474,7 @@ function ShareButtons({ config }: { config: ShopifyMarketConfig }) {
               cta_id: "share_x",
             });
           }}
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
+          className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <XIcon /> Post on X
         </a>
@@ -489,7 +489,7 @@ function ShareButtons({ config }: { config: ShopifyMarketConfig }) {
               cta_id: "share_facebook",
             });
           }}
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
+          className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <FacebookIcon /> Share
         </a>
@@ -504,11 +504,11 @@ function ShareButtons({ config }: { config: ShopifyMarketConfig }) {
               cta_id: "share_linkedin",
             });
           }}
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
+          className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkedInIcon /> Share
         </a>
-        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
+        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}>
           <LinkIcon /> {copied ? "Copied!" : "Copy Link"}
         </button>
       </div>
@@ -597,7 +597,7 @@ function FeedbackSection({
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontSize: 13,
+            fontSize: "var(--fs-content-body-sm)",
             color: "var(--color-primary)",
             fontWeight: 600,
             padding: 0,
@@ -620,7 +620,7 @@ function FeedbackSection({
         }}
       >
         <h3 style={{ marginTop: 0, marginBottom: 4, fontSize: 18 }}>Report Calculation Issue</h3>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: 13 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: "var(--fs-content-body-sm)" }}>
           Describe the issue you found. Your current calculation parameters will be included automatically.
         </p>
 
@@ -631,7 +631,7 @@ function FeedbackSection({
         ) : (
           <>
             {status === "error" && (
-              <div style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>
+              <div style={{ color: "#dc2626", fontSize: "var(--fs-content-body-sm)", marginBottom: 12 }}>
                 Failed to submit. Please try again later.
               </div>
             )}
@@ -645,7 +645,7 @@ function FeedbackSection({
                 border: "1px solid var(--color-border)",
                 borderRadius: "var(--radius-sm)",
                 padding: 10,
-                fontSize: 14,
+                fontSize: "var(--fs-form-control)",
                 resize: "vertical",
                 fontFamily: "inherit",
               }}
@@ -672,7 +672,7 @@ function FeedbackSection({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label>
-      <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
+      <div style={{ marginBottom: 6, fontSize: "var(--fs-form-label)" }}>{label}</div>
       {children}
     </label>
   );
@@ -680,7 +680,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
       {children}
     </div>
   );
@@ -700,7 +700,7 @@ function Row({ label, value, bold, color, large }: {
       alignItems: "center",
       paddingBottom: 6,
       marginBottom: 2,
-      fontSize: large ? 16 : 14,
+      fontSize: large ? 16 : 15,
     }}>
       <span className={bold ? undefined : "muted"} style={bold ? { fontWeight: 600 } : undefined}>
         {label}
@@ -746,4 +746,3 @@ function LinkIcon() {
     </svg>
   );
 }
-

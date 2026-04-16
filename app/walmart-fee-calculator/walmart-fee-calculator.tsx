@@ -56,7 +56,7 @@ export default function WalmartFeeCalculator({ marketId }: { marketId: WalmartMa
         <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
           {config.seo.subtitle}
         </p>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: "var(--fs-content-meta)" }}>
           {lastReviewedLabel(lastReviewed)}
         </p>
         <MarketSwitcher current={marketId} />
@@ -87,7 +87,7 @@ export default function WalmartFeeCalculator({ marketId }: { marketId: WalmartMa
             href={doc.url}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "var(--color-primary)", fontSize: 13, textDecoration: "none" }}
+            style={{ color: "var(--color-primary)", fontSize: "var(--fs-content-body-sm)", textDecoration: "none" }}
           >
             {doc.title}
             {doc.scope ? ` · ${doc.scope}` : ""}
@@ -100,7 +100,7 @@ export default function WalmartFeeCalculator({ marketId }: { marketId: WalmartMa
         <h3 style={{ marginTop: 0, marginBottom: 8, fontSize: 15 }}>Model Notes</h3>
         <ul style={{ margin: 0, paddingLeft: 20 }}>
           {config.notes.map((note, i) => (
-            <li key={i} className="muted" style={{ fontSize: 13, lineHeight: 1.65, marginBottom: 4 }}>
+            <li key={i} className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)", marginBottom: 4 }}>
               {note}
             </li>
           ))}
@@ -112,7 +112,7 @@ export default function WalmartFeeCalculator({ marketId }: { marketId: WalmartMa
           <h3 style={{ marginTop: 0, marginBottom: 8, fontSize: 15, color: "#b91c1c" }}>
             WFS Range Warning
           </h3>
-          <p style={{ margin: 0, fontSize: 13, lineHeight: 1.65, color: "#7f1d1d" }}>
+          <p style={{ margin: 0, fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)", color: "#7f1d1d" }}>
             The current dimensions/weight appear outside the public WFS rate card ranges. The calculator keeps WFS fee at {fmt(0)} in this case.
             Please verify custom WFS pricing directly in Walmart Seller Center.
           </p>
@@ -135,7 +135,7 @@ function MarketSwitcher({ current }: { current: WalmartMarketId }) {
             gap: 5,
             padding: "5px 12px",
             borderRadius: "var(--radius-full)",
-            fontSize: 13,
+            fontSize: "var(--fs-content-meta)",
             fontWeight: 600,
             background: market.id === current ? "var(--color-primary)" : "transparent",
             color: market.id === current ? "#fff" : "var(--color-text-secondary)",
@@ -199,7 +199,7 @@ function CalculatorForm({
             onChange={(event) => onPatch({ usePremiumReferralRate: event.target.checked })}
             style={{ width: 16, height: 16, cursor: "pointer" }}
           />
-          <span style={{ fontSize: 14 }}>{config.premiumReferralLabel ?? "Use premium referral mode"}</span>
+          <span style={{ fontSize: "var(--fs-content-body-sm)" }}>{config.premiumReferralLabel ?? "Use premium referral mode"}</span>
         </label>
       )}
 
@@ -287,7 +287,7 @@ function CalculatorForm({
         />
       </Field>
 
-      <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+      <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
         {config.summary.paymentSummary}
       </p>
 
@@ -295,7 +295,7 @@ function CalculatorForm({
         <>
           <SectionLabel>{config.wfs.label}</SectionLabel>
 
-          <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+          <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
             {config.wfs.helpText}
           </p>
 
@@ -389,7 +389,7 @@ function CalculatorForm({
                       onChange={(event) => onPatch({ isApparel: event.target.checked })}
                       style={{ width: 16, height: 16, cursor: "pointer" }}
                     />
-                    <span style={{ fontSize: 14 }}>Apparel surcharge (+{sym}0.50 for standard WFS)</span>
+                    <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Apparel surcharge (+{sym}0.50 for standard WFS)</span>
                   </label>
 
                   <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
@@ -399,7 +399,7 @@ function CalculatorForm({
                       onChange={(event) => onPatch({ isHazmat: event.target.checked })}
                       style={{ width: 16, height: 16, cursor: "pointer" }}
                     />
-                    <span style={{ fontSize: 14 }}>Hazmat surcharge (+{sym}0.75 for standard WFS)</span>
+                    <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Hazmat surcharge (+{sym}0.75 for standard WFS)</span>
                   </label>
                 </>
               )}
@@ -475,7 +475,7 @@ function ResultsPanel({
 
       <GroupLabel>Marketplace Fees</GroupLabel>
       <Row label="Referral Fee" value={fmt(res.referralFee)} />
-      <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
+      <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
         Rule applied: {res.referralRuleDesc} ({res.referralRateModeLabel})
       </div>
 
@@ -484,7 +484,7 @@ function ResultsPanel({
           <Row label="WFS Fulfillment Fee" value={fmt(res.wfsFulfillmentFee)} />
           {res.wfsShippingRecoveryFee > 0 && <Row label="WFS Shipping Recovery Fee" value={fmt(res.wfsShippingRecoveryFee)} />}
           {res.wfsStorageFee > 0 && <Row label="WFS Storage Fee" value={fmt(res.wfsStorageFee)} />}
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
+          <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
             {showWeightBreakdown ? weightParts.join(" · ") : res.wfsTierLabel} · {res.wfsDetail}
           </div>
         </>
@@ -526,7 +526,7 @@ function ResultsPanel({
           borderTop: "1px solid var(--color-border)",
           marginTop: 12,
           paddingTop: 10,
-          fontSize: 12,
+          fontSize: "var(--fs-content-meta)",
           color: "var(--color-text-tertiary)",
           lineHeight: 1.6,
         }}
@@ -540,7 +540,7 @@ function ResultsPanel({
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label>
-      <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
+      <div style={{ marginBottom: 6, fontSize: "var(--fs-form-label)" }}>{label}</div>
       {children}
     </label>
   );
@@ -548,7 +548,7 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 
 function GroupLabel({ children }: { children: ReactNode }) {
   return (
-    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
       {children}
     </div>
   );
@@ -569,7 +569,7 @@ function Row({ label, value, bold, color, large }: {
         alignItems: "center",
         paddingBottom: 6,
         marginBottom: 2,
-        fontSize: large ? 16 : 14,
+        fontSize: large ? 16 : 15,
       }}
     >
       <span className={bold ? undefined : "muted"} style={bold ? { fontWeight: 600 } : undefined}>

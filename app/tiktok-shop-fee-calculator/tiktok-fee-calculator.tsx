@@ -103,7 +103,7 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
         <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
           {config.seo.subtitle}
         </p>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: "var(--fs-content-meta)" }}>
           {lastReviewedLabel(lastReviewed)}
         </p>
         <MarketSwitcher current={marketId} />
@@ -140,7 +140,7 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
             href={doc.url}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "var(--color-primary)", fontSize: 13, textDecoration: "none" }}
+            style={{ color: "var(--color-primary)", fontSize: "var(--fs-content-body-sm)", textDecoration: "none" }}
           >
             {doc.title}
             {doc.effectiveDate ? ` · ${doc.effectiveDate}` : ""}
@@ -153,13 +153,13 @@ export default function TikTokFeeCalculator({ marketId }: { marketId: TikTokMark
           <h3 style={{ marginTop: 0, marginBottom: 8, fontSize: 15 }}>Notes</h3>
           <ul style={{ margin: 0, paddingLeft: 20 }}>
             {config.notes.map((note, i) => (
-              <li key={i} className="muted" style={{ fontSize: 13, lineHeight: 1.65, marginBottom: 4 }}>
+              <li key={i} className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)", marginBottom: 4 }}>
                 {note}
               </li>
             ))}
           </ul>
           {config.manualRateDisclaimer && (
-            <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: 13, lineHeight: 1.6 }}>
+            <p className="muted" style={{ marginTop: 10, marginBottom: 0, fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
               {config.manualRateDisclaimer}
             </p>
           )}
@@ -190,7 +190,7 @@ function MarketSwitcher({ current }: { current: TikTokMarketId }) {
             gap: 5,
             padding: "5px 12px",
             borderRadius: "var(--radius-full)",
-            fontSize: 13,
+            fontSize: "var(--fs-content-meta)",
             fontWeight: 600,
             background: m.id === current ? "var(--color-primary)" : "transparent",
             color: m.id === current ? "#fff" : "var(--color-text-secondary)",
@@ -295,7 +295,7 @@ function CalculatorForm({
         <input type="checkbox" checked={form.priceIncludesTax}
           onChange={e => onPatch({ priceIncludesTax: e.target.checked })}
           style={{ width: 16, height: 16, cursor: "pointer" }} />
-        <span style={{ fontSize: 14 }}>Price includes {config.tax.name}</span>
+        <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Price includes {config.tax.name}</span>
       </label>
 
       <Field label={`${config.tax.name} Rate (%)`}>
@@ -303,7 +303,7 @@ function CalculatorForm({
           onChange={e => onSetNum("taxRate", e.target.value)} />
       </Field>
 
-      <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+      <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
         {config.tax.helpText}
       </p>
 
@@ -351,7 +351,7 @@ function CalculatorForm({
             />
           ))}
           {config.manualRateDisclaimer && (
-            <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+            <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
               {config.manualRateDisclaimer}
             </p>
           )}
@@ -536,7 +536,7 @@ function ResultsPanel({
       {res.platformFees.map(item => (
         <div key={item.id} style={{ marginBottom: 8 }}>
           <Row label={item.label} value={fmt(item.amount)} />
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, paddingLeft: 4 }}>
+          <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, paddingLeft: 4 }}>
             {item.detail}
           </div>
         </div>
@@ -551,7 +551,7 @@ function ResultsPanel({
       {res.affiliateCommission > 0 && (
         <>
           <Row label="Affiliate Commission" value={fmt(res.affiliateCommission)} />
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
+          <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
             {form.affiliateRate}% of item price after seller discount
           </div>
         </>
@@ -598,7 +598,7 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
 
   return (
     <div>
-      <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+      <div style={{ fontSize: "var(--fs-content-body-sm)", fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>
         Share this calculator
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -615,7 +615,7 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <XIcon /> Post on X
         </a>
@@ -632,7 +632,7 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <FacebookIcon /> Share
         </a>
@@ -649,11 +649,11 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkedInIcon /> Share
         </a>
-        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
+        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}>
           <LinkIcon /> {copied ? "Copied!" : "Copy Link"}
         </button>
       </div>
@@ -733,7 +733,7 @@ function FeedbackSection({
           }}
           style={{
             background: "none", border: "none", cursor: "pointer",
-            fontSize: 13, color: "var(--color-primary)", fontWeight: 600, padding: 0,
+            fontSize: "var(--fs-content-body-sm)", color: "var(--color-primary)", fontWeight: 600, padding: 0,
           }}
         >
           Calculation not correct? Report an issue
@@ -751,7 +751,7 @@ function FeedbackSection({
         }}
       >
         <h3 style={{ marginTop: 0, marginBottom: 4, fontSize: 18 }}>Report Calculation Issue</h3>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: 13 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: "var(--fs-content-body-sm)" }}>
           Describe the issue you found. Your current calculation parameters will be included automatically.
         </p>
 
@@ -762,7 +762,7 @@ function FeedbackSection({
         ) : (
           <>
             {status === "error" && (
-              <div style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>
+              <div style={{ color: "#dc2626", fontSize: "var(--fs-content-body-sm)", marginBottom: 12 }}>
                 Failed to submit. Please try again later.
               </div>
             )}
@@ -772,7 +772,7 @@ function FeedbackSection({
               placeholder="Describe which official rule or result looks wrong..."
               style={{
                 width: "100%", minHeight: 100, border: "1px solid var(--color-border)",
-                borderRadius: "var(--radius-sm)", padding: 10, fontSize: 14,
+                borderRadius: "var(--radius-sm)", padding: 10, fontSize: "var(--fs-form-control)",
                 resize: "vertical", fontFamily: "inherit",
               }}
             />
@@ -798,7 +798,7 @@ function FeedbackSection({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label>
-      <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
+      <div style={{ marginBottom: 6, fontSize: "var(--fs-form-label)" }}>{label}</div>
       {children}
     </label>
   );
@@ -806,7 +806,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
       {children}
     </div>
   );
@@ -817,8 +817,8 @@ function Row({ label, value, bold, color, large }: {
 }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 8 }}>
-      <div style={{ fontSize: large ? 15 : 14, fontWeight: bold ? 700 : 500 }}>{label}</div>
-      <div style={{ fontSize: large ? 15 : 14, fontWeight: bold ? 700 : 600, color }}>{value}</div>
+      <div style={{ fontSize: large ? 16 : 15, fontWeight: bold ? 700 : 500 }}>{label}</div>
+      <div style={{ fontSize: large ? 16 : 15, fontWeight: bold ? 700 : 600, color }}>{value}</div>
     </div>
   );
 }
@@ -842,4 +842,3 @@ function LinkedInIcon() {
 function LinkIcon() {
   return <span aria-hidden="true">🔗</span>;
 }
-

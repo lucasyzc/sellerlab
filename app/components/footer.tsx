@@ -55,6 +55,9 @@ export function Footer() {
             <h4>Company</h4>
             <ul>
               <li>
+                <Link href="/updates">Blog</Link>
+              </li>
+              <li>
                 <Link href="/about">About Us</Link>
               </li>
               <li>

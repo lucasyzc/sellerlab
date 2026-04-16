@@ -106,16 +106,16 @@ export default function TikTokPricingCalculator({ marketId }: { marketId: TikTok
       <section className="card">
         <h3 style={{ marginTop: 0, marginBottom: 10, fontSize: 15 }}>How the pricing engine works</h3>
         <ul style={{ margin: 0, paddingLeft: 20 }}>
-          <li className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <li className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             Sold Price = Listing Price − Seller Discount.
           </li>
-          <li className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <li className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             Buyer Payment = Sold Price − Platform Discount + Buyer Shipping Fee.
           </li>
-          <li className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <li className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             Net Profit = Seller Revenue Excluding Tax − Platform Fees − COGS − Shipping − Affiliate − Ads − Other Costs.
           </li>
-          <li className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <li className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             The solver uses binary search to find the minimum listing price where your selected target is still reached.
           </li>
         </ul>
@@ -200,12 +200,12 @@ function CalculatorForm({
           onChange={(e) => onPatch({ priceIncludesTax: e.target.checked })}
           style={{ width: 16, height: 16, cursor: "pointer" }}
         />
-        <span style={{ fontSize: 14 }}>Price includes {config.tax.name}</span>
+        <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Price includes {config.tax.name}</span>
       </label>
       <Field label={`${config.tax.name} Rate (%)`}>
         <input className="input" type="number" min="0" step="0.01" value={form.taxRate} onChange={(e) => onSetNum("taxRate", e.target.value)} />
       </Field>
-      <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>{config.tax.helpText}</p>
+      <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>{config.tax.helpText}</p>
 
       <Field label={`Item Cost / COGS (${sym})`}>
         <input className="input" type="number" min="0" step="0.01" value={form.itemCost} onChange={(e) => onSetNum("itemCost", e.target.value)} />
@@ -315,7 +315,7 @@ function ResultsPanel({
       <h3 style={{ marginTop: 0, marginBottom: 14, fontSize: 20 }}>Pricing Results</h3>
 
       {result.status !== "ok" ? (
-        <div style={{ border: "1px solid #fecaca", background: "#fef2f2", borderRadius: 8, padding: 10, color: "#b91c1c", fontSize: 13, lineHeight: 1.6 }}>
+        <div style={{ border: "1px solid #fecaca", background: "#fef2f2", borderRadius: 8, padding: 10, color: "#b91c1c", fontSize: "var(--fs-content-body-sm)", lineHeight: 1.6 }}>
           {result.message}
         </div>
       ) : null}
@@ -332,7 +332,7 @@ function ResultsPanel({
       {result.calcResult?.platformFees.map((item) => (
         <div key={item.id} style={{ marginBottom: 8 }}>
           <Row label={item.label} value={fmt(item.amount)} />
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, paddingLeft: 4 }}>{item.detail}</div>
+          <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, paddingLeft: 4 }}>{item.detail}</div>
         </div>
       ))}
       <Row label="Total TikTok Fees" value={fmt(result.calcResult?.totalPlatformFees ?? 0)} bold color="#dc2626" />
@@ -372,7 +372,7 @@ function ResultsPanel({
       <div className={styles.divider} />
 
       <div className={styles.groupLabel}>Solver Rule</div>
-      <div className="muted" style={{ marginTop: 6, fontSize: 13, lineHeight: 1.6 }}>
+      <div className="muted" style={{ marginTop: 6, fontSize: "var(--fs-content-body-sm)", lineHeight: 1.6 }}>
         <div>{targetLabel}</div>
         <div>Iterations: {result.iterations}</div>
         {lowerCheck ? (
@@ -406,7 +406,7 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
 
   return (
     <div>
-      <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>Share this calculator</div>
+      <div style={{ fontSize: "var(--fs-content-body-sm)", fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>Share this calculator</div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <a
           href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`}
@@ -414,7 +414,7 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
           rel="noopener noreferrer"
           onClick={() => trackEvent("CtaClicked", { tool_id: "tiktok_pricing", market: config.id, page_type: "calculator", cta_id: "share_x" })}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <XIcon /> Post on X
         </a>
@@ -424,7 +424,7 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
           rel="noopener noreferrer"
           onClick={() => trackEvent("CtaClicked", { tool_id: "tiktok_pricing", market: config.id, page_type: "calculator", cta_id: "share_facebook" })}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <FacebookIcon /> Share
         </a>
@@ -434,11 +434,11 @@ function ShareButtons({ config }: { config: TikTokMarketConfig }) {
           rel="noopener noreferrer"
           onClick={() => trackEvent("CtaClicked", { tool_id: "tiktok_pricing", market: config.id, page_type: "calculator", cta_id: "share_linkedin" })}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkedInIcon /> Share
         </a>
-        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
+        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}>
           <LinkIcon /> {copied ? "Copied!" : "Copy Link"}
         </button>
       </div>
@@ -516,7 +516,7 @@ function FeedbackSection({
             trackEvent("CtaClicked", { tool_id: "tiktok_pricing", market: config.id, page_type: "calculator", cta_id: "report_issue_open" });
             setOpen(true);
           }}
-          style={{ background: "none", border: "none", cursor: "pointer", fontSize: 13, color: "var(--color-primary)", fontWeight: 600, padding: 0 }}
+          style={{ background: "none", border: "none", cursor: "pointer", fontSize: "var(--fs-content-body-sm)", color: "var(--color-primary)", fontWeight: 600, padding: 0 }}
         >
           Calculation not correct? Report an issue
         </button>
@@ -528,7 +528,7 @@ function FeedbackSection({
         style={{ border: "1px solid var(--color-border)", borderRadius: "var(--radius)", padding: 24, maxWidth: 480, width: "90vw", boxShadow: "var(--shadow-lg)" }}
       >
         <h3 style={{ marginTop: 0, marginBottom: 4, fontSize: 18 }}>Report Calculation Issue</h3>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: 13 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: "var(--fs-content-body-sm)" }}>
           Describe the issue you found. Your current pricing assumptions will be included automatically.
         </p>
 
@@ -538,12 +538,12 @@ function FeedbackSection({
           </div>
         ) : (
           <>
-            {status === "error" && <div style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>Failed to submit. Please try again later.</div>}
+            {status === "error" && <div style={{ color: "#dc2626", fontSize: "var(--fs-content-body-sm)", marginBottom: 12 }}>Failed to submit. Please try again later.</div>}
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Describe which official rule or result looks wrong..."
-              style={{ width: "100%", minHeight: 100, border: "1px solid var(--color-border)", borderRadius: "var(--radius-sm)", padding: 10, fontSize: 14, resize: "vertical", fontFamily: "inherit" }}
+              style={{ width: "100%", minHeight: 100, border: "1px solid var(--color-border)", borderRadius: "var(--radius-sm)", padding: 10, fontSize: "var(--fs-form-control)", resize: "vertical", fontFamily: "inherit" }}
             />
             <div style={{ display: "flex", gap: 8, marginTop: 12, justifyContent: "flex-end" }}>
               <button onClick={() => setOpen(false)} className="btn btn-secondary">Cancel</button>
@@ -570,8 +570,8 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 function Row({ label, value, bold, color, large }: { label: string; value: string; bold?: boolean; color?: string; large?: boolean }) {
   return (
     <div className={styles.row}>
-      <div className={styles.rowLabel} style={{ fontWeight: bold ? 700 : 500, fontSize: large ? 15 : 14 }}>{label}</div>
-      <div className={styles.rowValue} style={{ color, fontWeight: bold ? 700 : 600, fontSize: large ? 15 : 14 }}>{value}</div>
+      <div className={styles.rowLabel} style={{ fontWeight: bold ? 700 : 500, fontSize: large ? 16 : 15 }}>{label}</div>
+      <div className={styles.rowValue} style={{ color, fontWeight: bold ? 700 : 600, fontSize: large ? 16 : 15 }}>{value}</div>
     </div>
   );
 }

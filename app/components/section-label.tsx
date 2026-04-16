@@ -62,7 +62,7 @@ export function SectionLabel({ children }: { children: ReactNode }) {
         display: "flex",
         alignItems: "center",
         gap: 7,
-        fontSize: 12,
+        fontSize: "var(--fs-section-label)",
         fontWeight: 700,
         textTransform: "uppercase",
         letterSpacing: "0.05em",

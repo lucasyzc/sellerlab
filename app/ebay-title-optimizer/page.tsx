@@ -163,7 +163,7 @@ export default function EbayTitleOptimizerPage() {
     <div className="container">
       <StructuredData />
       <section className="card" style={{ marginBottom: 12 }}>
-        <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
+        <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-meta)", lineHeight: 1.6 }}>
           Last reviewed: {LAST_REVIEWED}. Use this tool with current marketplace policies before publishing title changes at scale.
         </p>
       </section>

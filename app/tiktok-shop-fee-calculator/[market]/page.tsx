@@ -87,7 +87,7 @@ export default async function TikTokFeeCalculatorMarketPage({
 
       <section className="card" style={{ padding: "10px 14px", marginBottom: 12 }}>
         <p className="muted" style={{ margin: 0, fontSize: 12, lineHeight: 1.6 }}>
-          {lastReviewedLabel(lastReviewed)}. For broader fee policy context, <Link href="/updates">browse updates</Link>.
+          {lastReviewedLabel(lastReviewed)}. For broader fee policy context, <Link href="/updates">browse the blog</Link>.
         </p>
       </section>
 

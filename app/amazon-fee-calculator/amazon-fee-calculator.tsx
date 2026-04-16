@@ -100,7 +100,7 @@ export default function AmazonFeeCalculator({ marketId }: { marketId: AmazonMark
         <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
           {config.seo.subtitle}
         </p>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: "var(--fs-content-meta)" }}>
           {lastReviewedLabel(lastReviewed)}
         </p>
         <MarketSwitcher current={marketId} />
@@ -133,7 +133,7 @@ export default function AmazonFeeCalculator({ marketId }: { marketId: AmazonMark
           <h3 style={{ marginTop: 0, marginBottom: 8, fontSize: 15 }}>Notes</h3>
           <ul style={{ margin: 0, paddingLeft: 20 }}>
             {config.notes.map((note, i) => (
-              <li key={i} className="muted" style={{ fontSize: 13, lineHeight: 1.65, marginBottom: 4 }}>
+              <li key={i} className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)", marginBottom: 4 }}>
                 {note}
               </li>
             ))}
@@ -169,7 +169,7 @@ function MarketSwitcher({ current }: { current: AmazonMarketId }) {
             gap: 5,
             padding: "5px 12px",
             borderRadius: "var(--radius-full)",
-            fontSize: 13,
+            fontSize: "var(--fs-content-meta)",
             fontWeight: 600,
             background: m.id === current ? "var(--color-primary)" : "transparent",
             color: m.id === current ? "#fff" : "var(--color-text-secondary)",
@@ -316,14 +316,14 @@ function CalculatorForm({
             <input type="checkbox" checked={form.isApparel}
               onChange={e => onPatch({ isApparel: e.target.checked })}
               style={{ width: 16, height: 16, cursor: "pointer" }} />
-            <span style={{ fontSize: 14 }}>Apparel item (higher FBA fee)</span>
+            <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Apparel item (higher FBA fee)</span>
           </label>
 
           <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
             <input type="checkbox" checked={form.isDangerousGoods}
               onChange={e => onPatch({ isDangerousGoods: e.target.checked })}
               style={{ width: 16, height: 16, cursor: "pointer" }} />
-            <span style={{ fontSize: 14 }}>Dangerous goods (higher FBA fee)</span>
+            <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Dangerous goods (higher FBA fee)</span>
           </label>
 
           <SectionLabel>FBA Storage</SectionLabel>
@@ -380,7 +380,7 @@ function ResultsPanel({
 
       <GroupLabel>Amazon Fees</GroupLabel>
       <Row label="Referral Fee" value={fmt(res.referralFee)} />
-      <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
+      <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
         {res.referralFeeDesc}
         {res.appliedMinReferralFee && " (min fee applied)"}
       </div>
@@ -393,7 +393,7 @@ function ResultsPanel({
       {isFba && res.fbaFulfillmentFee > 0 && (
         <>
           <Row label="FBA Fulfillment Fee" value={fmt(res.fbaFulfillmentFee)} />
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
+          <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
             Size tier: {res.sizeTierLabel} &middot; Shipping weight: {res.shippingWeight.toFixed(2)} {wu}
           </div>
         </>
@@ -401,7 +401,7 @@ function ResultsPanel({
       {isFba && res.fbaStorageFee > 0 && (
         <>
           <Row label="FBA Storage Fee" value={fmt(res.fbaStorageFee)} />
-          <div className="muted" style={{ fontSize: 12, marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
+          <div className="muted" style={{ fontSize: "var(--fs-content-meta)", marginTop: -4, marginBottom: 6, paddingLeft: 4 }}>
             {res.cubicVolume.toFixed(3)} {config.units.dimLabel === "in" ? "cu ft" : "m\u00B3"} &times; {form.storageMonths} month{form.storageMonths !== 1 ? "s" : ""}
           </div>
         </>
@@ -460,7 +460,7 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
 
   return (
     <div>
-      <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+      <div style={{ fontSize: "var(--fs-content-body-sm)", fontWeight: 600, marginBottom: 8, color: "var(--color-text-secondary)" }}>
         Share this calculator
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -475,7 +475,7 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
               cta_id: "share_x",
             });
           }}
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
+          className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <XIcon /> Post on X
         </a>
@@ -490,7 +490,7 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
               cta_id: "share_facebook",
             });
           }}
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
+          className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <FacebookIcon /> Share
         </a>
@@ -505,11 +505,11 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
               cta_id: "share_linkedin",
             });
           }}
-          className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}
+          className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkedInIcon /> Share
         </a>
-        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: 13, gap: 6 }}>
+        <button onClick={copyLink} className="btn btn-secondary" style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}>
           <LinkIcon /> {copied ? "Copied!" : "Copy Link"}
         </button>
       </div>
@@ -594,7 +594,7 @@ function FeedbackSection({
           }}
           style={{
             background: "none", border: "none", cursor: "pointer",
-            fontSize: 13, color: "var(--color-primary)", fontWeight: 600, padding: 0,
+            fontSize: "var(--fs-content-body-sm)", color: "var(--color-primary)", fontWeight: 600, padding: 0,
           }}
         >
           Calculation not correct? Report an issue
@@ -612,21 +612,21 @@ function FeedbackSection({
         }}
       >
         <h3 style={{ marginTop: 0, marginBottom: 4, fontSize: 18 }}>Report Calculation Issue</h3>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: 13 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: "var(--fs-content-body-sm)" }}>
           Describe the issue you found. Your current calculation parameters will be included automatically.
         </p>
 
         {status === "success" ? (
           <div style={{
             textAlign: "center", padding: "24px 0",
-            color: "#16a34a", fontWeight: 600, fontSize: 15,
+            color: "#16a34a", fontWeight: 600, fontSize: "var(--fs-content-body-sm)",
           }}>
             Report submitted successfully. Thank you for your feedback!
           </div>
         ) : (
           <>
             {status === "error" && (
-              <div style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>
+              <div style={{ color: "#dc2626", fontSize: "var(--fs-content-body-sm)", marginBottom: 12 }}>
                 Failed to submit. Please try again later.
               </div>
             )}
@@ -636,7 +636,7 @@ function FeedbackSection({
               placeholder="e.g. The referral fee for Jewelry seems incorrect for items above $250..."
               style={{
                 width: "100%", minHeight: 100, border: "1px solid var(--color-border)",
-                borderRadius: "var(--radius-sm)", padding: 10, fontSize: 14,
+                borderRadius: "var(--radius-sm)", padding: 10, fontSize: "var(--fs-form-control)",
                 resize: "vertical", fontFamily: "inherit",
               }}
             />
@@ -666,7 +666,7 @@ function FeedbackSection({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label>
-      <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
+      <div style={{ marginBottom: 6, fontSize: "var(--fs-form-label)" }}>{label}</div>
       {children}
     </label>
   );
@@ -674,7 +674,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
       {children}
     </div>
   );
@@ -686,7 +686,7 @@ function Row({ label, value, bold, color, large }: {
   return (
     <div style={{
       display: "flex", justifyContent: "space-between", alignItems: "center",
-      paddingBottom: 6, marginBottom: 2, fontSize: large ? 16 : 14,
+      paddingBottom: 6, marginBottom: 2, fontSize: large ? 16 : 15,
     }}>
       <span className={bold ? undefined : "muted"} style={bold ? { fontWeight: 600 } : undefined}>
         {label}

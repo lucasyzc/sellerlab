@@ -99,7 +99,7 @@ export default async function CompareDetailPage({
     <div className="container">
       <StructuredData slug={slug} />
 
-      <nav style={{ fontSize: 13, color: "var(--color-text-tertiary)", paddingTop: 8 }}>
+      <nav style={{ fontSize: "var(--fs-content-meta)", color: "var(--color-text-tertiary)", paddingTop: 8 }}>
         <Link href="/" style={{ color: "var(--color-text-tertiary)", textDecoration: "none" }}>
           Home
         </Link>
@@ -116,7 +116,7 @@ export default async function CompareDetailPage({
         <p className="muted" style={{ marginTop: 0, lineHeight: 1.7 }}>
           {entry.description}
         </p>
-        <p style={{ marginBottom: 0, fontSize: 12, color: "var(--color-text-tertiary)" }}>
+        <p style={{ marginBottom: 0, fontSize: "var(--fs-content-meta)", color: "var(--color-text-tertiary)" }}>
           Last reviewed: {entry.updatedAt}
         </p>
       </section>
@@ -134,7 +134,7 @@ export default async function CompareDetailPage({
 
       <section className="card" style={{ marginTop: 12, overflowX: "auto" }}>
         <h2 style={{ marginTop: 0, marginBottom: 12, fontSize: 20 }}>Structured Comparison</h2>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-content-body-sm)" }}>
           <thead>
             <tr style={{ borderBottom: "2px solid var(--color-border)" }}>
               <th style={{ textAlign: "left", padding: "10px 12px" }}>Metric</th>
@@ -185,5 +185,4 @@ export default async function CompareDetailPage({
     </div>
   );
 }
-
 

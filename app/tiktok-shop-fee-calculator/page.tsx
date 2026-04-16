@@ -150,13 +150,13 @@ export default function TikTokFeeCalculatorHubPage() {
 
       <section className="card" style={{ padding: 20, marginTop: 16 }}>
         <h2 style={{ fontSize: 18, fontWeight: 700, marginTop: 0, marginBottom: 8 }}>
-          Fee Policy Updates
+          Seller Blog
         </h2>
         <p className="muted" style={{ marginTop: 0, marginBottom: 10, fontSize: 14, lineHeight: 1.65 }}>
-          Use the updates library for cross-platform policy tracking, then apply your current Seller Center rates in this calculator.
+          Use the blog library for cross-platform policy tracking, then apply your current Seller Center rates in this calculator.
         </p>
         <Link href="/updates" className="btn">
-          Open Fee Policy Updates
+          Open the Blog
         </Link>
       </section>
 

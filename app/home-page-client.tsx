@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { PlatformLogo } from "./components/platform-logos";
 import { FlagIcon } from "./components/country-flags";
+import { BlogCard } from "./components/blog-card";
 import { BRAND } from "@/lib/brand";
+import type { BlogEntryMeta } from "@/lib/blog";
 
 const PLATFORMS = [
   {
@@ -217,7 +219,13 @@ const TOOLS: Tool[] = [
   },
 ];
 
-export default function LandingPage() {
+export default function LandingPage({
+  featuredBlogEntry,
+  latestBlogEntries,
+}: {
+  featuredBlogEntry?: BlogEntryMeta;
+  latestBlogEntries: BlogEntryMeta[];
+}) {
   const [platformFilter, setPlatformFilter] = useState<string>("all");
   const [countryFilter, setCountryFilter] = useState<string>("all");
 
@@ -365,6 +373,31 @@ export default function LandingPage() {
           )}
         </div>
       </section>
+
+      {featuredBlogEntry ? (
+        <section className="section">
+          <div className="section-header">
+            <div>
+              <h2 className="section-title">Latest from the Blog</h2>
+              <p className="section-subtitle">
+                Fee updates, pricing playbooks, and marketplace strategy notes tied back to the tools.
+              </p>
+            </div>
+            <Link href="/updates" className="btn btn-secondary">
+              Visit the Blog
+            </Link>
+          </div>
+
+          <div className="blog-home-grid">
+            <BlogCard entry={featuredBlogEntry} featured />
+            <div className="blog-grid blog-grid-compact">
+              {latestBlogEntries.map((entry) => (
+                <BlogCard key={entry.slug} entry={entry} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* ── Platforms ── */}
       <section className="section">

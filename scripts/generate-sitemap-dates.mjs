@@ -25,7 +25,7 @@ const ROOT = join(__dirname, "..");
 const SHARED_FEE_DEPS = ["lib/fee-seo.ts"];
 
 const ROUTE_GROUPS = {
-  home: ["app/page.tsx", "app/layout.tsx"],
+  home: ["app/page.tsx", "app/layout.tsx", "content/updates/"],
   about: ["app/about/"],
   contact: ["app/contact/"],
   glossary: ["app/glossary/"],
@@ -56,7 +56,7 @@ const ROUTE_GROUPS = {
   "ebay-title-optimizer": ["app/ebay-title-optimizer/"],
 
   compare: ["app/compare/"],
-  updates: ["app/updates/"],
+  updates: ["app/updates/", "content/updates/"],
 
   "privacy-policy": ["app/privacy-policy/"],
   "terms-of-service": ["app/terms-of-service/"],

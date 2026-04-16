@@ -17,7 +17,7 @@ type ToolNavItem = {
 const MAIN_NAV: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Compare", href: "/compare" },
-  { label: "Updates", href: "/updates" },
+  { label: "Blog", href: "/updates" },
   { label: "Glossary", href: "/glossary" },
   { label: "About", href: "/about" },
 ];
@@ -412,7 +412,7 @@ export function SiteHeader() {
               className={`mobile-nav-link ${isPathActive(pathname, "/updates") ? "is-active" : ""}`}
               onClick={closeAllMenus}
             >
-              Updates
+              Blog
             </Link>
             <Link
               href="/glossary"

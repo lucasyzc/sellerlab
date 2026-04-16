@@ -4,7 +4,7 @@
 }
 
 .breadcrumb {
-  font-size: 13px;
+  font-size: var(--fs-content-meta);
   color: var(--color-text-tertiary);
   padding-top: 8px;
 }
@@ -58,7 +58,7 @@
 
 .statLabel {
   margin: 4px 0 0;
-  font-size: 12px;
+  font-size: var(--fs-content-meta);
   color: var(--color-text-tertiary);
 }
 
@@ -95,20 +95,20 @@
 
 .marketMeta {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--fs-content-meta);
   color: var(--color-text-tertiary);
 }
 
 .marketHint {
   margin: 6px 0 0;
-  font-size: 12px;
+  font-size: var(--fs-content-body-sm);
   color: var(--color-text-secondary);
-  line-height: 1.5;
+  line-height: var(--lh-content);
 }
 
 .marketOpen {
   margin-top: 8px;
-  font-size: 12px;
+  font-size: var(--fs-content-meta);
   font-weight: 700;
   color: var(--color-primary);
 }
@@ -120,7 +120,7 @@
 .compareTable {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: var(--fs-content-body-sm);
 }
 
 .compareTable th,
@@ -132,7 +132,7 @@
 }
 
 .compareTable th {
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-text-tertiary);
@@ -180,8 +180,8 @@
 .dualCardList li {
   margin-bottom: 7px;
   color: var(--color-text-secondary);
-  line-height: 1.65;
-  font-size: 13px;
+  line-height: var(--lh-content);
+  font-size: var(--fs-content-body-sm);
 }
 
 .dualCardList li:last-child {
@@ -241,8 +241,8 @@
 .spotlightText {
   margin: 8px 0 0;
   color: var(--color-text-secondary);
-  line-height: 1.65;
-  font-size: 14px;
+  line-height: var(--lh-content);
+  font-size: var(--fs-content-body-sm);
 }
 
 .calculatorStage {
@@ -269,8 +269,8 @@
 
 .calcSubtitle {
   margin: 8px 0 0;
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: var(--fs-content-body-sm);
+  line-height: var(--lh-content);
   color: var(--color-text-secondary);
 }
 
@@ -287,7 +287,7 @@
   gap: 5px;
   padding: 5px 11px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: var(--fs-content-meta);
   font-weight: 600;
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
@@ -330,7 +330,7 @@
 }
 
 .groupLabel {
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 700;
@@ -340,7 +340,7 @@
 
 .fieldLabel {
   display: block;
-  font-size: 14px;
+  font-size: var(--fs-form-label);
   margin-bottom: 6px;
 }
 
@@ -354,11 +354,11 @@
 
 .rowLabel {
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: var(--fs-content-body-sm);
 }
 
 .rowValue {
-  font-size: 14px;
+  font-size: var(--fs-content-body-sm);
   font-weight: 600;
 }
 
@@ -393,7 +393,7 @@
     white-space: nowrap;
     overflow-x: auto;
     padding-top: 4px;
-    font-size: 12px;
+    font-size: var(--fs-content-meta);
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -413,7 +413,7 @@
 
   .heroSubtitle {
     margin-top: 8px;
-    font-size: 14px;
+    font-size: var(--fs-content-body-sm);
     line-height: 1.62;
   }
 
@@ -427,7 +427,7 @@
 
   .spotlightText {
     margin-top: 6px;
-    font-size: 13px;
+    font-size: var(--fs-content-body-sm);
     line-height: 1.55;
   }
 
@@ -442,7 +442,7 @@
   }
 
   .calcSubtitle {
-    font-size: 13px;
+    font-size: var(--fs-content-body-sm);
     line-height: 1.55;
   }
 
@@ -465,7 +465,7 @@
   }
 
   .fieldLabel {
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 
@@ -483,7 +483,7 @@
   }
 
   .spotlightText {
-    font-size: 12px;
+    font-size: var(--fs-content-meta);
   }
 
   .calcTitle {
@@ -491,20 +491,20 @@
   }
 
   .calcSubtitle {
-    font-size: 12px;
+    font-size: var(--fs-content-meta);
   }
 
   .groupLabel {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .rowLabel,
   .rowValue {
-    font-size: 13px;
+    font-size: var(--fs-content-body-sm);
   }
 
   .switchPill {
-    font-size: 12px;
+    font-size: var(--fs-content-meta);
     padding: 6px 10px;
   }
 }

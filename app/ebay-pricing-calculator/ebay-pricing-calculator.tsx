@@ -107,7 +107,7 @@ export default function EbayPricingCalculator({ marketId }: { marketId: MarketId
         <p className="muted" style={{ marginTop: 0, marginBottom: 12 }}>
           Back-solve the minimum listing price needed to hit your target profit.
         </p>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 12, fontSize: "var(--fs-content-meta)" }}>
           {lastReviewedLabel(lastReviewed)}
         </p>
         <MarketSwitcher current={marketId} />
@@ -141,13 +141,13 @@ export default function EbayPricingCalculator({ marketId }: { marketId: MarketId
       <section className="card">
         <h3 style={{ marginTop: 0, marginBottom: 10, fontSize: 15 }}>How the pricing engine works</h3>
         <ul style={{ margin: 0, paddingLeft: 20 }}>
-          <li className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <li className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             Sold Price = Listing Price × (1 - Discount Rate).
           </li>
-          <li className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <li className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             We reuse the same eBay fee model as the fee calculator for this market.
           </li>
-          <li className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <li className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             The solver uses upper-bound expansion + binary search, then rounds up to the nearest cent.
           </li>
         </ul>
@@ -174,7 +174,7 @@ function MarketSwitcher({ current }: { current: MarketId }) {
             gap: 5,
             padding: "5px 12px",
             borderRadius: "var(--radius-full)",
-            fontSize: 13,
+            fontSize: "var(--fs-content-meta)",
             fontWeight: 600,
             background: market.id === current ? "var(--color-primary)" : "transparent",
             color: market.id === current ? "#fff" : "var(--color-text-secondary)",
@@ -376,7 +376,7 @@ function CalculatorForm({
           onChange={(e) => onPatch({ isTopRated: e.target.checked })}
           style={{ width: 16, height: 16, cursor: "pointer" }}
         />
-        <span style={{ fontSize: 14 }}>{config.topRatedLabel}</span>
+        <span style={{ fontSize: "var(--fs-content-body-sm)" }}>{config.topRatedLabel}</span>
       </label>
 
       <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
@@ -386,7 +386,7 @@ function CalculatorForm({
           onChange={(e) => onPatch({ isInternational: e.target.checked })}
           style={{ width: 16, height: 16, cursor: "pointer" }}
         />
-        <span style={{ fontSize: 14 }}>{config.internationalLabel}</span>
+        <span style={{ fontSize: "var(--fs-content-body-sm)" }}>{config.internationalLabel}</span>
       </label>
 
       {form.isInternational &&
@@ -441,7 +441,7 @@ function ResultsPanel({
             borderRadius: "var(--radius-sm)",
             padding: 12,
             color: "#b91c1c",
-            fontSize: 13,
+            fontSize: "var(--fs-content-body-sm)",
             lineHeight: 1.6,
           }}
         >
@@ -481,7 +481,7 @@ function ResultsPanel({
           <Divider />
 
           <GroupLabel>Target Rule</GroupLabel>
-          <div className="muted" style={{ fontSize: 13, lineHeight: 1.65 }}>
+          <div className="muted" style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             <div>{targetLabel}</div>
             <div>Sold Price = Listing Price × (1 - Discount Rate)</div>
             {lowerCheck ? (
@@ -500,7 +500,7 @@ function ResultsPanel({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label>
-      <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
+      <div style={{ marginBottom: 6, fontSize: "var(--fs-form-label)" }}>{label}</div>
       {children}
     </label>
   );
@@ -508,7 +508,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
+    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: "var(--color-text-secondary)" }}>
       {children}
     </div>
   );
@@ -535,7 +535,7 @@ function Row({
         alignItems: "center",
         paddingBottom: 6,
         marginBottom: 2,
-        fontSize: large ? 16 : 14,
+        fontSize: large ? 16 : 15,
       }}
     >
       <span className={bold ? undefined : "muted"} style={bold ? { fontWeight: 600 } : undefined}>
@@ -583,7 +583,7 @@ function ShareButtons({ config }: { config: MarketConfig }) {
     <div>
       <div
         style={{
-          fontSize: 13,
+          fontSize: "var(--fs-content-body-sm)",
           fontWeight: 600,
           marginBottom: 8,
           color: "var(--color-text-secondary)",
@@ -605,7 +605,7 @@ function ShareButtons({ config }: { config: MarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <XIcon /> Post on X
         </a>
@@ -622,7 +622,7 @@ function ShareButtons({ config }: { config: MarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <FacebookIcon /> Share
         </a>
@@ -639,14 +639,14 @@ function ShareButtons({ config }: { config: MarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkedInIcon /> Share
         </a>
         <button
           onClick={copyLink}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkIcon /> {copied ? "Copied!" : "Copy Link"}
         </button>
@@ -747,7 +747,7 @@ function FeedbackSection({
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontSize: 13,
+            fontSize: "var(--fs-content-body-sm)",
             color: "var(--color-primary)",
             fontWeight: 600,
             padding: 0,
@@ -772,7 +772,7 @@ function FeedbackSection({
         <h3 style={{ marginTop: 0, marginBottom: 4, fontSize: 18 }}>
           Report Pricing Issue
         </h3>
-        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: 13 }}>
+        <p className="muted" style={{ marginTop: 0, marginBottom: 16, fontSize: "var(--fs-content-body-sm)" }}>
           Describe the issue you found. Your current pricing parameters will be included automatically.
         </p>
 
@@ -791,7 +791,7 @@ function FeedbackSection({
         ) : (
           <>
             {status === "error" && (
-              <div style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>
+              <div style={{ color: "#dc2626", fontSize: "var(--fs-content-body-sm)", marginBottom: 12 }}>
                 Failed to submit. Please try again later.
               </div>
             )}
@@ -805,7 +805,7 @@ function FeedbackSection({
                 border: "1px solid var(--color-border)",
                 borderRadius: "var(--radius-sm)",
                 padding: 10,
-                fontSize: 14,
+                fontSize: "var(--fs-form-control)",
                 resize: "vertical",
                 fontFamily: "inherit",
               }}

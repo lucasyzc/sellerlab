@@ -2,10 +2,11 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-url";
 import { sitemapDate } from "@/lib/generated/sitemap-dates";
 import { COMPARE_ENTRIES } from "./compare/data";
-import { UPDATE_ENTRIES } from "./updates/data";
+import { getAllBlogEntries } from "@/lib/blog";
 
 export const dynamic = "force-static";
 const BASE_URL = SITE_URL;
+const BLOG_ENTRIES = getAllBlogEntries();
 
 const EBAY_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];
 const EBAY_PRICING_MARKETS = ["us", "uk", "de", "au", "ca", "fr", "it"];
@@ -22,10 +23,18 @@ const SHOPIFY_MARKETS = ["us", "ca", "au", "sg", "jp", "eu", "uk", "ch"];
 const WALMART_MARKETS = ["us", "ca", "mx", "cl"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const latestBlogUpdatedAt = BLOG_ENTRIES[0]?.updatedAt;
+  const latestBlogDate = latestBlogUpdatedAt ? new Date(latestBlogUpdatedAt) : null;
+  const homeLastModified =
+    latestBlogDate && latestBlogDate > sitemapDate("home")
+      ? latestBlogDate
+      : sitemapDate("home");
+  const updatesLastModified = latestBlogDate ?? sitemapDate("updates");
+
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
-      lastModified: sitemapDate("home"),
+      lastModified: homeLastModified,
       changeFrequency: "weekly",
       priority: 1.0,
     },
@@ -91,7 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/updates`,
-      lastModified: sitemapDate("updates"),
+      lastModified: updatesLastModified,
       changeFrequency: "weekly",
       priority: 0.7,
     },
@@ -206,7 +215,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const updatePages: MetadataRoute.Sitemap = UPDATE_ENTRIES.map((entry) => ({
+  const updatePages: MetadataRoute.Sitemap = BLOG_ENTRIES.map((entry) => ({
     url: `${BASE_URL}/updates/${entry.slug}`,
     lastModified: new Date(entry.updatedAt),
     changeFrequency: "weekly" as const,

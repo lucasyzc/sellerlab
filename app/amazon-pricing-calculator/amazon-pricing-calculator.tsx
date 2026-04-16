@@ -123,7 +123,7 @@ export default function AmazonPricingCalculator({
         </p>
         <p
           className="muted"
-          style={{ marginTop: 0, marginBottom: 12, fontSize: 12 }}
+          style={{ marginTop: 0, marginBottom: 12, fontSize: "var(--fs-content-meta)" }}
         >
           {lastReviewedLabel(lastReviewed)}
         </p>
@@ -165,20 +165,20 @@ export default function AmazonPricingCalculator({
         <ul style={{ margin: 0, paddingLeft: 20 }}>
           <li
             className="muted"
-            style={{ fontSize: 13, lineHeight: 1.65 }}
+            style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}
           >
             Sold Price = Listing Price × (1 − Discount Rate).
           </li>
           <li
             className="muted"
-            style={{ fontSize: 13, lineHeight: 1.65 }}
+            style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}
           >
             Total Sales Price = Sold Price + Shipping + Gift Wrap (Amazon
             calculates referral fees on this total).
           </li>
           <li
             className="muted"
-            style={{ fontSize: 13, lineHeight: 1.65 }}
+            style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}
           >
             The solver uses the same fee model as our Amazon fee calculator,
             then binary-searches for the lowest listing price meeting your
@@ -205,7 +205,7 @@ function MarketSwitcher({ current }: { current: AmazonMarketId }) {
             gap: 5,
             padding: "5px 12px",
             borderRadius: "var(--radius-full)",
-            fontSize: 13,
+            fontSize: "var(--fs-content-meta)",
             fontWeight: 600,
             background:
               market.id === current
@@ -507,7 +507,7 @@ function CalculatorForm({
               }
               style={{ width: 16, height: 16, cursor: "pointer" }}
             />
-            <span style={{ fontSize: 14 }}>
+            <span style={{ fontSize: "var(--fs-content-body-sm)" }}>
               Apparel item (higher FBA fee)
             </span>
           </label>
@@ -528,7 +528,7 @@ function CalculatorForm({
               }
               style={{ width: 16, height: 16, cursor: "pointer" }}
             />
-            <span style={{ fontSize: 14 }}>
+            <span style={{ fontSize: "var(--fs-content-body-sm)" }}>
               Dangerous goods (higher FBA fee)
             </span>
           </label>
@@ -606,7 +606,7 @@ function ResultsPanel({
             borderRadius: "var(--radius-sm)",
             padding: 12,
             color: "#b91c1c",
-            fontSize: 13,
+            fontSize: "var(--fs-content-body-sm)",
             lineHeight: 1.6,
           }}
         >
@@ -654,7 +654,7 @@ function ResultsPanel({
           <div
             className="muted"
             style={{
-              fontSize: 12,
+              fontSize: "var(--fs-content-meta)",
               marginTop: -4,
               marginBottom: 6,
               paddingLeft: 4,
@@ -685,7 +685,7 @@ function ResultsPanel({
               <div
                 className="muted"
                 style={{
-                  fontSize: 12,
+                  fontSize: "var(--fs-content-meta)",
                   marginTop: -4,
                   marginBottom: 6,
                   paddingLeft: 4,
@@ -706,7 +706,7 @@ function ResultsPanel({
               <div
                 className="muted"
                 style={{
-                  fontSize: 12,
+                  fontSize: "var(--fs-content-meta)",
                   marginTop: -4,
                   marginBottom: 6,
                   paddingLeft: 4,
@@ -751,7 +751,7 @@ function ResultsPanel({
           <GroupLabel>Target Rule</GroupLabel>
           <div
             className="muted"
-            style={{ fontSize: 13, lineHeight: 1.65 }}
+            style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}
           >
             <div>{targetLabel}</div>
             <div>
@@ -781,7 +781,7 @@ function Field({
 }) {
   return (
     <label>
-      <div style={{ marginBottom: 6, fontSize: 14 }}>{label}</div>
+      <div style={{ marginBottom: 6, fontSize: "var(--fs-form-label)" }}>{label}</div>
       {children}
     </label>
   );
@@ -791,7 +791,7 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        fontSize: 13,
+        fontSize: 14,
         fontWeight: 700,
         marginBottom: 8,
         color: "var(--color-text-secondary)",
@@ -823,7 +823,7 @@ function Row({
         alignItems: "center",
         paddingBottom: 6,
         marginBottom: 2,
-        fontSize: large ? 16 : 14,
+        fontSize: large ? 16 : 15,
       }}
     >
       <span
@@ -879,7 +879,7 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
     <div>
       <div
         style={{
-          fontSize: 13,
+          fontSize: "var(--fs-content-body-sm)",
           fontWeight: 600,
           marginBottom: 8,
           color: "var(--color-text-secondary)",
@@ -901,7 +901,7 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <XIcon /> Post on X
         </a>
@@ -918,7 +918,7 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <FacebookIcon /> Share
         </a>
@@ -935,14 +935,14 @@ function ShareButtons({ config }: { config: AmazonMarketConfig }) {
             });
           }}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkedInIcon /> Share
         </a>
         <button
           onClick={copyLink}
           className="btn btn-secondary"
-          style={{ fontSize: 13, gap: 6 }}
+          style={{ fontSize: "var(--fs-content-body-sm)", gap: 6 }}
         >
           <LinkIcon /> {copied ? "Copied!" : "Copy Link"}
         </button>
@@ -1043,7 +1043,7 @@ function FeedbackSection({
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontSize: 13,
+            fontSize: "var(--fs-content-body-sm)",
             color: "var(--color-primary)",
             fontWeight: 600,
             padding: 0,
@@ -1070,7 +1070,7 @@ function FeedbackSection({
         </h3>
         <p
           className="muted"
-          style={{ marginTop: 0, marginBottom: 16, fontSize: 13 }}
+          style={{ marginTop: 0, marginBottom: 16, fontSize: "var(--fs-content-body-sm)" }}
         >
           Describe the issue you found. Your current calculation
           parameters will be included automatically.
@@ -1094,7 +1094,7 @@ function FeedbackSection({
               <div
                 style={{
                   color: "#dc2626",
-                  fontSize: 13,
+                  fontSize: "var(--fs-content-body-sm)",
                   marginBottom: 12,
                 }}
               >
@@ -1111,7 +1111,7 @@ function FeedbackSection({
                 border: "1px solid var(--color-border)",
                 borderRadius: "var(--radius-sm)",
                 padding: 10,
-                fontSize: 14,
+                fontSize: "var(--fs-form-control)",
                 resize: "vertical",
                 fontFamily: "inherit",
               }}

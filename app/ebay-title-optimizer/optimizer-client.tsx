@@ -822,7 +822,7 @@ export function EbayTitleOptimizerClient() {
             style={{ resize: "vertical", minHeight: 96 }}
           />
         </label>
-        <div className="muted" style={{ fontSize: 12 }}>
+        <div className="muted" style={{ fontSize: "var(--fs-content-meta)" }}>
           Example: &quot;Sony WH-1000XM5 Noise Cancelling Headphones Black&quot; or
           &quot;https://www.ebay.com/itm/...&quot;
         </div>
@@ -849,7 +849,7 @@ export function EbayTitleOptimizerClient() {
             {regenState === "loading" ? `Generating AI Titles${loadingDots}` : "Generate AI Titles"}
           </button>
         </div>
-        <div className="muted" style={{ fontSize: 12 }}>
+        <div className="muted" style={{ fontSize: "var(--fs-content-meta)" }}>
           Tip: press Ctrl/Cmd + Enter in the input box to generate instantly.
         </div>
       </section>
@@ -1005,7 +1005,7 @@ export function EbayTitleOptimizerClient() {
               onChange={(event) => setIncludeCompetitors(event.target.checked)}
               style={{ width: 16, height: 16, cursor: "pointer" }}
             />
-            <span style={{ fontSize: 14 }}>Competitor mode (use eBay search titles)</span>
+            <span style={{ fontSize: "var(--fs-content-body-sm)" }}>Competitor mode (use eBay search titles)</span>
           </label>
         </div>
       </details>
@@ -1028,7 +1028,7 @@ export function EbayTitleOptimizerClient() {
           </div>
         </div>
 
-        <div className="muted" style={{ fontSize: 13 }}>
+        <div className="muted" style={{ fontSize: "var(--fs-content-body-sm)" }}>
           Market: <FlagIcon code={market} size={14} /> {selectedMarket.label} · Goal: {goal.toUpperCase()} ·
           Max length: {titleLength} · Language: {selectedMarket.languageLabel}
         </div>
@@ -1039,7 +1039,7 @@ export function EbayTitleOptimizerClient() {
             borderRadius: "var(--radius-sm)",
             background: "var(--color-primary-light)",
             color: "var(--color-primary)",
-            fontSize: 12,
+            fontSize: "var(--fs-content-meta)",
             fontWeight: 600,
           }}
         >
@@ -1057,7 +1057,7 @@ export function EbayTitleOptimizerClient() {
               color: "#b91c1c",
               borderRadius: "var(--radius-sm)",
               padding: "8px 10px",
-              fontSize: 13,
+              fontSize: "var(--fs-content-body-sm)",
             }}
           >
             {errorMessage}
@@ -1072,7 +1072,7 @@ export function EbayTitleOptimizerClient() {
               color: "#92400e",
               borderRadius: "var(--radius-sm)",
               padding: "8px 10px",
-              fontSize: 13,
+              fontSize: "var(--fs-content-body-sm)",
             }}
           >
             {noticeMessage}
@@ -1080,7 +1080,7 @@ export function EbayTitleOptimizerClient() {
         )}
 
         {result && (
-          <div className="muted" style={{ fontSize: 12 }}>
+          <div className="muted" style={{ fontSize: "var(--fs-content-meta)" }}>
             Competitor mode: <strong style={{ color: "var(--color-text)" }}>{result.competitor_mode === "scraped" ? "On" : "Off"}</strong>
             {" "}· Competitor titles analyzed: <strong style={{ color: "var(--color-text)" }}>{result.competitor_count}</strong>
           </div>
@@ -1095,8 +1095,8 @@ export function EbayTitleOptimizerClient() {
               padding: "10px 12px",
             }}
           >
-            <div style={{ fontWeight: 700, fontSize: 13, marginBottom: 4 }}>Selected Title</div>
-            <div style={{ fontSize: 14, lineHeight: 1.6 }}>{selectedTitle}</div>
+            <div style={{ fontWeight: 700, fontSize: "var(--fs-content-body-sm)", marginBottom: 4 }}>Selected Title</div>
+            <div style={{ fontSize: 15, lineHeight: "var(--lh-content)" }}>{selectedTitle}</div>
           </div>
         )}
 
@@ -1114,13 +1114,13 @@ export function EbayTitleOptimizerClient() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
-                  <div style={{ fontWeight: 700, fontSize: 13 }}>Variant {index + 1}</div>
-                  <div style={{ fontSize: 12, color: "var(--color-text-secondary)" }}>
+                  <div style={{ fontWeight: 700, fontSize: "var(--fs-content-body-sm)" }}>Variant {index + 1}</div>
+                  <div style={{ fontSize: "var(--fs-content-meta)", color: "var(--color-text-secondary)" }}>
                     {entry.length}/{titleLength}
                   </div>
                 </div>
 
-                <div style={{ fontSize: 14, lineHeight: 1.55 }}>{entry.title}</div>
+                <div style={{ fontSize: 15, lineHeight: "var(--lh-content)" }}>{entry.title}</div>
 
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
                   <span className="badge badge-live">Score {entry.score}</span>
@@ -1131,7 +1131,7 @@ export function EbayTitleOptimizerClient() {
                 {entry.warnings.length > 0 && (
                   <ul style={{ margin: "10px 0 0", paddingLeft: 18 }}>
                     {entry.warnings.map((warning, warningIndex) => (
-                      <li key={warningIndex} style={{ fontSize: 12, color: "#b45309", lineHeight: 1.5 }}>
+                      <li key={warningIndex} style={{ fontSize: "var(--fs-content-meta)", color: "#b45309", lineHeight: 1.5 }}>
                         {warning}
                       </li>
                     ))}
@@ -1169,7 +1169,7 @@ export function EbayTitleOptimizerClient() {
 
         <article>
           <h3 style={{ margin: "0 0 6px", fontSize: 15 }}>AI + SEO Title Framework</h3>
-          <p className="muted" style={{ margin: 0, fontSize: 13, lineHeight: 1.75 }}>
+          <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             This AI eBay title generator is built for ranking + conversion. The model prioritizes
             search intent keywords, marketplace language alignment, and high-value attributes such as
             brand, model, material, color, size, and compatibility. Generated titles are then scored
@@ -1181,19 +1181,19 @@ export function EbayTitleOptimizerClient() {
         <article>
           <h3 style={{ margin: "0 0 6px", fontSize: 15 }}>Best Practices for eBay Title SEO</h3>
           <ul style={{ margin: 0, paddingLeft: 18 }}>
-            <li style={{ fontSize: 13, lineHeight: 1.7 }}>
+            <li style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
               Put your core product keyword in the first 30-40 characters.
             </li>
-            <li style={{ fontSize: 13, lineHeight: 1.7 }}>
+            <li style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
               Keep title language aligned with your marketplace locale (US/UK/DE/FR/IT).
             </li>
-            <li style={{ fontSize: 13, lineHeight: 1.7 }}>
+            <li style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
               Add concrete qualifiers buyers search for: brand, model, material, size, compatibility.
             </li>
-            <li style={{ fontSize: 13, lineHeight: 1.7 }}>
+            <li style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
               Remove repeated words and vague claims that reduce trust and readability.
             </li>
-            <li style={{ fontSize: 13, lineHeight: 1.7 }}>
+            <li style={{ fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
               Test multiple variants and monitor CTR + conversion to keep improving listings.
             </li>
           </ul>
@@ -1201,7 +1201,7 @@ export function EbayTitleOptimizerClient() {
 
         <article>
           <h3 style={{ margin: "0 0 6px", fontSize: 15 }}>How Our AI Generates Better Titles</h3>
-          <p className="muted" style={{ margin: 0, fontSize: 13, lineHeight: 1.75 }}>
+          <p className="muted" style={{ margin: 0, fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             The AI prompt stack uses platform rules, blocked terms, language constraints, and
             optional competitor context. It enforces strict JSON output, uniqueness, and length
             limits, then applies post-generation cleanup and scoring. This hybrid approach improves
@@ -1210,20 +1210,20 @@ export function EbayTitleOptimizerClient() {
         </article>
 
         <details>
-          <summary style={{ cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
+          <summary style={{ cursor: "pointer", fontWeight: 600, fontSize: 15 }}>
             Why click-to-generate instead of auto-generation?
           </summary>
-          <p className="muted" style={{ marginBottom: 0, marginTop: 8, fontSize: 13, lineHeight: 1.7 }}>
+          <p className="muted" style={{ marginBottom: 0, marginTop: 8, fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             Click-to-generate gives you tighter control over prompt quality and API usage. You can
             finish editing inputs first, then generate a focused batch of AI variants with one action.
           </p>
         </details>
 
         <details>
-          <summary style={{ cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
+          <summary style={{ cursor: "pointer", fontWeight: 600, fontSize: 15 }}>
             Can this tool be used for AI-assisted listing workflows?
           </summary>
-          <p className="muted" style={{ marginBottom: 0, marginTop: 8, fontSize: 13, lineHeight: 1.7 }}>
+          <p className="muted" style={{ marginBottom: 0, marginTop: 8, fontSize: "var(--fs-content-body-sm)", lineHeight: "var(--lh-content)" }}>
             Yes. The output format and scoring fields are structured so sellers, content teams, and
             AI agents can reuse titles for A/B tests, listing refreshes, and catalog optimization.
           </p>

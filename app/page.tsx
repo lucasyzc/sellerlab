@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import HomePageClient from "./home-page-client";
 import { absoluteUrl } from "@/lib/site-url";
 import { BRAND, withMasterBrand } from "@/lib/brand";
+import { getFeaturedBlogEntry, getLatestBlogEntries } from "@/lib/blog";
 
 export const metadata: Metadata = {
   title: withMasterBrand("Ecommerce Data Engine and Seller Tool Suite"),
@@ -132,11 +133,18 @@ function HomeStructuredData() {
 }
 
 export default function HomePage() {
+  const featuredBlogEntry = getFeaturedBlogEntry();
+  const latestBlogEntries = getLatestBlogEntries(4).filter(
+    (entry) => entry.slug !== featuredBlogEntry?.slug,
+  ).slice(0, 3);
+
   return (
     <>
       <HomeStructuredData />
-      <HomePageClient />
+      <HomePageClient
+        featuredBlogEntry={featuredBlogEntry}
+        latestBlogEntries={latestBlogEntries}
+      />
     </>
   );
 }
-

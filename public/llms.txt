@@ -3,7 +3,7 @@
 Primary site: https://dataede.com
 Primary product: SellerLab Suite
 Primary language: English
-Last reviewed: 2026-03-27
+Last reviewed: 2026-04-16
 
 High-value entry points:
 - https://dataede.com/
@@ -21,3 +21,6 @@ High-value entry points:
 
 For detailed guidance and source-aware usage, see:
 - https://dataede.com/llms-full.txt
+
+Notes:
+- `/updates` is the SellerLab blog and insights hub for fee changes, pricing playbooks, and marketplace strategy articles.
