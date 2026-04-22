@@ -389,7 +389,10 @@ export default function LandingPage({
           </div>
 
           <div className="blog-home-grid">
-            <BlogCard entry={featuredBlogEntry} featured />
+            <div className="blog-home-featured">
+              <div className="blog-home-featured-label">Featured article</div>
+              <BlogCard entry={featuredBlogEntry} />
+            </div>
             <div className="blog-grid blog-grid-compact">
               {latestBlogEntries.map((entry) => (
                 <BlogCard key={entry.slug} entry={entry} />

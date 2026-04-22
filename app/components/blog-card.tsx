@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BlogCover } from "@/app/components/blog-cover";
 import type { BlogEntryMeta } from "@/lib/blog";
 import { formatBlogCategoryLabel, formatBlogPlatformLabel } from "@/lib/blog-ui";
 
@@ -17,29 +18,42 @@ export function BlogCard({ entry, href, featured = false }: BlogCardProps) {
       className={`blog-card ${featured ? "blog-card-featured" : ""}`}
       style={{ textDecoration: "none", color: "inherit" }}
     >
-      <div className="blog-card-kickers">
-        <span className="blog-chip blog-chip-primary">
-          {formatBlogCategoryLabel(entry.category)}
-        </span>
-        <span className="blog-chip">{formatBlogPlatformLabel(entry.platform)}</span>
-        {entry.evergreen ? <span className="blog-chip blog-chip-success">Evergreen</span> : null}
+      <div className="blog-card-media">
+        <BlogCover
+          slug={entry.slug}
+          category={entry.category}
+          platform={entry.platform}
+          featured={featured}
+          evergreen={entry.evergreen}
+          title={entry.title}
+        />
       </div>
 
-      <h3 className="blog-card-title">{entry.title}</h3>
-      <p className="blog-card-excerpt">{entry.excerpt}</p>
-
-      <div className="blog-card-meta">
-        <span>Published: {entry.publishedAt}</span>
-        <span>Last reviewed: {entry.updatedAt}</span>
-        <span>{entry.readingTimeMinutes} min read</span>
-      </div>
-
-      <div className="blog-card-tags">
-        {entry.tags.map((tag) => (
-          <span key={tag} className="blog-tag">
-            {tag}
+      <div className="blog-card-body">
+        <div className="blog-card-kickers">
+          <span className="blog-chip blog-chip-primary">
+            {formatBlogCategoryLabel(entry.category)}
           </span>
-        ))}
+          <span className="blog-chip">{formatBlogPlatformLabel(entry.platform)}</span>
+          {entry.evergreen ? <span className="blog-chip blog-chip-success">Evergreen</span> : null}
+        </div>
+
+        <h3 className="blog-card-title">{entry.title}</h3>
+        <p className="blog-card-excerpt">{entry.excerpt}</p>
+
+        <div className="blog-card-meta">
+          <span>Published: {entry.publishedAt}</span>
+          <span>Last reviewed: {entry.updatedAt}</span>
+          <span>{entry.readingTimeMinutes} min read</span>
+        </div>
+
+        <div className="blog-card-tags">
+          {entry.tags.map((tag) => (
+            <span key={tag} className="blog-tag">
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
     </Link>
   );
