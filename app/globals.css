@@ -1789,6 +1789,30 @@ details[open] .faq-chevron {
   text-decoration-color: rgba(37, 99, 235, 0.35);
   text-underline-offset: 3px;
 }
+.blog-prose figure {
+  margin: 26px 0 32px;
+}
+.blog-prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(520px, 70vh);
+  border-radius: 20px;
+  object-fit: contain;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(255, 255, 255, 0.98));
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+}
+.blog-prose figure img {
+  margin: 0;
+}
+.blog-prose figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
 .blog-prose table {
   display: block;
   width: 100%;
@@ -2180,6 +2204,10 @@ details[open] .faq-chevron {
   .blog-prose h2 {
     font-size: 22px;
     margin-top: 28px;
+  }
+  .blog-prose img {
+    border-radius: 16px;
+    max-height: min(420px, 56vh);
   }
   .blog-prose table {
     min-width: 620px;
